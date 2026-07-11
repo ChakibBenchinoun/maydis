@@ -5,8 +5,9 @@ Turborepo monorepo for **Maydi's** café website (Oran).
 ## Structure
 
 ```
-apps/website     Next.js 16 App Router
-supabase/        SQL migrations (run in Supabase dashboard)
+apps/website                 Next.js 16 App Router
+supabase/migrations/         Database (single bootstrap: 001_init.sql)
+docs/SUPABASE.md             Clean Supabase setup guide
 ```
 
 ## Quick start
@@ -37,37 +38,23 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ```bash
 cp .env.example apps/website/.env.local
-# fill Supabase keys + NEXT_PUBLIC_SITE_URL
 ```
 
-See `.env.example`.
+Fill Supabase keys after setup. See **[docs/SUPABASE.md](docs/SUPABASE.md)** (create project → run `001_init.sql` → paste keys).
 
-### Supabase setup
+Without Supabase, the site still works: menu is static; reservations are accepted and logged locally.
 
-1. Create a free project at [supabase.com](https://supabase.com).
-2. SQL Editor → paste `supabase/migrations/001_init.sql` → Run.
-3. Project Settings → API → copy URL + anon key (+ service role for server inserts).
-4. Put values in `apps/website/.env.local`.
+## Vercel
 
-Without Supabase, the site still works: menu uses static data; reservations are accepted and logged in the server console.
-
-## Vercel deploy
-
-1. Push this repo to GitHub.
-2. [vercel.com](https://vercel.com) → Import project.
-3. **Root Directory:** `apps/website`  
-   (or monorepo root with install `pnpm install` and build `pnpm --filter @maydis/website build`).
-4. Framework: Next.js · Install: `pnpm install`.
-5. Add env vars from `.env.example` (set `NEXT_PUBLIC_SITE_URL` to your production domain).
-6. Deploy → confirm `/`, `/menu`, `/reserve`.
+See **[docs/VERCEL.md](docs/VERCEL.md)** — Root Directory `apps/website`, env from `.env.example`.
 
 ## Stack
 
-- Next.js 16 · React 19 · Tailwind CSS v4
-- Motion · Lucide · QRCode
-- Optional: Supabase
-- pnpm + Turborepo
+- Next.js 16 · React 19 · Tailwind CSS v4  
+- Motion · Lucide · QRCode  
+- Optional: Supabase  
+- pnpm + Turborepo  
 
-## Contact (site config)
+## Site config
 
-Edit `apps/website/src/lib/constants.ts` for phone, socials, maps, hours.
+`apps/website/src/lib/constants.ts` — phone, socials, maps, hours.

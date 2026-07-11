@@ -6,12 +6,18 @@ import { MomentsSection } from "@/components/moments-section";
 import { QrSection } from "@/components/qr-section";
 import { ReviewsSection } from "@/components/reviews-section";
 import { VisitSection } from "@/components/visit-section";
+import { getMenuItems } from "@/lib/menu";
 
-export default function HomePage() {
+/** Refresh menu from Supabase without a full redeploy */
+export const revalidate = 60;
+
+export default async function HomePage() {
+  const { items } = await getMenuItems();
+
   return (
     <main>
       <Hero />
-      <MenuSection />
+      <MenuSection items={items} />
       <GallerySection />
       <MomentsSection />
       <AboutSection />

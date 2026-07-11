@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
-import { menuItems, type MenuItem } from "@/data/menu";
+import type { MenuItem } from "@/data/menu";
 import { SectionLabel } from "@/components/section-label";
 import { SectionDivider } from "@/components/section-divider";
 import { MenuItemModal } from "@/components/menu-item-modal";
@@ -13,11 +13,31 @@ import { MenuGrid } from "@/components/menu-grid";
 type MenuSectionProps = {
   /** Home preview vs full /menu experience */
   variant?: "preview" | "full";
+  /** Server-loaded items (Supabase or static fallback) */
+  items: MenuItem[];
 };
 
-export function MenuSection({ variant = "preview" }: MenuSectionProps) {
-  const [activeCategory, setActiveCategory] = useState("Brunch");
+export function MenuSection({ variant = "preview", items }: MenuSectionProps) {
+  const categories = useMemo(() => {
+    const seen = new Set<string>();
+    const out: string[] = [];
+    for (const item of items) {
+      if (!seen.has(item.category)) {
+        seen.add(item.category);
+        out.push(item.category);
+      }
+    }
+    return out;
+  }, [items]);
+
+  const [activeCategory, setActiveCategory] = useState(categories[0] ?? "Brunch");
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
+
+  useEffect(() => {
+    if (categories.length && !categories.includes(activeCategory)) {
+      setActiveCategory(categories[0]);
+    }
+  }, [categories, activeCategory]);
 
   useEffect(() => {
     document.body.style.overflow = selectedItem ? "hidden" : "";
@@ -26,7 +46,7 @@ export function MenuSection({ variant = "preview" }: MenuSectionProps) {
     };
   }, [selectedItem]);
 
-  const filteredItems = menuItems.filter((i) => i.category === activeCategory);
+  const filteredItems = items.filter((i) => i.category === activeCategory);
   const isFull = variant === "full";
 
   return (
@@ -50,6 +70,7 @@ export function MenuSection({ variant = "preview" }: MenuSectionProps) {
           </div>
 
           <MenuCategoryTabs
+            categories={categories}
             activeCategory={activeCategory}
             onChange={setActiveCategory}
             className="mb-12"

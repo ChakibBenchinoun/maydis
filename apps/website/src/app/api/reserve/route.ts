@@ -36,7 +36,6 @@ export async function POST(request: Request) {
   }
 
   if (!isSupabaseConfigured()) {
-    // Local / pre-Supabase: accept the request so the form UX works
     console.info("[reserve] Supabase not configured — accepted locally", {
       name,
       phone,
@@ -58,24 +57,50 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Database unavailable" }, { status: 503 });
   }
 
-  const { error } = await supabase.from("reservations").insert({
-    name,
-    phone,
-    email,
-    date,
-    time,
-    guests,
-    notes,
-    status: "pending",
+  // JSON payload RPC (PostgREST exposes this reliably)
+  const { data: rpcId, error: rpcError } = await supabase.rpc("create_reservation", {
+    payload: {
+      name,
+      phone,
+      email,
+      date,
+      time,
+      guests,
+      notes,
+    },
   });
 
+  if (!rpcError) {
+    return NextResponse.json({ ok: true, stored: true, id: rpcId });
+  }
+
+  console.warn("[reserve] RPC failed, trying direct insert:", rpcError.message);
+
+  const { data: row, error } = await supabase
+    .from("reservations")
+    .insert({
+      name,
+      phone,
+      email,
+      date,
+      time,
+      guests,
+      notes,
+      status: "pending",
+    })
+    .select("id")
+    .single();
+
   if (error) {
-    console.error("[reserve] insert failed", error);
+    console.error("[reserve] insert failed", { rpc: rpcError, insert: error });
     return NextResponse.json(
-      { error: "Could not save reservation. Please call us instead." },
+      {
+        error:
+          "Could not save reservation. Run supabase/migrations/001_init.sql in the Supabase SQL Editor (see docs/SUPABASE.md).",
+      },
       { status: 500 },
     );
   }
 
-  return NextResponse.json({ ok: true, stored: true });
+  return NextResponse.json({ ok: true, stored: true, id: row?.id });
 }

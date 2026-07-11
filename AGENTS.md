@@ -69,3 +69,22 @@ src/
 - Source design: Maydi's single-page café prototype
 - Theme tokens in `src/styles/theme.css` are the source of truth
 - Prefer editing data/constants over hardcoding strings in JSX when the value is site-wide
+
+## Database (Supabase)
+
+- Guide: `docs/SUPABASE.md`
+- Bootstrap SQL (empty project): `supabase/migrations/001_init.sql`
+- Env: **`apps/website/.env.local`** only — `NEXT_PUBLIC_SUPABASE_URL` must be `https://…supabase.co`
+- Reserve writes: RPC `create_reservation` via `/api/reserve`
+- Menu reads: `lib/menu.ts` → RPC `get_menu_items` with static `data/menu.ts` fallback
+- Skill: **supabase-clean-setup** (project + global) — clean start over grant-patching
+- Future changes: add `002_*.sql`, do not rewrite applied production `001` without a new file
+
+## Agent skills in this repo
+
+| Skill | Scope | Use for |
+|-------|--------|---------|
+| `component-structure` | project (+ global if installed) | Thin pages, section components |
+| `supabase-clean-setup` | project + global | Clean Supabase/bootstrap/env |
+
+Invoke: `/supabase-clean-setup` or describe “set up Supabase cleanly”.

@@ -1,14 +1,14 @@
 "use client";
 
-import { categories } from "@/data/menu";
-
 type MenuCategoryTabsProps = {
+  categories: string[];
   activeCategory: string;
   onChange: (category: string) => void;
   className?: string;
 };
 
 export function MenuCategoryTabs({
+  categories,
   activeCategory,
   onChange,
   className = "",
