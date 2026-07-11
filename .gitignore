@@ -12,6 +12,8 @@ build
 # Env
 .env
 .env*.local
+apps/website/.env
+apps/website/.env*.local
 
 # Debug / IDE
 .DS_Store

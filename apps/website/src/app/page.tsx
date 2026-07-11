@@ -3,6 +3,7 @@ import { GallerySection } from "@/components/gallery-section";
 import { Hero } from "@/components/hero";
 import { MenuSection } from "@/components/menu-section";
 import { MomentsSection } from "@/components/moments-section";
+import { QrSection } from "@/components/qr-section";
 import { ReviewsSection } from "@/components/reviews-section";
 import { VisitSection } from "@/components/visit-section";
 
@@ -16,6 +17,7 @@ export default function HomePage() {
       <AboutSection />
       <ReviewsSection />
       <VisitSection />
+      <QrSection />
     </main>
   );
 }

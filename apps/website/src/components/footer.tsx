@@ -14,10 +14,16 @@ export function Footer() {
               {site.nameDisplay}
             </h2>
             <p className="text-background/50 text-sm leading-relaxed">
-              {site.addressLine1}, Oran 31000
+              {site.addressLine1}
               <br />
-              Algeria · Crafted with love
+              {site.addressLine2} · Crafted with love
             </p>
+            <a
+              href={site.phoneHref}
+              className="inline-block mt-3 text-sm font-semibold text-primary hover:text-amber-400 transition-colors"
+            >
+              {site.phone}
+            </a>
           </div>
           <div className="flex flex-col gap-2.5 text-right">
             <a

@@ -4,33 +4,45 @@ export const site = {
   tagline: "Where every plate is a little work of art.",
   description:
     "A bright, garden-like café in the heart of Oran — for slow mornings, nourishing lunches, and golden afternoon breaks.",
-  phone: "+213 550 00 00 00",
-  phoneHref: "tel:+213550000000",
-  addressLine1: "Rue Larbi Ben M'hidi",
-  addressLine2: "Oran 31000, Algeria",
+  phone: "+213 541 45 30 73",
+  phoneHref: "tel:+213541453073",
+  addressLine1: "Maydi's",
+  addressLine2: "Oran, Algeria",
+  mapsUrl:
+    "https://www.google.com/maps/place/Maydi's/@35.7205944,-0.5985259,17z/data=!4m6!3m5!1s0xd7e63770f48b90f:0x5e16e7269ba85e4!8m2!3d35.7205944!4d-0.5985259!16s%2Fg%2F11gmt_vj5_",
   mapEmbedUrl:
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d52372.63!2d-0.6641!3d35.6969!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd7d9da6be1e3ceb%3A0x71ff13ef9ff9c7a0!2sOran%2C%20Algeria!5e0!3m2!1sen!2sus!4v1720000000000!5m2!1sen!2sus",
+    "https://www.google.com/maps?q=35.7205944,-0.5985259&z=17&output=embed",
+  guideUrl: "https://guide-oran.com/maydis-oran/",
+  lat: 35.7205944,
+  lng: -0.5985259,
 } as const;
 
-export const navLinks = [
-  { id: "menu", label: "Menu" },
-  { id: "gallery", label: "Gallery" },
-  { id: "about", label: "Our Story" },
-  { id: "visit", label: "Visit" },
+/** Section anchors on the home page */
+export const homeNavLinks = [
+  { id: "menu", label: "Menu", href: "/#menu" },
+  { id: "gallery", label: "Gallery", href: "/#gallery" },
+  { id: "about", label: "Our Story", href: "/#about" },
+  { id: "visit", label: "Visit", href: "/#visit" },
+] as const;
+
+/** Primary routes */
+export const pageLinks = [
+  { href: "/menu", label: "Full Menu" },
+  { href: "/reserve", label: "Reserve" },
 ] as const;
 
 export const socialLinks = [
   {
-    href: "https://instagram.com/maydiscakeshop",
+    href: "https://www.instagram.com/maydiscakeshop/",
     label: "Instagram",
     handle: "@maydiscakeshop",
   },
   {
-    href: "https://tiktok.com/@maydiscafe",
+    href: "https://www.tiktok.com/@maydiscakeshop",
     label: "TikTok",
   },
   {
-    href: "https://facebook.com/maydiscafe",
+    href: "https://www.facebook.com/profile.php?id=100064395051518",
     label: "Facebook",
   },
 ] as const;
@@ -45,15 +57,13 @@ export const momentVideos = [
   {
     episode: "Episode 01",
     title: "A Morning at Maydi's",
-    image:
-      "https://images.unsplash.com/photo-1670403165691-86bf05ddc3e9?w=800&h=500&fit=crop&auto=format",
+    image: "/images/gallery-05.jpg",
     alt: "A morning at Maydi's",
   },
   {
     episode: "Episode 02",
     title: "The Space We Love",
-    image:
-      "https://images.unsplash.com/photo-1652862730877-1c32adb07df3?w=800&h=500&fit=crop&auto=format",
+    image: "/images/gallery-06.jpg",
     alt: "The space we love",
   },
 ] as const;

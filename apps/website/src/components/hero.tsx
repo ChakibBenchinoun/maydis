@@ -17,7 +17,7 @@ export function Hero() {
       <div className="absolute inset-0 bg-amber-950">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="https://images.unsplash.com/photo-1528598754407-20e385ee7b31?w=1800&h=1100&fit=crop&auto=format"
+          src="/images/hero.jpg"
           alt="Maydi's warm café interior"
           className="w-full h-full object-cover opacity-55"
         />

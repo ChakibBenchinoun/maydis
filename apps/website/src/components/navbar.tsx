@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import { X, Instagram } from "lucide-react";
 
-import { navLinks, site, socialLinks } from "@/lib/constants";
+import { homeNavLinks, pageLinks, site, socialLinks } from "@/lib/constants";
 import { scrollToId } from "@/lib/scroll";
 
 const instagram = socialLinks[0];
@@ -16,7 +17,6 @@ export function Navbar() {
   const [navScrolled, setNavScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // On inner pages (no hero), always use the solid nav style
   const solid = !isHome || navScrolled;
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [isHome]);
 
-  const goTo = (id: string) => {
+  const goToSection = (id: string) => {
     if (isHome) {
       scrollToId(id);
     } else {
@@ -45,6 +45,10 @@ export function Navbar() {
     setMobileMenuOpen(false);
   };
 
+  const linkClass = `text-[11px] font-semibold tracking-[0.14em] uppercase transition-colors duration-200 hover:text-primary ${
+    solid ? "text-foreground" : "text-white/90"
+  }`;
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
@@ -56,30 +60,38 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
         <button
           onClick={goHome}
-          className="font-display text-xl font-bold tracking-[0.2em] text-primary"
+          className="flex items-center gap-2.5 font-display text-xl font-bold tracking-[0.2em] text-primary"
         >
-          {site.nameDisplay}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/logo.png"
+            alt=""
+            className="w-9 h-9 rounded-full object-cover border border-border/40 bg-white shadow-sm"
+          />
+          <span className="hidden sm:inline">{site.nameDisplay}</span>
         </button>
 
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map(({ id, label }) => (
-            <button
-              key={id}
-              onClick={() => goTo(id)}
-              className={`text-[11px] font-semibold tracking-[0.14em] uppercase transition-colors duration-200 hover:text-primary ${
-                solid ? "text-foreground" : "text-white/90"
-              }`}
-            >
+        <div className="hidden md:flex items-center gap-6 lg:gap-8">
+          {homeNavLinks.map(({ id, label }) => (
+            <button key={id} onClick={() => goToSection(id)} className={linkClass}>
               {label}
             </button>
+          ))}
+          {pageLinks.map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              className={linkClass}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {label}
+            </Link>
           ))}
           <a
             href={instagram.href}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex items-center gap-1.5 text-[11px] font-semibold tracking-[0.14em] uppercase transition-colors duration-200 hover:text-primary ${
-              solid ? "text-foreground" : "text-white/90"
-            }`}
+            className={`flex items-center gap-1.5 ${linkClass}`}
           >
             <Instagram size={13} />
             Instagram
@@ -112,14 +124,24 @@ export function Navbar() {
             transition={{ duration: 0.18 }}
             className="md:hidden bg-background/98 backdrop-blur-md border-b border-border px-6 pb-6 pt-2"
           >
-            {navLinks.map(({ id, label }) => (
+            {homeNavLinks.map(({ id, label }) => (
               <button
                 key={id}
-                onClick={() => goTo(id)}
-                className="block w-full text-left py-3 text-[11px] font-semibold tracking-[0.14em] uppercase text-foreground hover:text-primary transition-colors border-b border-border/40 last:border-0"
+                onClick={() => goToSection(id)}
+                className="block w-full text-left py-3 text-[11px] font-semibold tracking-[0.14em] uppercase text-foreground hover:text-primary transition-colors border-b border-border/40"
               >
                 {label}
               </button>
+            ))}
+            {pageLinks.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setMobileMenuOpen(false)}
+                className="block w-full text-left py-3 text-[11px] font-semibold tracking-[0.14em] uppercase text-foreground hover:text-primary transition-colors border-b border-border/40 last:border-0"
+              >
+                {label}
+              </Link>
             ))}
           </motion.div>
         )}

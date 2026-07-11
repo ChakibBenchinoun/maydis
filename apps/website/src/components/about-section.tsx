@@ -9,7 +9,7 @@ export function AboutSection() {
             <div className="rounded-3xl overflow-hidden aspect-[4/5] bg-secondary shadow-2xl">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="https://images.unsplash.com/photo-1652862730877-1c32adb07df3?w=800&h=1000&fit=crop&auto=format"
+                src="/images/gallery-03.jpg"
                 alt="Maydi's café — brick walls, lush plants, warm natural light"
                 className="w-full h-full object-cover"
               />
@@ -17,8 +17,8 @@ export function AboutSection() {
             <div className="absolute -bottom-6 -right-6 hidden md:block w-36 h-36 rounded-2xl overflow-hidden border-4 border-background shadow-2xl bg-secondary">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="https://images.unsplash.com/photo-1712262583827-a80e06dfc867?w=280&h=280&fit=crop&auto=format"
-                alt="Freshly baked croissant"
+                src="/images/sealing.webp"
+                alt="Maydi's seal"
                 className="w-full h-full object-cover"
               />
             </div>

@@ -20,7 +20,7 @@ export function VisitSection() {
           <div className="relative aspect-[4/3] md:aspect-auto bg-secondary min-h-[300px]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="https://images.unsplash.com/photo-1528598754407-20e385ee7b31?w=900&h=700&fit=crop&auto=format"
+              src="/images/gallery-01.jpg"
               alt="Maydi's warm interior"
               className="w-full h-full object-cover"
             />
@@ -53,6 +53,14 @@ export function VisitSection() {
                   <br />
                   {site.addressLine2}
                 </p>
+                <a
+                  href={site.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block mt-2 text-xs font-semibold text-primary hover:underline"
+                >
+                  Open in Google Maps →
+                </a>
               </div>
             </div>
 
@@ -73,7 +81,7 @@ export function VisitSection() {
               </div>
             </div>
 
-            <div className="flex items-center gap-4 pt-2">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-2">
               {socialLinks.map((link, index) => (
                 <span key={link.href} className="contents">
                   {index > 0 && <span className="text-border">·</span>}
@@ -88,7 +96,23 @@ export function VisitSection() {
                   </a>
                 </span>
               ))}
+              <span className="text-border">·</span>
+              <a
+                href={site.guideUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-primary transition-colors text-xs font-semibold uppercase tracking-wide"
+              >
+                Guide Oran
+              </a>
             </div>
+
+            <a
+              href="/reserve"
+              className="inline-flex justify-center bg-primary text-white px-6 py-3 rounded-full text-[11px] font-semibold tracking-[0.12em] uppercase hover:bg-amber-500 transition-colors shadow-md w-full sm:w-auto text-center"
+            >
+              Reserve a table online
+            </a>
           </div>
         </div>
 
