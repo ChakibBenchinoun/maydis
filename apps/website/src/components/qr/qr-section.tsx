@@ -4,18 +4,19 @@ import { useEffect, useState } from "react";
 import QRCode from "qrcode";
 
 import { Container, Link, Section, SectionDivider, SectionLabel } from "@/components/ui";
+import { menuLink } from "@/lib/constants";
 
 function menuUrl() {
   if (typeof window !== "undefined") {
-    return `${window.location.origin}/menu`;
+    return `${window.location.origin}${menuLink.href}`;
   }
   const base = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "";
-  return base ? `${base}/menu` : "/menu";
+  return base ? `${base}${menuLink.href}` : menuLink.href;
 }
 
 export function QrSection() {
   const [dataUrl, setDataUrl] = useState<string | null>(null);
-  const [url, setUrl] = useState("/menu");
+  const [url, setUrl] = useState<string>(menuLink.href);
 
   useEffect(() => {
     const target = menuUrl();
@@ -46,7 +47,7 @@ export function QrSection() {
               <div className="bg-secondary h-52 w-52 animate-pulse rounded-xl" />
             )}
             <p className="text-muted-foreground max-w-xs text-xs break-all">{url}</p>
-            <Link href="/menu" variant="primary">
+            <Link href={menuLink.href} variant="primary">
               Open menu
             </Link>
           </div>

@@ -16,13 +16,36 @@ export const site = {
   lng: -0.5985259,
 } as const;
 
-/** Section anchors on the home page */
+/**
+ * Primary nav — Menu first (page), then home section anchors, then Reserve.
+ * Section links use `/#id` (scroll on home); page links are absolute paths.
+ */
 export const homeNavLinks = [
-  { id: "menu", label: "Menu", href: "/#menu" },
+  { id: "menu", label: "Menu", href: "/menu" },
   { id: "gallery", label: "Gallery", href: "/#gallery" },
   { id: "about", label: "Our Story", href: "/#about" },
   { id: "visit", label: "Visit", href: "/#visit" },
+  { id: "reserve", label: "Reserve", href: "/reserve" },
 ] as const;
+
+export type HomeNavLink = (typeof homeNavLinks)[number];
+export type HomeNavId = HomeNavLink["id"];
+
+export function getHomeNavLink(id: HomeNavId): HomeNavLink {
+  return homeNavLinks.find((l) => l.id === id)!;
+}
+
+/** True when the link is a home section anchor (`/#…`). */
+export function isSectionNavLink(link: HomeNavLink): boolean {
+  return link.href.includes("#");
+}
+
+/** Nav list items (excludes Reserve CTA). */
+export const mainNavLinks = homeNavLinks.filter((l) => l.id !== "reserve");
+
+/** Named page routes derived from homeNavLinks */
+export const menuLink = getHomeNavLink("menu");
+export const reserveLink = getHomeNavLink("reserve");
 
 /** Home “latest on the menu” section copy */
 export const latestMenuCopy = {
@@ -31,15 +54,9 @@ export const latestMenuCopy = {
   description:
     "A few of our newest plates and seasonal favourites — the full list lives on the menu page.",
   cta: "View full menu",
-  ctaHref: "/menu",
+  ctaHref: menuLink.href,
   empty: "New dishes are on the way — check back soon.",
 } as const;
-
-/** Primary routes */
-export const pageLinks = [
-  { href: "/menu", label: "Full Menu" },
-  { href: "/reserve", label: "Reserve" },
-] as const;
 
 export const socialLinks = [
   {

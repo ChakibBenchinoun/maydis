@@ -1,56 +1,50 @@
-import { Instagram } from "lucide-react";
-
-import { Container } from "@/components/ui/container";
+import { Container, SocialIcon } from "@/components/ui";
 import { site, socialLinks } from "@/lib/constants";
 
+/**
+ * Site footer — brand + phone, Follow us + socials, copyright.
+ * Content constrained with shared Container (navbar width).
+ */
 export function Footer() {
-  const instagram = socialLinks[0];
-
   return (
-    <footer className="bg-foreground text-background pt-14 pb-10 sm:pt-16 md:pt-20">
+    <footer className="bg-foreground text-background w-full pt-10 pb-8 sm:pt-12 md:pt-14">
       <Container>
-        <div className="mb-10 flex flex-col items-start justify-between gap-10 md:mb-12 md:flex-row md:items-end">
+        <div className="mb-8 flex flex-col items-start justify-between gap-8 sm:mb-10 sm:flex-row sm:items-end">
           <div>
-            <h2 className="font-display text-primary mb-3 text-3xl font-bold tracking-[0.16em]">
+            <h2 className="font-display text-primary mb-2 text-2xl font-bold tracking-[0.16em] sm:text-3xl">
               {site.nameDisplay}
             </h2>
-            <p className="text-background/50 text-sm leading-relaxed">
-              {site.addressLine1}
-              <br />
-              {site.addressLine2} · Crafted with love
-            </p>
             <a
               href={site.phoneHref}
-              className="text-primary mt-3 inline-block text-sm font-semibold transition-colors hover:text-amber-400"
+              className="text-primary text-sm font-semibold transition-colors hover:text-amber-400"
             >
               {site.phone}
             </a>
           </div>
-          <div className="flex flex-col gap-2.5 text-right">
-            <a
-              href={instagram.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-background/60 hover:text-primary flex items-center gap-2 text-sm font-medium transition-colors md:self-end"
-            >
-              <Instagram size={15} />
-              {instagram.handle}
-            </a>
-            {socialLinks.slice(1).map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-background/60 hover:text-primary text-sm font-medium transition-colors"
-              >
-                {link.label}
-              </a>
-            ))}
+
+          <div className="flex flex-col gap-3 md:items-end">
+            <p className="text-background/40 text-[10px] font-bold tracking-[0.2em] uppercase">
+              Follow us
+            </p>
+            <div className="flex flex-wrap items-center gap-2 md:justify-end">
+              {socialLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.label}
+                  title={"handle" in link ? link.handle : link.label}
+                  className="text-background/60 hover:text-primary border-background/12 hover:border-primary/40 inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors"
+                >
+                  <SocialIcon label={link.label} size={16} />
+                </a>
+              ))}
+            </div>
           </div>
         </div>
 
-        <div className="border-background/10 flex flex-col items-center justify-between gap-3 border-t pt-8 md:flex-row">
+        <div className="border-background/10 flex flex-col items-center justify-between gap-2 border-t pt-6 sm:flex-row">
           <p className="text-background/30 text-xs">
             &copy; {new Date().getFullYear()} {site.name} Café. All rights reserved.
           </p>

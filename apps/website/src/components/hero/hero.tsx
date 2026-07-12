@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ChevronDown, Instagram } from "lucide-react";
+import { ChevronDown, Instagram, QrCode } from "lucide-react";
 import { motion } from "motion/react";
 
 import { FlipFadeText } from "@/components/effects/flip-fade-text";
@@ -154,16 +154,28 @@ export function Hero() {
               </Button>
             </div>
 
-            <Link
-              external
-              href={instagram.href}
-              variant="ghostLight"
-              size="sm"
-              className="h-auto px-0 py-0 tracking-[0.14em]"
-            >
-              <Instagram size={13} strokeWidth={1.75} />
-              Follow on Instagram
-            </Link>
+            <div className="flex flex-col items-center gap-3">
+              <Link
+                external
+                href={instagram.href}
+                variant="ghostLight"
+                size="sm"
+                className="h-auto px-0 py-0 tracking-[0.14em]"
+              >
+                <Instagram size={13} strokeWidth={1.75} />
+                Follow on Instagram
+              </Link>
+
+              <button
+                type="button"
+                onClick={() => scrollToId("qr")}
+                aria-label="View menu QR code"
+                title="Menu QR code"
+                className="rounded-full p-1.5 text-white/60 transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none"
+              >
+                <QrCode size={18} strokeWidth={1.5} />
+              </button>
+            </div>
           </motion.div>
         </div>
       </Container>

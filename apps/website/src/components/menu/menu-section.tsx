@@ -9,6 +9,7 @@ import { Container } from "@/components/ui/container";
 import { SectionDivider } from "@/components/ui/section-divider";
 import { SectionLabel } from "@/components/ui/section-label";
 import type { MenuItem } from "@/data/menu";
+import { menuLink } from "@/lib/constants";
 import { categoriesFromItems } from "@/lib/menu";
 
 type MenuSectionProps = {
@@ -40,7 +41,7 @@ export function MenuSection({ items }: MenuSectionProps) {
           <div className="mb-14 text-center">
             <SectionLabel>Scan · Sip · Enjoy</SectionLabel>
             <h2 className="font-display text-foreground text-4xl font-bold md:text-5xl">
-              Full Menu
+              {menuLink.label}
             </h2>
             <SectionDivider />
             <p className="text-muted-foreground mx-auto mt-5 max-w-xs text-sm leading-relaxed">

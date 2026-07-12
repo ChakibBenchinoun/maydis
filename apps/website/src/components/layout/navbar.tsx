@@ -8,14 +8,26 @@ import { AnimatePresence, motion } from "motion/react";
 
 import { buttonClassName } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { homeNavLinks, pageLinks, site, socialLinks } from "@/lib/constants";
+import {
+  isSectionNavLink,
+  mainNavLinks,
+  reserveLink,
+  site,
+  socialLinks,
+} from "@/lib/constants";
 import { images } from "@/lib/images";
 import { scrollToId } from "@/lib/scroll";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 const instagram = socialLinks[0];
-const fullMenuLink = pageLinks.find((l) => l.href === "/menu") ?? pageLinks[0];
-const reserveLink = pageLinks.find((l) => l.href === "/reserve") ?? pageLinks[1];
+const mobileItemVariants = {
+  hidden: { opacity: 0, y: 12 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.35, ease: easeOut },
+  },
+} as const;
 
 export function Navbar() {
   const pathname = usePathname();
@@ -122,19 +134,35 @@ export function Navbar() {
           </button>
 
           <div className="hidden items-center gap-5 md:flex lg:gap-7">
-            {homeNavLinks.map(({ id, label }, i) => (
-              <motion.button
-                key={id}
-                type="button"
-                onClick={() => goToSection(id)}
-                className={linkClass}
-                initial={{ opacity: 0, y: -6 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.45, delay: 0.08 + i * 0.04, ease: easeOut }}
-              >
-                {label}
-              </motion.button>
-            ))}
+            {mainNavLinks.map((link, i) => {
+              const motionProps = {
+                initial: { opacity: 0, y: -6 },
+                animate: { opacity: 1, y: 0 },
+                transition: { duration: 0.45, delay: 0.08 + i * 0.04, ease: easeOut },
+              } as const;
+
+              if (isSectionNavLink(link)) {
+                return (
+                  <motion.button
+                    key={link.id}
+                    type="button"
+                    onClick={() => goToSection(link.id)}
+                    className={linkClass}
+                    {...motionProps}
+                  >
+                    {link.label}
+                  </motion.button>
+                );
+              }
+
+              return (
+                <motion.div key={link.id} {...motionProps}>
+                  <Link href={link.href} className={linkClass}>
+                    {link.label}
+                  </Link>
+                </motion.div>
+              );
+            })}
 
             <motion.div
               initial={{ opacity: 0, y: -6 }}
@@ -142,10 +170,6 @@ export function Navbar() {
               transition={{ duration: 0.45, delay: 0.28, ease: easeOut }}
               className="flex items-center gap-4 lg:gap-5"
             >
-              <Link href={fullMenuLink.href} className={linkClass}>
-                {fullMenuLink.label}
-              </Link>
-
               <Link href={reserveLink.href} className={reserveClass}>
                 {reserveLink.label}
               </Link>
@@ -232,43 +256,36 @@ export function Navbar() {
                 }}
                 className="flex flex-col"
               >
-                {homeNavLinks.map(({ id, label }) => (
-                  <motion.button
-                    key={id}
-                    type="button"
-                    onClick={() => goToSection(id)}
-                    variants={{
-                      hidden: { opacity: 0, y: 12 },
-                      show: {
-                        opacity: 1,
-                        y: 0,
-                        transition: { duration: 0.35, ease: easeOut },
-                      },
-                    }}
-                    className="text-foreground hover:text-primary border-border/50 focus-visible:text-primary block w-full border-b py-4 text-left text-sm font-semibold tracking-[0.16em] uppercase transition-colors focus-visible:outline-none"
-                  >
-                    {label}
-                  </motion.button>
-                ))}
+                {mainNavLinks.map((link) => {
+                  const itemClass =
+                    "text-foreground hover:text-primary border-border/50 focus-visible:text-primary block w-full border-b py-4 text-left text-sm font-semibold tracking-[0.16em] uppercase transition-colors focus-visible:outline-none";
 
-                <motion.div
-                  variants={{
-                    hidden: { opacity: 0, y: 12 },
-                    show: {
-                      opacity: 1,
-                      y: 0,
-                      transition: { duration: 0.35, ease: easeOut },
-                    },
-                  }}
-                >
-                  <Link
-                    href={fullMenuLink.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="text-foreground hover:text-primary border-border/50 block w-full border-b py-4 text-left text-sm font-semibold tracking-[0.16em] uppercase transition-colors"
-                  >
-                    {fullMenuLink.label}
-                  </Link>
-                </motion.div>
+                  if (isSectionNavLink(link)) {
+                    return (
+                      <motion.button
+                        key={link.id}
+                        type="button"
+                        onClick={() => goToSection(link.id)}
+                        variants={mobileItemVariants}
+                        className={itemClass}
+                      >
+                        {link.label}
+                      </motion.button>
+                    );
+                  }
+
+                  return (
+                    <motion.div key={link.id} variants={mobileItemVariants}>
+                      <Link
+                        href={link.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={itemClass}
+                      >
+                        {link.label}
+                      </Link>
+                    </motion.div>
+                  );
+                })}
               </motion.nav>
 
               <motion.div
