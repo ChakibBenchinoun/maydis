@@ -40,7 +40,7 @@ export function MenuSwipeCarousel({
 
   if (items.length === 0) {
     return (
-      <p className="text-center text-sm text-muted-foreground py-12">
+      <p className="text-muted-foreground py-12 text-center text-sm">
         No dishes in this category yet.
       </p>
     );
@@ -103,7 +103,7 @@ export function MenuSwipeCarousel({
           }
           pagination={{ clickable: true }}
           modules={[EffectCards, Autoplay, Pagination]}
-          className={`menu-swipe-carousel-${uid} h-[560px] sm:h-[600px] md:h-[620px] w-full`}
+          className={`menu-swipe-carousel-${uid} h-[560px] w-full sm:h-[600px] md:h-[620px]`}
           cardsEffect={{
             perSlideOffset: 10,
             perSlideRotate: 2,
@@ -115,9 +115,9 @@ export function MenuSwipeCarousel({
               <button
                 type="button"
                 onClick={() => onSelect(item)}
-                className="group relative flex h-full w-full flex-col text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
+                className="group focus-visible:ring-primary relative flex h-full w-full flex-col text-left focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-inset"
               >
-                <div className="relative flex-1 min-h-0 overflow-hidden bg-secondary">
+                <div className="bg-secondary relative min-h-0 flex-1 overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={item.image}
@@ -127,22 +127,22 @@ export function MenuSwipeCarousel({
                   />
                   <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
                   {item.tags[0] ? (
-                    <span className="absolute top-3.5 left-3.5 rounded-full bg-primary/95 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary-foreground shadow-sm">
+                    <span className="bg-primary/95 text-primary-foreground absolute top-3.5 left-3.5 rounded-full px-3 py-1 text-[10px] font-semibold tracking-wider uppercase shadow-sm">
                       {item.tags[0]}
                     </span>
                   ) : null}
                 </div>
 
-                <div className="shrink-0 bg-card px-5 pt-4 pb-5">
-                  <h3 className="font-display text-xl font-bold text-foreground leading-snug line-clamp-2">
+                <div className="bg-card shrink-0 px-5 pt-4 pb-5">
+                  <h3 className="font-display text-foreground line-clamp-2 text-xl leading-snug font-bold">
                     {item.name}
                   </h3>
-                  <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed line-clamp-2">
+                  <p className="text-muted-foreground mt-1.5 line-clamp-2 text-sm leading-relaxed">
                     {item.description}
                   </p>
                   <div className="mt-4 flex items-center justify-between gap-2">
-                    <span className="text-lg font-bold text-primary">{item.price}</span>
-                    <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70 group-hover:text-primary transition-colors">
+                    <span className="text-primary text-lg font-bold">{item.price}</span>
+                    <span className="text-muted-foreground/70 group-hover:text-primary text-[11px] font-semibold tracking-wider uppercase transition-colors">
                       View →
                     </span>
                   </div>

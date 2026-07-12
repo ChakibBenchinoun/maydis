@@ -64,9 +64,7 @@ export function pickLatestMenuItems(
   limit: number = LATEST_MENU_LIMIT,
 ): MenuItem[] {
   if (items.length <= limit) return items;
-  return [...items]
-    .sort((a, b) => b.id - a.id || a.name.localeCompare(b.name))
-    .slice(0, limit);
+  return [...items].sort((a, b) => b.id - a.id || a.name.localeCompare(b.name)).slice(0, limit);
 }
 
 /**

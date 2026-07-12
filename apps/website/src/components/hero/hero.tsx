@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "motion/react";
 import { ChevronDown, Instagram } from "lucide-react";
+import { motion } from "motion/react";
 
-import { FlipFadeText } from "@/components/flip-fade-text";
+import { FlipFadeText } from "@/components/effects/flip-fade-text";
 import { site, socialLinks } from "@/lib/constants";
 import { images } from "@/lib/images";
 import { scrollToId } from "@/lib/scroll";
@@ -38,7 +38,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative h-screen min-h-[640px] flex items-center justify-center overflow-hidden"
+      className="relative flex h-screen min-h-[640px] items-center justify-center overflow-hidden"
     >
       <div className="absolute inset-0 bg-amber-950">
         <motion.div
@@ -55,21 +55,21 @@ export function Hero() {
           <img
             src={images.hero}
             alt="Maydi's warm café interior"
-            className="w-full h-full object-cover opacity-60"
+            className="h-full w-full object-cover opacity-60"
           />
         </motion.div>
       </div>
 
       <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/30 to-black/75" />
-      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/50 to-transparent" />
 
-      <div className="relative z-10 text-center text-white px-6 max-w-2xl mx-auto">
+      <div className="relative z-10 mx-auto max-w-2xl px-6 text-center text-white">
         <motion.p
           custom={0.1}
           variants={fadeUp}
           initial={reduceMotion ? false : "hidden"}
           animate="show"
-          className="text-[10px] tracking-[0.4em] uppercase mb-3 text-amber-200 font-semibold"
+          className="mb-3 text-[10px] font-semibold tracking-[0.4em] text-amber-200 uppercase"
         >
           Oran, Algeria
         </motion.p>
@@ -79,7 +79,7 @@ export function Hero() {
           variants={fadeUp}
           initial={reduceMotion ? false : "hidden"}
           animate="show"
-          className="w-10 h-px bg-primary/90 mx-auto mb-7"
+          className="bg-primary/90 mx-auto mb-7 h-px w-10"
           aria-hidden
         />
 
@@ -108,7 +108,7 @@ export function Hero() {
           variants={fadeUp}
           initial={reduceMotion ? false : "hidden"}
           animate="show"
-          className="font-display text-lg md:text-xl italic text-amber-100 mb-4 font-light leading-relaxed"
+          className="font-display mb-4 text-lg leading-relaxed font-light text-amber-100 italic md:text-xl"
         >
           &ldquo;{site.tagline}&rdquo;
         </motion.p>
@@ -118,7 +118,7 @@ export function Hero() {
           variants={fadeUp}
           initial={reduceMotion ? false : "hidden"}
           animate="show"
-          className="text-sm text-white/75 mb-11 leading-relaxed max-w-sm mx-auto"
+          className="mx-auto mb-11 max-w-sm text-sm leading-relaxed text-white/75"
         >
           {site.description}
         </motion.p>
@@ -130,18 +130,18 @@ export function Hero() {
           animate="show"
           className="flex flex-col items-center gap-5"
         >
-          <div className="flex flex-col sm:flex-row gap-3 justify-center items-stretch sm:items-center w-full sm:w-auto">
+          <div className="flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row sm:items-center">
             <button
               type="button"
               onClick={() => scrollToId("menu")}
-              className="bg-primary text-white px-9 py-3.5 rounded-full text-[11px] font-semibold tracking-[0.12em] uppercase shadow-lg hover:bg-amber-500 hover:shadow-xl hover:scale-[1.02] active:scale-[0.99] transition-all duration-200 w-full sm:w-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-black/40"
+              className="bg-primary focus-visible:ring-primary w-full rounded-full px-9 py-3.5 text-[11px] font-semibold tracking-[0.12em] text-white uppercase shadow-lg transition-all duration-200 hover:scale-[1.02] hover:bg-amber-500 hover:shadow-xl focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-black/40 focus-visible:outline-none active:scale-[0.99] sm:w-auto"
             >
               Explore the Menu
             </button>
             <button
               type="button"
               onClick={() => scrollToId("visit")}
-              className="border border-white/50 text-white px-9 py-3.5 rounded-full text-[11px] font-semibold tracking-[0.12em] uppercase backdrop-blur-sm bg-white/5 hover:bg-white/12 transition-colors duration-200 w-full sm:w-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+              className="w-full rounded-full border border-white/50 bg-white/5 px-9 py-3.5 text-[11px] font-semibold tracking-[0.12em] text-white uppercase backdrop-blur-sm transition-colors duration-200 hover:bg-white/12 focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:outline-none sm:w-auto"
             >
               Visit Us
             </button>
@@ -151,7 +151,7 @@ export function Hero() {
             href={instagram.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.14em] uppercase text-white/70 hover:text-amber-200 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 rounded-sm"
+            className="inline-flex items-center gap-2 rounded-sm text-[11px] font-semibold tracking-[0.14em] text-white/70 uppercase transition-colors duration-200 hover:text-amber-200 focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:outline-none"
           >
             <Instagram size={14} strokeWidth={1.75} />
             Follow on Instagram
@@ -164,11 +164,7 @@ export function Hero() {
         onClick={() => scrollToId("menu")}
         aria-label="Scroll to menu"
         initial={reduceMotion ? false : { opacity: 0 }}
-        animate={
-          reduceMotion
-            ? { opacity: 0.55 }
-            : { opacity: 0.55, y: [0, 8, 0] }
-        }
+        animate={reduceMotion ? { opacity: 0.55 } : { opacity: 0.55, y: [0, 8, 0] }}
         transition={
           reduceMotion
             ? { duration: 0.4 }
@@ -177,7 +173,7 @@ export function Hero() {
                 y: { repeat: Infinity, duration: 2.4, ease: "easeInOut", delay: 1.1 },
               }
         }
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/55 hover:text-white/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full p-1"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 rounded-full p-1 text-white/55 transition-colors hover:text-white/90 focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none"
       >
         <ChevronDown size={22} />
       </motion.button>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
-import { MenuPageHeader } from "@/components/menu-page-header";
-import { MenuSection } from "@/components/menu-section";
+import { MenuPageHeader } from "@/components/menu/menu-page-header";
+import { MenuSection } from "@/components/menu/menu-section";
 import { site } from "@/lib/constants";
 import { getMenuItems } from "@/lib/menu";
 
@@ -17,7 +17,7 @@ export default async function MenuPage() {
   const { items } = await getMenuItems();
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="bg-background min-h-screen">
       <MenuPageHeader />
       <MenuSection items={items} />
     </main>

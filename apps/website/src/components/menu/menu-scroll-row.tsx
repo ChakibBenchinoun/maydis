@@ -27,7 +27,7 @@ type CardProps = {
 
 function MenuCard({ item, index, onSelect, animateIn }: CardProps) {
   return (
-    <li className="flex shrink-0 w-[260px] lg:w-[280px]">
+    <li className="flex w-[260px] shrink-0 lg:w-[280px]">
       <motion.button
         type="button"
         initial={animateIn ? { opacity: 0, y: 16 } : false}
@@ -38,9 +38,9 @@ function MenuCard({ item, index, onSelect, animateIn }: CardProps) {
           ease: [0.22, 1, 0.36, 1],
         }}
         onClick={() => onSelect(item)}
-        className="group flex h-full w-full flex-col text-left bg-card rounded-2xl overflow-hidden border border-border/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+        className="group bg-card border-border/50 focus-visible:ring-primary flex h-full w-full flex-col overflow-hidden rounded-2xl border text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
       >
-        <div className="relative h-[180px] lg:h-[200px] w-full shrink-0 overflow-hidden bg-secondary">
+        <div className="bg-secondary relative h-[180px] w-full shrink-0 overflow-hidden lg:h-[200px]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={item.image}
@@ -53,27 +53,27 @@ function MenuCard({ item, index, onSelect, animateIn }: CardProps) {
         <div className="flex flex-1 flex-col p-5">
           <div className="mb-2 flex h-5 items-center">
             {item.tags[0] ? (
-              <span className="inline-block text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-accent/12 text-accent font-bold">
+              <span className="bg-accent/12 text-accent inline-block rounded-full px-2 py-0.5 text-[9px] font-bold tracking-wider uppercase">
                 {item.tags[0]}
               </span>
             ) : (
-              <span className="invisible text-[9px] px-2 py-0.5" aria-hidden>
+              <span className="invisible px-2 py-0.5 text-[9px]" aria-hidden>
                 —
               </span>
             )}
           </div>
 
-          <h3 className="font-display font-bold text-foreground leading-snug mb-1.5 line-clamp-2 min-h-[2.75rem]">
+          <h3 className="font-display text-foreground mb-1.5 line-clamp-2 min-h-[2.75rem] leading-snug font-bold">
             {item.name}
           </h3>
 
-          <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2 min-h-[2.5rem]">
+          <p className="text-muted-foreground line-clamp-2 min-h-[2.5rem] text-sm leading-relaxed">
             {item.description}
           </p>
 
           <div className="mt-auto flex items-center justify-between gap-2 pt-4">
-            <span className="font-bold text-primary tabular-nums">{item.price}</span>
-            <span className="text-xs text-muted-foreground/70 group-hover:text-primary transition-colors">
+            <span className="text-primary font-bold tabular-nums">{item.price}</span>
+            <span className="text-muted-foreground/70 group-hover:text-primary text-xs transition-colors">
               View →
             </span>
           </div>
@@ -229,7 +229,7 @@ export function MenuScrollRow({
 
   if (items.length === 0) {
     return (
-      <p className="text-center text-sm text-muted-foreground py-12">
+      <p className="text-muted-foreground py-12 text-center text-sm">
         No dishes in this category yet.
       </p>
     );
@@ -251,15 +251,9 @@ export function MenuScrollRow({
             "[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
           ].join(" ")}
         >
-          <ul className="flex w-max min-w-full justify-center items-stretch gap-5 md:gap-6 px-1">
+          <ul className="flex w-max min-w-full items-stretch justify-center gap-5 px-1 md:gap-6">
             {items.map((item, i) => (
-              <MenuCard
-                key={item.id}
-                item={item}
-                index={i}
-                onSelect={onSelect}
-                animateIn
-              />
+              <MenuCard key={item.id} item={item} index={i} onSelect={onSelect} animateIn />
             ))}
           </ul>
         </div>
@@ -284,14 +278,11 @@ export function MenuScrollRow({
         onMouseEnter={pauseWhileHover}
         onMouseLeave={resumeAfterHover}
         className={[
-          "overflow-x-auto overscroll-x-contain pt-3 pb-8 cursor-grab active:cursor-grabbing",
+          "cursor-grab overflow-x-auto overscroll-x-contain pt-3 pb-8 active:cursor-grabbing",
           "[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
         ].join(" ")}
       >
-        <ul
-          ref={trackRef}
-          className="flex w-max items-stretch gap-5 md:gap-6 px-1"
-        >
+        <ul ref={trackRef} className="flex w-max items-stretch gap-5 px-1 md:gap-6">
           {sequence.map(({ item, key }, i) => (
             <MenuCard
               key={key}

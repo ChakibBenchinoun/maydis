@@ -3,12 +3,12 @@
 import { useState } from "react";
 import Link from "next/link";
 
+import { MenuItemModal } from "@/components/menu/menu-item-modal";
+import { MenuScrollRow } from "@/components/menu/menu-scroll-row";
+import { MenuSwipeCarousel } from "@/components/menu/menu-swipe-carousel";
+import { SectionDivider } from "@/components/ui/section-divider";
+import { SectionLabel } from "@/components/ui/section-label";
 import type { MenuItem } from "@/data/menu";
-import { MenuItemModal } from "@/components/menu-item-modal";
-import { MenuScrollRow } from "@/components/menu-scroll-row";
-import { MenuSwipeCarousel } from "@/components/menu-swipe-carousel";
-import { SectionDivider } from "@/components/section-divider";
-import { SectionLabel } from "@/components/section-label";
 import { latestMenuCopy } from "@/lib/constants";
 
 type LatestMenuSectionProps = {
@@ -26,15 +26,15 @@ export function LatestMenuSection({ items }: LatestMenuSectionProps) {
 
   return (
     <>
-      <section id="menu" className="py-24 px-6 md:px-10">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-14">
+      <section id="menu" className="px-6 py-24 md:px-10">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-14 text-center">
             <SectionLabel>{latestMenuCopy.label}</SectionLabel>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground">
+            <h2 className="font-display text-foreground text-4xl font-bold md:text-5xl">
               {latestMenuCopy.title}
             </h2>
             <SectionDivider />
-            <p className="text-muted-foreground text-sm mt-5 max-w-sm mx-auto leading-relaxed">
+            <p className="text-muted-foreground mx-auto mt-5 max-w-sm text-sm leading-relaxed">
               {latestMenuCopy.description}
             </p>
           </div>
@@ -42,30 +42,20 @@ export function LatestMenuSection({ items }: LatestMenuSectionProps) {
           {hasItems ? (
             <>
               <div className="lg:hidden">
-                <MenuSwipeCarousel
-                  items={items}
-                  onSelect={setSelectedItem}
-                  className="mb-4"
-                />
+                <MenuSwipeCarousel items={items} onSelect={setSelectedItem} className="mb-4" />
               </div>
               <div className="hidden lg:block">
-                <MenuScrollRow
-                  items={items}
-                  categoryKey="latest"
-                  onSelect={setSelectedItem}
-                />
+                <MenuScrollRow items={items} categoryKey="latest" onSelect={setSelectedItem} />
               </div>
             </>
           ) : (
-            <p className="text-center text-sm text-muted-foreground py-8">
-              {latestMenuCopy.empty}
-            </p>
+            <p className="text-muted-foreground py-8 text-center text-sm">{latestMenuCopy.empty}</p>
           )}
 
-          <div className="text-center mt-10">
+          <div className="mt-10 text-center">
             <Link
               href={latestMenuCopy.ctaHref}
-              className="inline-flex items-center gap-2 bg-primary text-white px-9 py-3.5 rounded-full text-[11px] font-semibold tracking-[0.12em] uppercase hover:bg-amber-500 transition-colors duration-200 shadow-md"
+              className="bg-primary inline-flex items-center gap-2 rounded-full px-9 py-3.5 text-[11px] font-semibold tracking-[0.12em] text-white uppercase shadow-md transition-colors duration-200 hover:bg-amber-500"
             >
               {latestMenuCopy.cta}
             </Link>

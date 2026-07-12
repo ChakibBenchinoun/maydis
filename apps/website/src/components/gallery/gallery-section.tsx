@@ -1,32 +1,30 @@
 import { Instagram } from "lucide-react";
 
+import { SectionDivider } from "@/components/ui/section-divider";
+import { SectionLabel } from "@/components/ui/section-label";
 import { galleryPhotos } from "@/data/gallery";
 import { socialLinks } from "@/lib/constants";
-import { SectionLabel } from "@/components/section-label";
-import { SectionDivider } from "@/components/section-divider";
 
 const instagram = socialLinks[0];
 
 export function GallerySection() {
   return (
-    <section id="gallery" className="py-24 bg-secondary/45 px-6 md:px-10">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-14">
+    <section id="gallery" className="bg-secondary/45 px-6 py-24 md:px-10">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-14 text-center">
           <SectionLabel>Through the lens</SectionLabel>
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground">
-            Gallery
-          </h2>
+          <h2 className="font-display text-foreground text-4xl font-bold md:text-5xl">Gallery</h2>
           <SectionDivider />
-          <p className="text-muted-foreground text-sm mt-5 max-w-xs mx-auto leading-relaxed">
+          <p className="text-muted-foreground mx-auto mt-5 max-w-xs text-sm leading-relaxed">
             Bright food, warm corners, and moments that feel like a deep breath.
           </p>
         </div>
 
-        <div className="columns-2 md:columns-3 lg:columns-4 gap-4 [column-gap:1rem]">
+        <div className="columns-2 gap-4 [column-gap:1rem] md:columns-3 lg:columns-4">
           {galleryPhotos.map((photo, i) => (
             <div
               key={i}
-              className={`mb-4 break-inside-avoid rounded-2xl overflow-hidden bg-secondary shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-250 cursor-pointer ${
+              className={`bg-secondary mb-4 cursor-pointer break-inside-avoid overflow-hidden rounded-2xl shadow-sm transition-all duration-250 hover:-translate-y-0.5 hover:shadow-md ${
                 i % 3 === 0 ? "aspect-[3/4]" : "aspect-square"
               }`}
             >
@@ -34,19 +32,19 @@ export function GallerySection() {
               <img
                 src={photo.url}
                 alt={photo.alt}
-                className="w-full h-full object-cover"
+                className="h-full w-full object-cover"
                 loading="lazy"
               />
             </div>
           ))}
         </div>
 
-        <div className="text-center mt-12">
+        <div className="mt-12 text-center">
           <a
             href={instagram.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-primary text-white px-9 py-3.5 rounded-full text-[11px] font-semibold tracking-[0.12em] uppercase hover:bg-amber-500 transition-colors duration-200 shadow-md"
+            className="bg-primary inline-flex items-center gap-2 rounded-full px-9 py-3.5 text-[11px] font-semibold tracking-[0.12em] text-white uppercase shadow-md transition-colors duration-200 hover:bg-amber-500"
           >
             <Instagram size={15} />
             Follow {instagram.handle}

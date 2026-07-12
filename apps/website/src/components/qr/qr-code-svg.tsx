@@ -1,7 +1,7 @@
 /** Placeholder QR mark — replace with real qrcode generation pointing at /menu later. */
 export function QRCodeSVG() {
   return (
-    <svg viewBox="0 0 200 200" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 200 200" className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
       <rect width="200" height="200" fill="white" />
       <rect x="10" y="10" width="60" height="60" fill="#2C2318" />
       <rect x="20" y="20" width="40" height="40" fill="white" />

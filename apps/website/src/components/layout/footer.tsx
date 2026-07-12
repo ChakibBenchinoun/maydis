@@ -6,11 +6,11 @@ export function Footer() {
   const instagram = socialLinks[0];
 
   return (
-    <footer className="bg-foreground text-background pt-16 pb-10 px-6 md:px-10">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-10 mb-12">
+    <footer className="bg-foreground text-background px-6 pt-16 pb-10 md:px-10">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-12 flex flex-col items-start justify-between gap-10 md:flex-row md:items-end">
           <div>
-            <h2 className="font-display text-3xl font-bold tracking-[0.16em] text-primary mb-3">
+            <h2 className="font-display text-primary mb-3 text-3xl font-bold tracking-[0.16em]">
               {site.nameDisplay}
             </h2>
             <p className="text-background/50 text-sm leading-relaxed">
@@ -20,7 +20,7 @@ export function Footer() {
             </p>
             <a
               href={site.phoneHref}
-              className="inline-block mt-3 text-sm font-semibold text-primary hover:text-amber-400 transition-colors"
+              className="text-primary mt-3 inline-block text-sm font-semibold transition-colors hover:text-amber-400"
             >
               {site.phone}
             </a>
@@ -30,7 +30,7 @@ export function Footer() {
               href={instagram.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-background/60 hover:text-primary transition-colors text-sm font-medium md:self-end"
+              className="text-background/60 hover:text-primary flex items-center gap-2 text-sm font-medium transition-colors md:self-end"
             >
               <Instagram size={15} />
               {instagram.handle}
@@ -41,7 +41,7 @@ export function Footer() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-background/60 hover:text-primary transition-colors text-sm font-medium"
+                className="text-background/60 hover:text-primary text-sm font-medium transition-colors"
               >
                 {link.label}
               </a>
@@ -49,7 +49,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-background/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-3">
+        <div className="border-background/10 flex flex-col items-center justify-between gap-3 border-t pt-8 md:flex-row">
           <p className="text-background/30 text-xs">
             &copy; {new Date().getFullYear()} {site.name} Café. All rights reserved.
           </p>

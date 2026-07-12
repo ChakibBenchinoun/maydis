@@ -7,7 +7,12 @@
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "website:dev": "pnpm --filter @maydis/website dev",
-    "website:build": "pnpm --filter @maydis/website build"
+    "website:build": "pnpm --filter @maydis/website build",
+    "website:lint": "pnpm --filter @maydis/website lint",
+    "website:lint:fix": "pnpm --filter @maydis/website lint:fix",
+    "website:format": "pnpm --filter @maydis/website format",
+    "website:format:check": "pnpm --filter @maydis/website format:check",
+    "website:format:fix": "pnpm --filter @maydis/website format:fix"
   },
   "devDependencies": {
     "turbo": "^2.5.4",

@@ -1,53 +1,53 @@
-import { Instagram, MapPin, Clock } from "lucide-react";
+import { Clock, Instagram, MapPin } from "lucide-react";
 
-import { site, socialLinks, openingHours } from "@/lib/constants";
-import { SectionLabel } from "@/components/section-label";
-import { SectionDivider } from "@/components/section-divider";
+import { SectionDivider } from "@/components/ui/section-divider";
+import { SectionLabel } from "@/components/ui/section-label";
+import { openingHours, site, socialLinks } from "@/lib/constants";
 
 export function VisitSection() {
   return (
-    <section id="visit" className="py-24 bg-secondary/45 px-6 md:px-10">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-14">
+    <section id="visit" className="bg-secondary/45 px-6 py-24 md:px-10">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-14 text-center">
           <SectionLabel>Come find us</SectionLabel>
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground">
+          <h2 className="font-display text-foreground text-4xl font-bold md:text-5xl">
             Visit {site.name}
           </h2>
           <SectionDivider />
         </div>
 
-        <div className="grid md:grid-cols-2 gap-0 rounded-3xl overflow-hidden shadow-xl border border-border/30 mb-8">
-          <div className="relative aspect-[4/3] md:aspect-auto bg-secondary min-h-[300px]">
+        <div className="border-border/30 mb-8 grid gap-0 overflow-hidden rounded-3xl border shadow-xl md:grid-cols-2">
+          <div className="bg-secondary relative aspect-[4/3] min-h-[300px] md:aspect-auto">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/gallery-01.jpg"
               alt="Maydi's warm interior"
-              className="w-full h-full object-cover"
+              className="h-full w-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/5 to-black/30 md:bg-gradient-to-l" />
           </div>
 
-          <div className="bg-card px-8 md:px-12 py-10 md:py-12 flex flex-col justify-center gap-8">
+          <div className="bg-card flex flex-col justify-center gap-8 px-8 py-10 md:px-12 md:py-12">
             <div>
-              <p className="text-[10px] tracking-[0.3em] uppercase text-accent font-bold mb-2">
+              <p className="text-accent mb-2 text-[10px] font-bold tracking-[0.3em] uppercase">
                 Reserve a table
               </p>
               <a
                 href={site.phoneHref}
-                className="font-display text-3xl md:text-4xl font-bold text-primary hover:text-amber-500 transition-colors leading-tight"
+                className="font-display text-primary text-3xl leading-tight font-bold transition-colors hover:text-amber-500 md:text-4xl"
               >
                 {site.phone}
               </a>
             </div>
 
-            <div className="w-full h-px bg-border" />
+            <div className="bg-border h-px w-full" />
 
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <div className="bg-primary/10 mt-0.5 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl">
                 <MapPin size={18} className="text-primary" />
               </div>
               <div>
-                <p className="font-semibold text-foreground text-sm mb-1">Address</p>
+                <p className="text-foreground mb-1 text-sm font-semibold">Address</p>
                 <p className="text-muted-foreground text-sm leading-relaxed">
                   {site.addressLine1}
                   <br />
@@ -57,7 +57,7 @@ export function VisitSection() {
                   href={site.mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block mt-2 text-xs font-semibold text-primary hover:underline"
+                  className="text-primary mt-2 inline-block text-xs font-semibold hover:underline"
                 >
                   Open in Google Maps →
                 </a>
@@ -65,16 +65,16 @@ export function VisitSection() {
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <div className="bg-primary/10 mt-0.5 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl">
                 <Clock size={18} className="text-primary" />
               </div>
               <div className="w-full">
-                <p className="font-semibold text-foreground text-sm mb-3">Opening Hours</p>
+                <p className="text-foreground mb-3 text-sm font-semibold">Opening Hours</p>
                 <div className="space-y-2">
                   {openingHours.map(({ day, hours }) => (
-                    <div key={day} className="flex justify-between items-center">
+                    <div key={day} className="flex items-center justify-between">
                       <span className="text-muted-foreground text-sm">{day}</span>
-                      <span className="font-semibold text-foreground text-sm">{hours}</span>
+                      <span className="text-foreground text-sm font-semibold">{hours}</span>
                     </div>
                   ))}
                 </div>
@@ -89,7 +89,7 @@ export function VisitSection() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors text-xs font-semibold uppercase tracking-wide"
+                    className="text-muted-foreground hover:text-primary flex items-center gap-1.5 text-xs font-semibold tracking-wide uppercase transition-colors"
                   >
                     {link.label === "Instagram" && <Instagram size={15} />}
                     {link.label}
@@ -101,7 +101,7 @@ export function VisitSection() {
                 href={site.guideUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors text-xs font-semibold uppercase tracking-wide"
+                className="text-muted-foreground hover:text-primary text-xs font-semibold tracking-wide uppercase transition-colors"
               >
                 Guide Oran
               </a>
@@ -109,14 +109,14 @@ export function VisitSection() {
 
             <a
               href="/reserve"
-              className="inline-flex justify-center bg-primary text-white px-6 py-3 rounded-full text-[11px] font-semibold tracking-[0.12em] uppercase hover:bg-amber-500 transition-colors shadow-md w-full sm:w-auto text-center"
+              className="bg-primary inline-flex w-full justify-center rounded-full px-6 py-3 text-center text-[11px] font-semibold tracking-[0.12em] text-white uppercase shadow-md transition-colors hover:bg-amber-500 sm:w-auto"
             >
               Reserve a table online
             </a>
           </div>
         </div>
 
-        <div className="rounded-3xl overflow-hidden shadow-lg border border-border/30 mb-8 aspect-video md:aspect-[16/6]">
+        <div className="border-border/30 mb-8 aspect-video overflow-hidden rounded-3xl border shadow-lg md:aspect-[16/6]">
           <iframe
             src={site.mapEmbedUrl}
             width="100%"

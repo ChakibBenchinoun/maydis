@@ -1,11 +1,11 @@
-import { AboutSection } from "@/components/about-section";
-import { GallerySection } from "@/components/gallery-section";
-import { Hero } from "@/components/hero";
-import { LatestMenuSection } from "@/components/latest-menu-section";
-import { MomentsSection } from "@/components/moments-section";
-import { QrSection } from "@/components/qr-section";
-import { ReviewsSection } from "@/components/reviews-section";
-import { VisitSection } from "@/components/visit-section";
+import { AboutSection } from "@/components/about/about-section";
+import { GallerySection } from "@/components/gallery/gallery-section";
+import { Hero } from "@/components/hero/hero";
+import { LatestMenuSection } from "@/components/menu/latest-menu-section";
+import { MomentsSection } from "@/components/moments/moments-section";
+import { QrSection } from "@/components/qr/qr-section";
+import { ReviewsSection } from "@/components/reviews/reviews-section";
+import { VisitSection } from "@/components/visit/visit-section";
 import { getMenuItems, pickLatestMenuItems } from "@/lib/menu";
 
 /** Refresh menu from Supabase without a full redeploy */

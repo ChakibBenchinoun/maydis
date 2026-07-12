@@ -17,7 +17,8 @@ export const menuItems: MenuItem[] = [
     price: "950 DA",
     category: "Brunch",
     image: "/images/gallery-01.jpg",
-    details: "Two perfectly poached eggs draped over house-smoked salmon and silky avocado mash on toasted sourdough. Finished with a drizzle of lemon herb oil, capers, and microgreens. Served with a side dressed salad.",
+    details:
+      "Two perfectly poached eggs draped over house-smoked salmon and silky avocado mash on toasted sourdough. Finished with a drizzle of lemon herb oil, capers, and microgreens. Served with a side dressed salad.",
     tags: ["Chef's Pick", "Bestseller"],
   },
   {
@@ -27,7 +28,8 @@ export const menuItems: MenuItem[] = [
     price: "850 DA",
     category: "Brunch",
     image: "/images/gallery-02.jpg",
-    details: "A colourful medley of oven-roasted courgette, peppers, and cherry tomatoes, crowned with two poached eggs and a vibrant basil-pistachio pesto. Light, nourishing, and deeply satisfying.",
+    details:
+      "A colourful medley of oven-roasted courgette, peppers, and cherry tomatoes, crowned with two poached eggs and a vibrant basil-pistachio pesto. Light, nourishing, and deeply satisfying.",
     tags: ["Vegetarian"],
   },
   {
@@ -37,7 +39,8 @@ export const menuItems: MenuItem[] = [
     price: "750 DA",
     category: "Brunch",
     image: "/images/gallery-04.jpg",
-    details: "Thick-cut brioche soaked overnight in a vanilla bean egg custard, pan-fried to a golden blush, served with warm maple syrup, a dusting of icing sugar, and a generous spoonful of seasonal berry compote.",
+    details:
+      "Thick-cut brioche soaked overnight in a vanilla bean egg custard, pan-fried to a golden blush, served with warm maple syrup, a dusting of icing sugar, and a generous spoonful of seasonal berry compote.",
     tags: ["Sweet"],
   },
   {
@@ -47,7 +50,8 @@ export const menuItems: MenuItem[] = [
     price: "650 DA",
     category: "Toasts & Croissants",
     image: "/images/gallery-07.jpg",
-    details: "Thick sourdough slices toasted to perfection, spread with seasoned avocado mash, halved cherry tomatoes, toasted pine nuts, and a flourish of za'atar. A squeeze of lemon ties it all together.",
+    details:
+      "Thick sourdough slices toasted to perfection, spread with seasoned avocado mash, halved cherry tomatoes, toasted pine nuts, and a flourish of za'atar. A squeeze of lemon ties it all together.",
     tags: ["Vegan", "Bestseller"],
   },
   {
@@ -57,7 +61,8 @@ export const menuItems: MenuItem[] = [
     price: "700 DA",
     category: "Toasts & Croissants",
     image: "/images/gallery-08.jpg",
-    details: "House-baked rye toast spread with whipped cream cheese blended with fresh dill, topped with silky cold-smoked salmon, briny capers, pickled red onion, and a crack of black pepper.",
+    details:
+      "House-baked rye toast spread with whipped cream cheese blended with fresh dill, topped with silky cold-smoked salmon, briny capers, pickled red onion, and a crack of black pepper.",
     tags: [],
   },
   {
@@ -67,7 +72,8 @@ export const menuItems: MenuItem[] = [
     price: "350 DA",
     category: "Toasts & Croissants",
     image: "/images/gallery-09.jpg",
-    details: "Laminated in house with 84% French butter over three days. Baked fresh each morning until deeply golden. Served warm alongside house-made apricot jam and a curl of salted butter.",
+    details:
+      "Laminated in house with 84% French butter over three days. Baked fresh each morning until deeply golden. Served warm alongside house-made apricot jam and a curl of salted butter.",
     tags: ["Fresh Daily"],
   },
   {
@@ -77,7 +83,8 @@ export const menuItems: MenuItem[] = [
     price: "450 DA",
     category: "Toasts & Croissants",
     image: "/images/gallery-10.jpg",
-    details: "Our croissant taken one step further — filled with rich almond frangipane, double-baked for crisp caramelised layers, finished with toasted flaked almonds and a cloud of icing sugar.",
+    details:
+      "Our croissant taken one step further — filled with rich almond frangipane, double-baked for crisp caramelised layers, finished with toasted flaked almonds and a cloud of icing sugar.",
     tags: ["Chef's Pick"],
   },
   {
@@ -87,7 +94,8 @@ export const menuItems: MenuItem[] = [
     price: "850 DA",
     category: "Salads & Bowls",
     image: "/images/unnamed.webp",
-    details: "A nourishing base of tri-colour quinoa topped with sliced avocado, cucumber ribbons, roasted chickpeas, fresh herbs, and a house-made green tahini dressing, scattered with seeds and edible flowers.",
+    details:
+      "A nourishing base of tri-colour quinoa topped with sliced avocado, cucumber ribbons, roasted chickpeas, fresh herbs, and a house-made green tahini dressing, scattered with seeds and edible flowers.",
     tags: ["Vegan", "Gluten-Free"],
   },
   {
@@ -97,7 +105,8 @@ export const menuItems: MenuItem[] = [
     price: "750 DA",
     category: "Salads & Bowls",
     image: "/images/unnamed-1.webp",
-    details: "A generous tangle of rocket and mixed leaves, Kalamata olives, halved cherry tomatoes, and thin-sliced cucumber, topped with crumbled sheep's milk feta and dressed with lemon, extra virgin olive oil, and wild oregano.",
+    details:
+      "A generous tangle of rocket and mixed leaves, Kalamata olives, halved cherry tomatoes, and thin-sliced cucumber, topped with crumbled sheep's milk feta and dressed with lemon, extra virgin olive oil, and wild oregano.",
     tags: ["Vegetarian"],
   },
   {
@@ -107,7 +116,8 @@ export const menuItems: MenuItem[] = [
     price: "800 DA",
     category: "Salads & Bowls",
     image: "/images/unnamed-2.webp",
-    details: "Warm farro and bulgur wheat topped with a rainbow of oven-roasted seasonal vegetables, a generous swoosh of house-made hummus, hazelnut dukkah, pomegranate molasses, and a handful of fresh herbs.",
+    details:
+      "Warm farro and bulgur wheat topped with a rainbow of oven-roasted seasonal vegetables, a generous swoosh of house-made hummus, hazelnut dukkah, pomegranate molasses, and a handful of fresh herbs.",
     tags: ["Vegan"],
   },
   {
@@ -117,7 +127,8 @@ export const menuItems: MenuItem[] = [
     price: "650 DA",
     category: "Desserts & Cakes",
     image: "/images/unnamed-3.webp",
-    details: "Individually baked 72% dark chocolate fondant — crackled on the outside, richly flowing within. Served immediately alongside a quenelle of house-made vanilla bean ice cream and a dusting of cacao.",
+    details:
+      "Individually baked 72% dark chocolate fondant — crackled on the outside, richly flowing within. Served immediately alongside a quenelle of house-made vanilla bean ice cream and a dusting of cacao.",
     tags: ["Warm", "Bestseller"],
   },
   {
@@ -127,7 +138,8 @@ export const menuItems: MenuItem[] = [
     price: "700 DA",
     category: "Desserts & Cakes",
     image: "/images/sealing.webp",
-    details: "Velvety baked cheesecake on a buttery Lotus Biscoff crust, topped with a mirror-smooth caramel glaze and a whole Biscoff biscuit. Chilled overnight for a perfectly set, melt-in-the-mouth texture.",
+    details:
+      "Velvety baked cheesecake on a buttery Lotus Biscoff crust, topped with a mirror-smooth caramel glaze and a whole Biscoff biscuit. Chilled overnight for a perfectly set, melt-in-the-mouth texture.",
     tags: ["Chef's Pick"],
   },
   {
@@ -137,7 +149,8 @@ export const menuItems: MenuItem[] = [
     price: "600 DA",
     category: "Desserts & Cakes",
     image: "/images/gallery-01.jpg",
-    details: "A crisp pâte sucrée shell filled with silky pistachio frangipane cream, adorned with fresh raspberries and a thin coat of apricot glaze. Finished with chopped pistachios and a sprig of fresh mint.",
+    details:
+      "A crisp pâte sucrée shell filled with silky pistachio frangipane cream, adorned with fresh raspberries and a thin coat of apricot glaze. Finished with chopped pistachios and a sprig of fresh mint.",
     tags: ["Seasonal"],
   },
   {
@@ -147,7 +160,8 @@ export const menuItems: MenuItem[] = [
     price: "450 DA",
     category: "Beverages",
     image: "/images/gallery-02.jpg",
-    details: "Premium ceremonial grade Japanese matcha, whisked to a smooth froth and topped with steamed oat milk poured in a delicate pattern. Subtly sweetened with raw honey. Available hot or iced.",
+    details:
+      "Premium ceremonial grade Japanese matcha, whisked to a smooth froth and topped with steamed oat milk poured in a delicate pattern. Subtly sweetened with raw honey. Available hot or iced.",
     tags: ["Vegan Option"],
   },
   {
@@ -157,7 +171,8 @@ export const menuItems: MenuItem[] = [
     price: "350 DA",
     category: "Beverages",
     image: "/images/gallery-04.jpg",
-    details: "A jewel-bright, naturally caffeine-free sipper. Cold-steeped hibiscus blended with rose water, fresh lemon, and a handful of mint, poured over ice and topped with a splash of sparkling water.",
+    details:
+      "A jewel-bright, naturally caffeine-free sipper. Cold-steeped hibiscus blended with rose water, fresh lemon, and a handful of mint, poured over ice and topped with a splash of sparkling water.",
     tags: ["Caffeine-Free", "Bestseller"],
   },
   {
@@ -167,7 +182,8 @@ export const menuItems: MenuItem[] = [
     price: "300 DA",
     category: "Beverages",
     image: "/images/gallery-07.jpg",
-    details: "Sourced from single-origin Ethiopian beans, roasted to a medium-light profile. Available as espresso, flat white, cappuccino, Americano, or cold brew. All dairy and plant milks available.",
+    details:
+      "Sourced from single-origin Ethiopian beans, roasted to a medium-light profile. Available as espresso, flat white, cappuccino, Americano, or cold brew. All dairy and plant milks available.",
     tags: [],
   },
 ];

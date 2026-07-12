@@ -10,7 +10,7 @@ When refining design / motion in `apps/website` (nav, hero, sections):
    - Do not nest `fixed inset-0` panels inside elements with `backdrop-filter` / blur.
 4. **Hero**
    - Staggered entrance; primary + secondary CTAs; demote tertiary actions (e.g. Instagram) under buttons.
-   - Title uses `FlipFadeText` (`components/flip-fade-text.tsx`, Vengeance UI–style, `motion/react`); keep `sr-only` brand name for a11y; respect `reduceMotion`.
+   - Title uses `FlipFadeText` (`components/effects/flip-fade-text.tsx`, Vengeance UI–style, `motion/react`); keep `sr-only` brand name for a11y; respect `reduceMotion`.
    - Scroll chevron should scroll to the next section (`#menu`).
    - Optional Ken Burns only when reduced-motion is off.
 5. **Home “latest menu” vs full menu**

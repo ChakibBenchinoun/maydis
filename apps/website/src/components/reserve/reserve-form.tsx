@@ -83,12 +83,12 @@ export function ReserveForm() {
 
   if (sent) {
     return (
-      <div className="text-center py-10 px-4">
-        <div className="w-16 h-16 rounded-full bg-accent/15 flex items-center justify-center mx-auto mb-4">
-          <CheckCircle className="w-8 h-8 text-accent" />
+      <div className="px-4 py-10 text-center">
+        <div className="bg-accent/15 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+          <CheckCircle className="text-accent h-8 w-8" />
         </div>
-        <h3 className="font-display text-2xl font-bold text-foreground mb-2">Request received</h3>
-        <p className="text-muted-foreground text-sm leading-relaxed max-w-xs mx-auto">
+        <h3 className="font-display text-foreground mb-2 text-2xl font-bold">Request received</h3>
+        <p className="text-muted-foreground mx-auto max-w-xs text-sm leading-relaxed">
           We will confirm your table as soon as possible. For same-day bookings, call{" "}
           <a href={site.phoneHref} className="text-primary font-semibold hover:underline">
             {site.phone}
@@ -98,7 +98,7 @@ export function ReserveForm() {
         <button
           type="button"
           onClick={() => setSent(false)}
-          className="mt-6 text-sm text-primary hover:underline font-medium"
+          className="text-primary mt-6 text-sm font-medium hover:underline"
         >
           Make another request
         </button>
@@ -109,10 +109,8 @@ export function ReserveForm() {
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div>
-        <h3 className="font-display text-lg font-bold text-foreground mb-1">
-          Reservation form
-        </h3>
-        <p className="text-xs text-muted-foreground mb-4">
+        <h3 className="font-display text-foreground mb-1 text-lg font-bold">Reservation form</h3>
+        <p className="text-muted-foreground mb-4 text-xs">
           We will confirm by phone · {site.name}, Oran
         </p>
       </div>
@@ -228,7 +226,7 @@ export function ReserveForm() {
       </div>
 
       {error && (
-        <p className="text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-lg px-3 py-2">
+        <p className="text-destructive bg-destructive/10 border-destructive/20 rounded-lg border px-3 py-2 text-sm">
           {error}
         </p>
       )}
@@ -236,11 +234,11 @@ export function ReserveForm() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full py-3.5 bg-primary text-white font-bold uppercase tracking-wider text-sm hover:bg-primary/90 transition-colors rounded-lg shadow-sm disabled:opacity-60"
+        className="bg-primary hover:bg-primary/90 w-full rounded-lg py-3.5 text-sm font-bold tracking-wider text-white uppercase shadow-sm transition-colors disabled:opacity-60"
       >
         {loading ? "Sending…" : "Request reservation"}
       </button>
-      <p className="text-center text-xs text-muted-foreground">
+      <p className="text-muted-foreground text-center text-xs">
         Prefer to call?{" "}
         <a href={site.phoneHref} className="text-primary font-medium hover:underline">
           {site.phone}

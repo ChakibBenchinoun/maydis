@@ -20,18 +20,34 @@ Apply this whenever building or refactoring UI in the Maydis monorepo (and simil
 ## Target layout
 
 ```
-src/app/**/page.tsx          → compose sections only
-src/app/layout.tsx           → fonts, Navbar, Footer, global CSS
-src/components/<name>.tsx    → one section or UI concern each (kebab-case)
-src/data/*.ts                → typed static content (no React)
-src/lib/constants.ts         → site-wide config (name, phone, nav, social)
-src/lib/*.ts                 → fonts, scroll, utils
+src/app/**/page.tsx                    → compose sections only
+src/app/layout.tsx                     → fonts, Navbar, Footer, global CSS
+src/components/<domain>/<name>.tsx     → feature folders (kebab-case files)
+src/data/*.ts                          → typed static content (no React)
+src/lib/constants.ts                   → site-wide config (name, phone, nav, social)
+src/lib/*.ts                           → fonts, scroll, utils
 ```
+
+### Component domains
+
+| Folder | Examples |
+|--------|----------|
+| `layout/` | `navbar`, `footer` |
+| `hero/` | `hero` |
+| `menu/` | `latest-menu-section`, `menu-section`, grid, modal, carousels |
+| `gallery/`, `moments/`, `about/`, `visit/` | section files |
+| `reviews/` | section + `star-rating` |
+| `qr/` | section + `qr-code-svg` |
+| `reserve/` | `reserve-form` |
+| `effects/` | `flip-fade-text` and other motion widgets |
+| `ui/` | `section-label`, `section-divider` |
+
+Import: `@/components/menu/latest-menu-section` (not flat root).
 
 ## Steps when adding a section
 
 1. Put copy/lists in `src/data/` or `src/lib/constants.ts` if reused.
-2. Create `src/components/<section-name>.tsx` (e.g. `menu-section.tsx`).
+2. Create `src/components/<domain>/<section-name>.tsx` (e.g. `menu/menu-section.tsx`).
 3. Mark `"use client"` only if the section needs state, effects, or Motion.
 4. Import the section into the thin `page.tsx` (or layout if global chrome).
 5. Do **not** leave multi-section JSX inside a single page file.
@@ -50,7 +66,7 @@ src/lib/*.ts                 → fonts, scroll, utils
 | Put it here | When |
 |-------------|------|
 | `app/.../page.tsx` | Routing + composition only |
-| `components/` | JSX UI for a single concern |
+| `components/<domain>/` | JSX UI for a single concern, grouped by feature |
 | `data/` | Arrays/objects of content used by UI |
 | `lib/constants.ts` | Brand, nav links, contact, hours |
 | `lib/` | Fonts, helpers, non-UI logic |

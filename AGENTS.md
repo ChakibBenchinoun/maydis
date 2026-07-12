@@ -13,10 +13,25 @@ Conventions for coding agents working in this monorepo.
 ## Commands
 
 ```bash
-pnpm website:dev      # Next dev server
-pnpm website:build    # Production build
-pnpm typecheck        # Turbo typecheck
+pnpm website:dev           # Next dev server
+pnpm website:build         # Production build
+pnpm typecheck             # Turbo typecheck
+pnpm website:lint            # ESLint
+pnpm website:format          # Prettier: import order + Tailwind class sort
+pnpm website:format:check    # Prettier check only
+pnpm website:format:fix      # format then eslint --fix
 ```
+
+## Formatting & import order
+
+Config: `apps/website/prettier.config.mjs`
+
+| Concern | Tool |
+|---------|------|
+| **Import order** | `@ianvs/prettier-plugin-sort-imports` — types → react/next → packages → blank → `@/` → blank → relative |
+| **Tailwind classes** | `prettier-plugin-tailwindcss` (must be **last** plugin) — stylesheet `src/styles/tailwind.css` (v4) |
+
+Run `pnpm website:format`. Enable Prettier format-on-save in the editor for automatic class + import sorting.
 
 ## Project structure (`apps/website`)
 
@@ -29,19 +44,19 @@ src/
     page.tsx            # Home: ordered section components
     menu/page.tsx
     reserve/page.tsx
-  components/           # One concern per file (kebab-case)
-    navbar.tsx
-    footer.tsx
-    hero.tsx
-    latest-menu-section.tsx  # home: latest dishes only
-    menu-section.tsx         # /menu: full catalog
-    menu-item-modal.tsx
-    gallery-section.tsx
-    moments-section.tsx
-    about-section.tsx
-    reviews-section.tsx
-    visit-section.tsx
-    section-label.tsx   # Small shared UI pieces
+  components/           # Feature folders; kebab-case files
+    layout/             # navbar, footer
+    hero/
+    menu/               # latest + full menu, grid, modal, carousels
+    gallery/
+    moments/
+    about/
+    reviews/            # section + star-rating
+    visit/
+    qr/
+    reserve/
+    effects/            # flip-fade-text, other motion widgets
+    ui/                 # section-label, section-divider
     …
   data/                 # Static content / typed records (no React)
     menu.ts

@@ -17,7 +17,7 @@ export function MenuGrid({ items, categoryKey, onSelect }: MenuGridProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.28 }}
-      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6"
+      className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4"
     >
       {items.map((item, i) => (
         <motion.div
@@ -28,25 +28,25 @@ export function MenuGrid({ items, categoryKey, onSelect }: MenuGridProps) {
           className="group cursor-pointer"
           onClick={() => onSelect(item)}
         >
-          <div className="bg-card rounded-2xl overflow-hidden border border-border/50 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300">
-            <div className="overflow-hidden bg-secondary">
+          <div className="bg-card border-border/50 overflow-hidden rounded-2xl border shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl">
+            <div className="bg-secondary overflow-hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={item.image}
                 alt={item.name}
-                className="w-full object-cover aspect-video sm:aspect-square object-center transition-transform duration-500 group-hover:scale-110"
+                className="aspect-video w-full object-cover object-center transition-transform duration-500 group-hover:scale-110 sm:aspect-square"
               />
             </div>
             <div className="p-5">
-              <h3 className="font-display font-bold text-foreground leading-snug mb-1.5">
+              <h3 className="font-display text-foreground mb-1.5 leading-snug font-bold">
                 {item.name}
               </h3>
-              <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2 mb-4">
+              <p className="text-muted-foreground mb-4 line-clamp-2 text-sm leading-relaxed">
                 {item.description}
               </p>
               <div className="flex items-center justify-between">
-                <span className="font-bold text-primary">{item.price}</span>
-                <span className="text-xs text-muted-foreground/70 group-hover:text-primary transition-colors">
+                <span className="text-primary font-bold">{item.price}</span>
+                <span className="text-muted-foreground/70 group-hover:text-primary text-xs transition-colors">
                   View →
                 </span>
               </div>

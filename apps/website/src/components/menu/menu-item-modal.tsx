@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 
 import type { MenuItem } from "@/data/menu";
 
@@ -38,42 +38,42 @@ export function MenuItemModal({ item, onClose }: MenuItemModalProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.97 }}
             transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-            className="relative bg-card rounded-3xl overflow-hidden max-w-md w-full max-h-[min(90dvh,40rem)] overflow-y-auto shadow-2xl"
+            className="bg-card relative max-h-[min(90dvh,40rem)] w-full max-w-md overflow-hidden overflow-y-auto rounded-3xl shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="aspect-[4/3] bg-secondary">
+            <div className="bg-secondary aspect-[4/3]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+              <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
             </div>
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/35 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/55 transition-colors"
+              className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-sm transition-colors hover:bg-black/55"
               aria-label="Close"
             >
               <X size={17} />
             </button>
             <div className="p-7">
               {item.tags.length > 0 && (
-                <div className="flex flex-wrap gap-1.5 mb-3">
+                <div className="mb-3 flex flex-wrap gap-1.5">
                   {item.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-[9px] uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-accent/12 text-accent font-bold"
+                      className="bg-accent/12 text-accent rounded-full px-2.5 py-0.5 text-[9px] font-bold tracking-wider uppercase"
                     >
                       {tag}
                     </span>
                   ))}
                 </div>
               )}
-              <h3 className="font-display text-2xl font-bold text-foreground mb-3 leading-snug">
+              <h3 className="font-display text-foreground mb-3 text-2xl leading-snug font-bold">
                 {item.name}
               </h3>
-              <p className="text-muted-foreground text-sm leading-relaxed mb-7">{item.details}</p>
+              <p className="text-muted-foreground mb-7 text-sm leading-relaxed">{item.details}</p>
               <div className="flex items-center justify-between">
-                <span className="font-bold text-primary text-2xl">{item.price}</span>
+                <span className="text-primary text-2xl font-bold">{item.price}</span>
                 <button
                   onClick={onClose}
-                  className="bg-primary text-white px-6 py-2.5 rounded-full text-xs font-semibold tracking-wide uppercase hover:bg-amber-500 transition-colors"
+                  className="bg-primary rounded-full px-6 py-2.5 text-xs font-semibold tracking-wide text-white uppercase transition-colors hover:bg-amber-500"
                 >
                   Close
                 </button>

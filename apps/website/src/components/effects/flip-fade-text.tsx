@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState, useMemo, useCallback, memo } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 
 /** Minimal class merge (no clsx dependency). */
 function cn(...parts: Array<string | undefined | false | null>) {
@@ -92,7 +92,7 @@ const Word = memo(function Word({
   return (
     <motion.div
       className={cn(
-        "flex justify-center gap-[0.08em] text-4xl md:text-6xl font-bold uppercase tracking-wider",
+        "flex justify-center gap-[0.08em] text-4xl font-bold tracking-wider uppercase md:text-6xl",
         textClassName,
       )}
       initial="initial"
@@ -155,7 +155,7 @@ export function FlipFadeText({
       <div className={cn("flex items-center justify-center", className)}>
         <div
           className={cn(
-            "flex justify-center gap-[0.08em] text-4xl md:text-6xl font-bold uppercase tracking-wider",
+            "flex justify-center gap-[0.08em] text-4xl font-bold tracking-wider uppercase md:text-6xl",
             textClassName,
           )}
         >
@@ -171,10 +171,7 @@ export function FlipFadeText({
 
   return (
     <div className={cn("flex items-center justify-center", className)}>
-      <div
-        className="relative flex items-center justify-center"
-        style={{ perspective: "1000px" }}
-      >
+      <div className="relative flex items-center justify-center" style={{ perspective: "1000px" }}>
         <AnimatePresence mode="wait">
           <Word
             key={currentWord}

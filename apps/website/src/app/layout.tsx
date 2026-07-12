@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 
-import { Footer } from "@/components/footer";
-import { Navbar } from "@/components/navbar";
-import { fontDisplay, fontSans } from "@/lib/fonts";
+import { Footer } from "@/components/layout/footer";
+import { Navbar } from "@/components/layout/navbar";
 import { site } from "@/lib/constants";
+import { fontDisplay, fontSans } from "@/lib/fonts";
+
 import "@/styles/index.css";
 
 export const metadata: Metadata = {
@@ -21,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${fontSans.variable} ${fontDisplay.variable}`}>
-      <body className="min-h-screen antialiased bg-background text-foreground font-sans">
+      <body className="bg-background text-foreground min-h-screen font-sans antialiased">
         <Navbar />
         {children}
         <Footer />

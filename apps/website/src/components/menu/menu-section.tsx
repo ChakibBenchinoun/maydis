@@ -2,12 +2,12 @@
 
 import { useEffect, useMemo, useState } from "react";
 
+import { MenuCategoryTabs } from "@/components/menu/menu-category-tabs";
+import { MenuGrid } from "@/components/menu/menu-grid";
+import { MenuItemModal } from "@/components/menu/menu-item-modal";
+import { SectionDivider } from "@/components/ui/section-divider";
+import { SectionLabel } from "@/components/ui/section-label";
 import type { MenuItem } from "@/data/menu";
-import { MenuCategoryTabs } from "@/components/menu-category-tabs";
-import { MenuGrid } from "@/components/menu-grid";
-import { MenuItemModal } from "@/components/menu-item-modal";
-import { SectionDivider } from "@/components/section-divider";
-import { SectionLabel } from "@/components/section-label";
 import { categoriesFromItems } from "@/lib/menu";
 
 type MenuSectionProps = {
@@ -34,15 +34,15 @@ export function MenuSection({ items }: MenuSectionProps) {
 
   return (
     <>
-      <section className="py-10 md:py-14 px-6 md:px-10">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-14">
+      <section className="px-6 py-10 md:px-10 md:py-14">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-14 text-center">
             <SectionLabel>Scan · Sip · Enjoy</SectionLabel>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground">
+            <h2 className="font-display text-foreground text-4xl font-bold md:text-5xl">
               Full Menu
             </h2>
             <SectionDivider />
-            <p className="text-muted-foreground text-sm mt-5 max-w-xs mx-auto leading-relaxed">
+            <p className="text-muted-foreground mx-auto mt-5 max-w-xs text-sm leading-relaxed">
               Every dish, drink, and seasonal favourite — updated for your visit.
             </p>
           </div>
@@ -62,9 +62,7 @@ export function MenuSection({ items }: MenuSectionProps) {
               />
             </>
           ) : (
-            <p className="text-center text-sm text-muted-foreground py-8">
-              Menu coming soon.
-            </p>
+            <p className="text-muted-foreground py-8 text-center text-sm">Menu coming soon.</p>
           )}
         </div>
       </section>

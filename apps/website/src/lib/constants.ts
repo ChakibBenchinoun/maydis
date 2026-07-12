@@ -10,8 +10,7 @@ export const site = {
   addressLine2: "Oran, Algeria",
   mapsUrl:
     "https://www.google.com/maps/place/Maydi's/@35.7205944,-0.5985259,17z/data=!4m6!3m5!1s0xd7e63770f48b90f:0x5e16e7269ba85e4!8m2!3d35.7205944!4d-0.5985259!16s%2Fg%2F11gmt_vj5_",
-  mapEmbedUrl:
-    "https://www.google.com/maps?q=35.7205944,-0.5985259&z=17&output=embed",
+  mapEmbedUrl: "https://www.google.com/maps?q=35.7205944,-0.5985259&z=17&output=embed",
   guideUrl: "https://guide-oran.com/maydis-oran/",
   lat: 35.7205944,
   lng: -0.5985259,
