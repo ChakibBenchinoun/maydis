@@ -25,7 +25,7 @@ COPY src ./src
 ENV NODE_ENV=production
 ENV WHATSAPP_BOT_HOST=0.0.0.0
 ENV WHATSAPP_AUTH_DIR=/data/auth
-ENV PORT=3100
+# Do NOT hardcode PORT — Railway injects PORT; the public domain must target that same port.
 
 RUN mkdir -p /data/auth
 
