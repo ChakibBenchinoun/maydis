@@ -1,13 +1,14 @@
 import { Play } from "lucide-react";
 
+import { Container } from "@/components/ui/container";
 import { SectionDivider } from "@/components/ui/section-divider";
 import { SectionLabel } from "@/components/ui/section-label";
 import { momentVideos } from "@/lib/constants";
 
 export function MomentsSection() {
   return (
-    <section className="px-6 py-24 md:px-10">
-      <div className="mx-auto max-w-7xl">
+    <section className="py-24">
+      <Container>
         <div className="mb-14 text-center">
           <SectionLabel>Behind the scenes</SectionLabel>
           <h2 className="font-display text-foreground text-4xl font-bold md:text-5xl">
@@ -48,7 +49,7 @@ export function MomentsSection() {
             </div>
           ))}
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

@@ -1,5 +1,6 @@
 import { Instagram } from "lucide-react";
 
+import { Container } from "@/components/ui/container";
 import { SectionDivider } from "@/components/ui/section-divider";
 import { SectionLabel } from "@/components/ui/section-label";
 import { galleryPhotos } from "@/data/gallery";
@@ -9,8 +10,8 @@ const instagram = socialLinks[0];
 
 export function GallerySection() {
   return (
-    <section id="gallery" className="bg-secondary/45 px-6 py-24 md:px-10">
-      <div className="mx-auto max-w-7xl">
+    <section id="gallery" className="bg-secondary/45 py-24">
+      <Container>
         <div className="mb-14 text-center">
           <SectionLabel>Through the lens</SectionLabel>
           <h2 className="font-display text-foreground text-4xl font-bold md:text-5xl">Gallery</h2>
@@ -50,7 +51,7 @@ export function GallerySection() {
             Follow {instagram.handle}
           </a>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

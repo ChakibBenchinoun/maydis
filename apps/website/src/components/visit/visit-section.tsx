@@ -1,13 +1,14 @@
 import { Clock, Instagram, MapPin } from "lucide-react";
 
+import { Container } from "@/components/ui/container";
 import { SectionDivider } from "@/components/ui/section-divider";
 import { SectionLabel } from "@/components/ui/section-label";
 import { openingHours, site, socialLinks } from "@/lib/constants";
 
 export function VisitSection() {
   return (
-    <section id="visit" className="bg-secondary/45 px-6 py-24 md:px-10">
-      <div className="mx-auto max-w-7xl">
+    <section id="visit" className="bg-secondary/45 py-24">
+      <Container>
         <div className="mb-14 text-center">
           <SectionLabel>Come find us</SectionLabel>
           <h2 className="font-display text-foreground text-4xl font-bold md:text-5xl">
@@ -128,7 +129,7 @@ export function VisitSection() {
             title="Maydi's location in Oran, Algeria"
           />
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { MenuItemModal } from "@/components/menu/menu-item-modal";
 import { MenuScrollRow } from "@/components/menu/menu-scroll-row";
 import { MenuSwipeCarousel } from "@/components/menu/menu-swipe-carousel";
+import { Container } from "@/components/ui/container";
 import { SectionDivider } from "@/components/ui/section-divider";
 import { SectionLabel } from "@/components/ui/section-label";
 import type { MenuItem } from "@/data/menu";
@@ -26,8 +27,8 @@ export function LatestMenuSection({ items }: LatestMenuSectionProps) {
 
   return (
     <>
-      <section id="menu" className="px-6 py-24 md:px-10">
-        <div className="mx-auto max-w-7xl">
+      <section id="menu" className="py-24">
+        <Container>
           <div className="mb-14 text-center">
             <SectionLabel>{latestMenuCopy.label}</SectionLabel>
             <h2 className="font-display text-foreground text-4xl font-bold md:text-5xl">
@@ -60,7 +61,7 @@ export function LatestMenuSection({ items }: LatestMenuSectionProps) {
               {latestMenuCopy.cta}
             </Link>
           </div>
-        </div>
+        </Container>
       </section>
 
       <MenuItemModal item={selectedItem} onClose={() => setSelectedItem(null)} />

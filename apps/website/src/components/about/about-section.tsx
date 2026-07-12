@@ -1,9 +1,10 @@
+import { Container } from "@/components/ui/container";
 import { SectionLabel } from "@/components/ui/section-label";
 
 export function AboutSection() {
   return (
-    <section id="about" className="bg-secondary/45 px-6 py-24 md:px-10">
-      <div className="mx-auto max-w-7xl">
+    <section id="about" className="bg-secondary/45 py-24">
+      <Container>
         <div className="grid items-center gap-16 md:grid-cols-2 lg:gap-24">
           <div className="relative">
             <div className="bg-secondary aspect-[4/5] overflow-hidden rounded-3xl shadow-2xl">
@@ -49,7 +50,7 @@ export function AboutSection() {
             </p>
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

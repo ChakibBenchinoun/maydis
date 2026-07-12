@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { ReserveForm } from "@/components/reserve/reserve-form";
+import { Container } from "@/components/ui/container";
 import { openingHours, site } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -12,8 +13,8 @@ export const metadata: Metadata = {
 export default function ReservePage() {
   return (
     <main className="bg-background min-h-screen">
-      <div className="bg-secondary/60 border-border border-b px-6 pt-24 pb-10 md:px-10">
-        <div className="mx-auto max-w-7xl">
+      <div className="bg-secondary/60 border-border border-b pt-24 pb-10">
+        <Container>
           <Link
             href="/"
             className="text-muted-foreground hover:text-primary mb-6 inline-flex text-sm transition-colors"
@@ -29,10 +30,10 @@ export default function ReservePage() {
           <p className="text-muted-foreground mt-3 max-w-xl text-sm leading-relaxed">
             Tell us when you would like to visit. We confirm by phone as soon as we can.
           </p>
-        </div>
+        </Container>
       </div>
 
-      <div className="mx-auto max-w-7xl px-6 py-12 md:px-10 md:py-16">
+      <Container className="py-12 md:py-16">
         <div className="grid items-start gap-10 lg:grid-cols-[1fr_420px]">
           <div className="space-y-6">
             <div className="bg-card border-border/50 rounded-2xl border p-7 shadow-sm">
@@ -82,7 +83,7 @@ export default function ReservePage() {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </main>
   );
 }

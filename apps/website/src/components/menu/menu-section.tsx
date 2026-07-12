@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { MenuCategoryTabs } from "@/components/menu/menu-category-tabs";
 import { MenuGrid } from "@/components/menu/menu-grid";
 import { MenuItemModal } from "@/components/menu/menu-item-modal";
+import { Container } from "@/components/ui/container";
 import { SectionDivider } from "@/components/ui/section-divider";
 import { SectionLabel } from "@/components/ui/section-label";
 import type { MenuItem } from "@/data/menu";
@@ -34,8 +35,8 @@ export function MenuSection({ items }: MenuSectionProps) {
 
   return (
     <>
-      <section className="px-6 py-10 md:px-10 md:py-14">
-        <div className="mx-auto max-w-7xl">
+      <section className="py-10 md:py-14">
+        <Container>
           <div className="mb-14 text-center">
             <SectionLabel>Scan · Sip · Enjoy</SectionLabel>
             <h2 className="font-display text-foreground text-4xl font-bold md:text-5xl">
@@ -64,7 +65,7 @@ export function MenuSection({ items }: MenuSectionProps) {
           ) : (
             <p className="text-muted-foreground py-8 text-center text-sm">Menu coming soon.</p>
           )}
-        </div>
+        </Container>
       </section>
 
       <MenuItemModal item={selectedItem} onClose={() => setSelectedItem(null)} />

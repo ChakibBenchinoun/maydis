@@ -56,7 +56,7 @@ src/
     qr/
     reserve/
     effects/            # flip-fade-text, other motion widgets
-    ui/                 # section-label, section-divider
+    ui/                 # container, section-label, section-divider
     …
   data/                 # Static content / typed records (no React)
     menu.ts
@@ -69,6 +69,8 @@ src/
     scroll.ts
   styles/               # Design system CSS
 ```
+
+**Layout:** use `Container` (`@/components/ui/container`) for the same width as the navbar (`max-w-7xl` + horizontal padding). Sections put `py` / background on the outer element only.
 
 ## Coding workflow (required)
 

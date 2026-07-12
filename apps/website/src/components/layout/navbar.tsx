@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Instagram, Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
+import { Container } from "@/components/ui/container";
 import { homeNavLinks, pageLinks, site, socialLinks } from "@/lib/constants";
 import { images } from "@/lib/images";
 import { scrollToId } from "@/lib/scroll";
@@ -94,11 +95,12 @@ export function Navbar() {
               : "bg-transparent"
         }`}
       >
-        <motion.div
+        <Container
+          as={motion.div}
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, ease: easeOut }}
-          className={`mx-auto flex max-w-7xl items-center justify-between px-6 transition-[height] duration-500 md:px-10 ${
+          className={`flex items-center justify-between transition-[height] duration-500 ${
             solid ? "h-14" : "h-16"
           }`}
         >
@@ -195,7 +197,7 @@ export function Navbar() {
               )}
             </AnimatePresence>
           </button>
-        </motion.div>
+        </Container>
       </nav>
 
       {/* Outside <nav>: backdrop-filter on the bar traps fixed children and made this look transparent */}

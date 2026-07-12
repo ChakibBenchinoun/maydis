@@ -1,13 +1,14 @@
 import { Instagram } from "lucide-react";
 
+import { Container } from "@/components/ui/container";
 import { site, socialLinks } from "@/lib/constants";
 
 export function Footer() {
   const instagram = socialLinks[0];
 
   return (
-    <footer className="bg-foreground text-background px-6 pt-16 pb-10 md:px-10">
-      <div className="mx-auto max-w-7xl">
+    <footer className="bg-foreground text-background pt-16 pb-10">
+      <Container>
         <div className="mb-12 flex flex-col items-start justify-between gap-10 md:flex-row md:items-end">
           <div>
             <h2 className="font-display text-primary mb-3 text-3xl font-bold tracking-[0.16em]">
@@ -55,7 +56,7 @@ export function Footer() {
           </p>
           <p className="text-background/30 text-xs">Made with warmth in Oran, Algeria</p>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

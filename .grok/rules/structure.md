@@ -28,9 +28,17 @@ When editing `apps/website`:
 | `qr/` | QR section + QR SVG |
 | `reserve/` | Reservation form |
 | `effects/` | Reusable motion/text effects (e.g. FlipFadeText) |
-| `ui/` | Shared primitives (section label, divider) |
+| `ui/` | Shared primitives (`container`, section label, divider) |
 
 Import as `@/components/<domain>/<file>` (no flat root component files for features).
+
+## Layout container
+
+- Shared width lives in `components/ui/container.tsx` — same as navbar: `max-w-7xl` + `px-6 md:px-10`.
+- Sections keep vertical padding / background on `<section>`; wrap content in `<Container>`.
+- Navbar / footer use `Container` for the same horizontal bounds.
+- Full-bleed blocks (hero image, mobile menu overlay) stay outside `Container`.
+
 
 ## Formatting (always on)
 

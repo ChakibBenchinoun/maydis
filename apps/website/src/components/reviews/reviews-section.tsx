@@ -4,14 +4,15 @@ import { Quote } from "lucide-react";
 import { motion } from "motion/react";
 
 import { StarRating } from "@/components/reviews/star-rating";
+import { Container } from "@/components/ui/container";
 import { SectionDivider } from "@/components/ui/section-divider";
 import { SectionLabel } from "@/components/ui/section-label";
 import { reviews } from "@/data/reviews";
 
 export function ReviewsSection() {
   return (
-    <section className="px-6 py-24 md:px-10">
-      <div className="mx-auto max-w-7xl">
+    <section className="py-24">
+      <Container>
         <div className="mb-14 text-center">
           <SectionLabel>What our guests say</SectionLabel>
           <h2 className="font-display text-foreground text-4xl font-bold md:text-5xl">
@@ -47,7 +48,7 @@ export function ReviewsSection() {
             </motion.div>
           ))}
         </div>
-      </div>
+      </Container>
     </section>
   );
 }
