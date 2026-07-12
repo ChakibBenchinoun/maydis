@@ -80,6 +80,17 @@ Import: `@/components/menu/latest-menu-section` (not a flat root).
 - Prettier: import sort (`@ianvs/prettier-plugin-sort-imports`) + Tailwind class order (`prettier-plugin-tailwindcss` last).
 - `pnpm website:format`
 
+## Extract only when repeated
+
+Do **not** create a component for static JSX used once. Extract when:
+
+- Pattern appears **2+ times**, or
+- It is a design-system primitive, or
+- It is non-trivial interactive and would bloat the parent
+
+Inline single-use static helpers; delete dead/unused files and thin re-exports.  
+See skill **`extract-when-repeated`** and `.grok/rules/structure.md`.
+
 ## Anti-patterns
 
 - Monolithic `page.tsx`
@@ -88,3 +99,5 @@ Import: `@/components/menu/latest-menu-section` (not a flat root).
 - Nesting full-viewport fixed menus inside blurred sticky headers
 - Duplicating marquee logic outside `effects/`
 - Reintroducing a Moments section when videos belong in gallery
+- One-off static markup forced into its own file “for cleanliness”
+- Duplicate primitives (e.g. Eyebrow + SectionLabel with the same styles)

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
+import { PageHeader } from "@/components/layout/page-header";
 import { ReserveForm } from "@/components/reserve/reserve-form";
 import { Container } from "@/components/ui/container";
 import { openingHours, site } from "@/lib/constants";
@@ -13,26 +13,12 @@ export const metadata: Metadata = {
 export default function ReservePage() {
   return (
     <main className="bg-background min-h-screen">
-      <div className="bg-secondary/60 border-border border-b pt-24 pb-10">
-        <Container>
-          <Link
-            href="/"
-            className="text-muted-foreground hover:text-primary mb-6 inline-flex text-sm transition-colors"
-          >
-            ← Back to {site.name}
-          </Link>
-          <p className="text-accent mb-3 text-[10px] font-bold tracking-[0.35em] uppercase">
-            Events
-          </p>
-          <h1 className="font-display text-foreground text-4xl font-bold md:text-5xl">
-            Reserve for an event
-          </h1>
-          <p className="text-muted-foreground mt-3 max-w-xl text-sm leading-relaxed">
-            Birthdays, gatherings, and private moments at {site.name}. Tell us your date and we
-            will confirm by phone.
-          </p>
-        </Container>
-      </div>
+      <PageHeader
+        eyebrow="Events"
+        title="Reserve for an event"
+        description={`Birthdays, gatherings, and private moments at ${site.name}. Tell us your date and we will confirm by phone.`}
+        descriptionClassName="max-w-xl"
+      />
 
       <Container className="py-12 md:py-16">
         <div className="grid min-w-0 items-start gap-10 lg:grid-cols-[1fr_420px]">

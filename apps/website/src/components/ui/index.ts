@@ -12,4 +12,4 @@ export { SectionDivider } from "./section-divider";
 export { SectionLabel } from "./section-label";
 export { Section, sectionHeaderClass, sectionPaddingClass, type SectionTone } from "./section";
 export { SocialIcon } from "./social-icon";
-export { Eyebrow, Heading, Paragraph, type HeadingSize, type ParagraphSize } from "./typography";
+export { Heading, Paragraph, type HeadingSize, type ParagraphSize } from "./typography";

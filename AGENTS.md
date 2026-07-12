@@ -45,12 +45,12 @@ src/
     menu/page.tsx
     reserve/page.tsx
   components/           # Feature folders; kebab-case files
-    layout/             # navbar, footer
+    layout/             # navbar, footer, page-header, hash-scroll
     hero/
     menu/               # latest + full menu, grid, modal, carousels
     gallery/            # photos + videos, marquee, lightbox modal
     about/
-    reviews/            # section + star-rating
+    reviews/
     visit/
     qr/
     reserve/
@@ -81,6 +81,7 @@ src/
 6. **Same visuals** — when refactoring, preserve classNames and Motion props; do not redesign.
 7. **Files** — kebab-case filenames; named exports for components.
 8. **No mega-files** — if a component grows past ~200 lines or owns multiple sections, split it.
+9. **Extract only when repeated** — do not create a component for one-off static JSX. Extract at **2+** uses, for design-system primitives, or for non-trivial interactive units. Inline single-use static helpers; delete dead files.
 
 ## Design fidelity
 
@@ -105,8 +106,9 @@ src/
 | Skill | Scope | Use for |
 |-------|--------|---------|
 | `component-structure` | project (+ global if installed) | Thin pages, section components, chrome/UI polish |
+| `extract-when-repeated` | project + global | Extract only on repeat / primitives / non-trivial UI; scan dead wrappers |
 | `supabase-clean-setup` | project + global | Clean Supabase/bootstrap/env |
 
 Always-on rules: `.grok/rules/structure.md`, `database.md`, `ui-polish.md`.
 
-Invoke: `/supabase-clean-setup` or describe “set up Supabase cleanly”.
+Invoke: `/extract-when-repeated`, `/supabase-clean-setup`, or describe the task.

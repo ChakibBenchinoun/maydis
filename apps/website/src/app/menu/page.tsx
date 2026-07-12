@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { MenuPageHeader } from "@/components/menu/menu-page-header";
+import { PageHeader } from "@/components/layout/page-header";
 import { MenuSection } from "@/components/menu/menu-section";
 import { site } from "@/lib/constants";
 import { getMenuItems } from "@/lib/menu";
@@ -18,7 +18,11 @@ export default async function MenuPage() {
 
   return (
     <main className="bg-background min-h-screen">
-      <MenuPageHeader />
+      <PageHeader
+        eyebrow="QR · Table side"
+        title="Notre Carte"
+        description="Browse by category, tap a dish for the full story. Prices in DA."
+      />
       <MenuSection items={items} />
     </main>
   );

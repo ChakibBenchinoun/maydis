@@ -1,4 +1,4 @@
-import type { ElementType, HTMLAttributes, ReactNode } from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
 import { cn } from "@/lib/cn";
 
@@ -67,29 +67,5 @@ export function Paragraph({
     >
       {children}
     </p>
-  );
-}
-
-/** Uppercase accent kicker — same role as SectionLabel. */
-export function Eyebrow({
-  as: Tag = "p",
-  className,
-  children,
-  ...props
-}: {
-  as?: ElementType;
-  className?: string;
-  children?: ReactNode;
-} & HTMLAttributes<HTMLElement>) {
-  return (
-    <Tag
-      className={cn(
-        "text-accent mb-3 text-[10px] font-bold tracking-[0.35em] uppercase",
-        className,
-      )}
-      {...props}
-    >
-      {children}
-    </Tag>
   );
 }

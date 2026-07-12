@@ -13,18 +13,31 @@ When editing `apps/website`:
 9. Motion: reuse ease `[0.22, 1, 0.36, 1]`; respect `prefers-reduced-motion` for Ken Burns / loops.
 10. Nav hierarchy: section anchors + secondary links as text; **Reserve** as primary pill CTA; Instagram icon-only on desktop when space is tight.
 
+## Extract only when repeated (or non-trivial)
+
+**Do not** create a new component for static JSX used in **one** place.
+
+| Extract when | Leave inline when |
+|--------------|-------------------|
+| Same markup/pattern appears **2+ times** | Used once and is static/simple |
+| Shared design-system primitive (Button, Link, Container, SectionLabel, …) | Tiny helper only one parent needs (e.g. stars in one review card) |
+| Non-trivial interactive unit that would bloat a parent (~80+ lines / own state) | Thin re-export / alias of another module |
+| Page chrome shared by multiple routes (e.g. `PageHeader`) | Dead code, placeholders no longer imported |
+
+Delete unused files; prefer deleting deprecated re-exports over keeping “compat” shims.
+
 ## Component domains (`src/components/`)
 
 | Folder | Put here |
 |--------|----------|
-| `layout/` | Navbar, Footer (global chrome) |
+| `layout/` | Navbar, Footer, PageHeader, HashScroll |
 | `hero/` | Home hero |
 | `menu/` | Latest + full menu, cards, modal, carousel |
 | `gallery/` | Gallery section, marquee, item modal (photos + videos). **No `moments/`.** |
 | `about/` | About / story section |
-| `reviews/` | Reviews section + star rating |
+| `reviews/` | Reviews section |
 | `visit/` | Visit / contact section |
-| `qr/` | QR section + QR SVG |
+| `qr/` | QR section |
 | `reserve/` | Reservation form |
 | `effects/` | Motion primitives: `marquee`, `use-marquee`, `flip-fade-text` |
 | `ui/` | Design system: `button`, `link`, `image`, `typography`, `container`, section label/divider |
@@ -55,7 +68,7 @@ Prefer these over one-off Tailwind on CTAs and copy:
 | `Button` | Native buttons / form actions |
 | `Link` | Internal (`next/link`) or `external` anchors; same variants as Button |
 | `Image` | `next/image` or `mode="native"` for plain img |
-| `Heading` / `Paragraph` / `Eyebrow` | Section titles and body copy |
+| `Heading` / `Paragraph` / `SectionLabel` | Section titles, body copy, accent kickers |
 | `Container` | Page width aligned to navbar |
 
 Button/Link sizes are **mobile-compact** by default (`text-[10px]` + tighter padding → larger from `sm`).

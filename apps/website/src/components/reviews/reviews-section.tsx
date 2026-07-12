@@ -1,9 +1,8 @@
 "use client";
 
-import { Quote } from "lucide-react";
+import { Quote, Star } from "lucide-react";
 import { motion } from "motion/react";
 
-import { StarRating } from "@/components/reviews/star-rating";
 import {
   Container,
   Section,
@@ -36,7 +35,11 @@ export function ReviewsSection() {
               className="bg-card border-border/50 relative rounded-2xl border p-8 shadow-sm transition-shadow duration-300 hover:shadow-md"
             >
               <Quote size={28} className="text-primary/20 mb-4" fill="currentColor" />
-              <StarRating count={review.rating} />
+              <div className="flex gap-0.5" aria-label={`${review.rating} out of 5 stars`}>
+                {Array.from({ length: review.rating }).map((_, star) => (
+                  <Star key={star} size={13} className="text-primary fill-primary" />
+                ))}
+              </div>
               <p className="text-foreground/80 mt-4 mb-6 text-sm leading-relaxed italic">
                 &ldquo;{review.text}&rdquo;
               </p>
