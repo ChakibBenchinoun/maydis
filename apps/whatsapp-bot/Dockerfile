@@ -1,24 +1,32 @@
-# Production image for the free Baileys WhatsApp bridge
+# Build context = apps/whatsapp-bot (Railway Root Directory)
 FROM node:22-bookworm-slim
+
+# ca-certificates for HTTPS; build tools for optional native deps
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    python3 \
+    make \
+    g++ \
+  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# pnpm via corepack
-RUN corepack enable
-
 COPY package.json ./
-RUN npm install --omit=dev
+
+# Fresh install inside the image (no monorepo lockfile required)
+RUN npm install --omit=dev --no-audit --no-fund \
+  && npm cache clean --force
 
 COPY src ./src
 
-# Persist WhatsApp session across restarts (mount a volume at /data)
-ENV WHATSAPP_AUTH_DIR=/data/auth
 ENV NODE_ENV=production
-ENV PORT=3100
 ENV WHATSAPP_BOT_HOST=0.0.0.0
+ENV WHATSAPP_AUTH_DIR=/data/auth
+# Railway sets PORT at runtime; keep a default for local docker runs
+ENV PORT=3100
 
 RUN mkdir -p /data/auth
-VOLUME ["/data"]
 
 EXPOSE 3100
 
