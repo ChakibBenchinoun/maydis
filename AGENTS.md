@@ -48,8 +48,7 @@ src/
     layout/             # navbar, footer
     hero/
     menu/               # latest + full menu, grid, modal, carousels
-    gallery/
-    moments/
+    gallery/            # photos + videos, marquee, lightbox modal
     about/
     reviews/            # section + star-rating
     visit/

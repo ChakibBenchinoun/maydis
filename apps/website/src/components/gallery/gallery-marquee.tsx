@@ -1,14 +1,14 @@
 "use client";
 
 import { useMemo } from "react";
+import { Play } from "lucide-react";
 
 import { Marquee } from "@/components/effects/marquee";
-import type { galleryPhotos } from "@/data/gallery";
-
-type GalleryPhoto = (typeof galleryPhotos)[number];
+import type { GalleryItem } from "@/data/gallery";
 
 type GalleryMarqueeProps = {
-  photos: readonly GalleryPhoto[];
+  items: readonly GalleryItem[];
+  onSelect: (item: GalleryItem) => void;
   /** Base autoplay speed px/s. Default 28. Bottom row is slightly slower. */
   speed?: number;
   className?: string;
@@ -23,55 +23,74 @@ const TILE_WIDTHS = [
 ] as const;
 
 function GalleryTile({
-  photo,
+  item,
   index,
-  keyPrefix,
+  onSelect,
 }: {
-  photo: GalleryPhoto;
+  item: GalleryItem;
   index: number;
-  keyPrefix: string;
+  onSelect: (item: GalleryItem) => void;
 }) {
   return (
-    <div
-      key={`${keyPrefix}-${photo.url}-${index}`}
+    <button
+      type="button"
+      onClick={() => onSelect(item)}
       className={[
-        "bg-secondary relative h-[11.5rem] shrink-0 overflow-hidden rounded-2xl shadow-sm sm:h-[15rem] lg:h-[18rem]",
+        "bg-secondary group focus-visible:ring-primary relative h-[11.5rem] shrink-0 cursor-pointer overflow-hidden rounded-2xl shadow-sm transition-shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none sm:h-[15rem] lg:h-[18rem]",
         TILE_WIDTHS[index % TILE_WIDTHS.length],
       ].join(" ")}
+      aria-label={item.title ?? item.alt}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={photo.url}
-        alt={photo.alt}
-        className="h-full w-full object-cover"
+        src={item.image}
+        alt={item.alt}
+        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         loading="lazy"
         draggable={false}
       />
-    </div>
+      {item.type === "video" ? (
+        <>
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 shadow-lg transition-transform duration-200 group-hover:scale-110 sm:h-14 sm:w-14">
+              <Play size={18} className="text-primary ml-0.5" fill="currentColor" />
+            </div>
+          </div>
+          {item.episode ? (
+            <p className="absolute right-2 bottom-2 left-2 truncate text-left text-[9px] font-bold tracking-wider text-white uppercase opacity-90 sm:text-[10px]">
+              {item.episode}
+            </p>
+          ) : null}
+        </>
+      ) : null}
+    </button>
   );
 }
 
 /**
- * Two non-interactive gallery rows — opposite auto-scroll directions.
- * Animation: `@/components/effects/marquee` (`direction="left" | "right"`).
+ * Two gallery rows — opposite auto-scroll; tiles open the lightbox on click.
+ * Animation: `@/components/effects/marquee` (no wheel/drag pan).
  */
-export function GalleryMarquee({ photos, speed = 28, className = "" }: GalleryMarqueeProps) {
+export function GalleryMarquee({
+  items,
+  onSelect,
+  speed = 28,
+  className = "",
+}: GalleryMarqueeProps) {
   const { topRow, bottomRow } = useMemo(() => {
-    if (photos.length === 0)
-      return { topRow: [] as GalleryPhoto[], bottomRow: [] as GalleryPhoto[] };
-    const mid = Math.ceil(photos.length / 2);
+    if (items.length === 0) return { topRow: [] as GalleryItem[], bottomRow: [] as GalleryItem[] };
+    const mid = Math.ceil(items.length / 2);
     return {
-      topRow: photos.slice(0, mid) as GalleryPhoto[],
-      // Reverse bottom set so the two strips feel distinct
-      bottomRow: [...photos.slice(mid)].reverse() as GalleryPhoto[],
+      topRow: items.slice(0, mid) as GalleryItem[],
+      bottomRow: [...items.slice(mid)].reverse() as GalleryItem[],
     };
-  }, [photos]);
+  }, [items]);
 
-  if (photos.length === 0) return null;
+  if (items.length === 0) return null;
 
-  // If very few photos, still fill both rows (reuse full set)
-  const top = topRow.length > 0 ? topRow : (photos as GalleryPhoto[]);
-  const bottom = bottomRow.length > 0 ? bottomRow : ([...photos].reverse() as GalleryPhoto[]);
+  const top = topRow.length > 0 ? topRow : (items as GalleryItem[]);
+  const bottom = bottomRow.length > 0 ? bottomRow : ([...items].reverse() as GalleryItem[]);
 
   return (
     <div className={`flex flex-col gap-3 sm:gap-4 md:gap-5 ${className}`.trim()}>
@@ -80,11 +99,11 @@ export function GalleryMarquee({ photos, speed = 28, className = "" }: GalleryMa
         interactive={false}
         direction="left"
         speed={speed}
-        resetKey={`gallery-top-${top.length}`}
+        resetKey={`gallery-top-${top.map((i) => i.id).join("-")}`}
         trackClassName="gap-3 px-1 sm:gap-4 md:gap-5"
       >
-        {top.map((photo, i) => (
-          <GalleryTile key={`top-${photo.url}-${i}`} photo={photo} index={i} keyPrefix="top" />
+        {top.map((item, i) => (
+          <GalleryTile key={`top-${item.id}`} item={item} index={i} onSelect={onSelect} />
         ))}
       </Marquee>
 
@@ -93,16 +112,11 @@ export function GalleryMarquee({ photos, speed = 28, className = "" }: GalleryMa
         interactive={false}
         direction="right"
         speed={speed * 0.85}
-        resetKey={`gallery-bottom-${bottom.length}`}
+        resetKey={`gallery-bottom-${bottom.map((i) => i.id).join("-")}`}
         trackClassName="gap-3 px-1 sm:gap-4 md:gap-5"
       >
-        {bottom.map((photo, i) => (
-          <GalleryTile
-            key={`bottom-${photo.url}-${i}`}
-            photo={photo}
-            index={i + 1}
-            keyPrefix="bottom"
-          />
+        {bottom.map((item, i) => (
+          <GalleryTile key={`bottom-${item.id}`} item={item} index={i + 1} onSelect={onSelect} />
         ))}
       </Marquee>
     </div>

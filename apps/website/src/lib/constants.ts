@@ -63,17 +63,4 @@ export const openingHours = [
   { day: "Sunday", hours: "10:00 – 20:00" },
 ] as const;
 
-export const momentVideos = [
-  {
-    episode: "Episode 01",
-    title: "A Morning at Maydi's",
-    image: "/images/gallery-05.jpg",
-    alt: "A morning at Maydi's",
-  },
-  {
-    episode: "Episode 02",
-    title: "The Space We Love",
-    image: "/images/gallery-06.jpg",
-    alt: "The space we love",
-  },
-] as const;
+/** Moments live in `data/gallery.ts` as `type: "video"` items (gallery section). */

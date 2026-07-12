@@ -10,18 +10,21 @@ When refining design / motion in `apps/website` (nav, hero, sections):
    - Do not nest `fixed inset-0` panels inside elements with `backdrop-filter` / blur.
 4. **Hero**
    - Staggered entrance; primary + secondary CTAs; demote tertiary actions (e.g. Instagram) under buttons.
-   - Title uses `FlipFadeText` (`components/effects/flip-fade-text.tsx`, Vengeance UI–style, `motion/react`); keep `sr-only` brand name for a11y; respect `reduceMotion`.
-   - Scroll chevron should scroll to the next section (`#menu`).
-   - Optional Ken Burns only when reduced-motion is off.
+   - Title uses `FlipFadeText` (`components/effects/flip-fade-text.tsx`); **size box locked to all words** (grid sizers) so production webfonts don’t shift layout; `sr-only` brand; `reduceMotion`.
+   - Content wrapped in `Container` (full-bleed bg stays outside).
+   - Scroll chevron → `#menu`. Optional Ken Burns only when reduced-motion is off.
+   - CTAs via `Button` / `Link` (mobile-compact sizes).
 5. **Home “latest menu” vs full menu**
    - Home: `LatestMenuSection` + `pickLatestMenuItems()` — no category tabs; showcase only.
    - Below `lg`: `MenuSwipeCarousel` · `lg+`: `MenuScrollRow` (uses shared `effects/marquee`, interactive).
    - `/menu`: `MenuSection` — all categories + `MenuGrid`.
    - Copy in `lib/constants.ts` (`latestMenuCopy`); limit in `lib/menu.ts` (`LATEST_MENU_LIMIT`).
    - Attribution comment required for free Skiper components.
-5b. **Gallery marquee**
-   - `GalleryMarquee` → `effects/marquee` with `interactive={false}` (auto only, no wheel/drag).
-   - Shared animation lives under `components/effects/` — not duplicated in feature folders.
+5b. **Gallery**
+   - No separate Moments section — videos live in `data/gallery.ts` as `type: "video"`.
+   - `GalleryMarquee` → dual rows via `effects/marquee` (`interactive={false}` for pan; tiles still clickable).
+   - Click tile → `GalleryItemModal` (same lightbox pattern as menu modal).
+   - Shared animation under `components/effects/`.
 5c. **Marquee primitive** (`components/effects/marquee.tsx` + `use-marquee.ts`)
    - GPU `translate3d`; in-view autoplay; optional interactive pan.
 

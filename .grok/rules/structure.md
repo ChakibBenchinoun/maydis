@@ -20,8 +20,7 @@ When editing `apps/website`:
 | `layout/` | Navbar, Footer (global chrome) |
 | `hero/` | Home hero |
 | `menu/` | Latest + full menu, cards, modal, carousel |
-| `gallery/` | Gallery section |
-| `moments/` | Moments section |
+| `gallery/` | Gallery section, marquee, item modal (photos + videos). **No `moments/`.** |
 | `about/` | About / story section |
 | `reviews/` | Reviews section + star rating |
 | `visit/` | Visit / contact section |

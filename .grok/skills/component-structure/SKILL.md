@@ -2,9 +2,8 @@
 name: component-structure
 description: >
   Extract and organize React/Next.js UI into thin pages, section components, data modules,
-  and lib helpers (beauty-salon style). Use when refactoring, extracting components,
-  structuring a new page/section, cleaning a monolithic App/page file, or when the user
-  mentions component structure, composition, or /component-structure.
+  and lib helpers (beauty-salon / Maydis style). Use when refactoring, extracting components,
+  structuring a new page/section, cleaning a monolithic App/page file, or /component-structure.
 ---
 
 # Component structure workflow
@@ -13,7 +12,7 @@ Apply this whenever building or refactoring UI in the Maydis monorepo (and simil
 
 ## Goals
 
-- Same behavior and visuals
+- Same behavior and visuals (unless the task is a redesign)
 - Thin routes, extracted sections, reusable primitives
 - Clear split: **app (compose)** · **components (UI)** · **data (content)** · **lib (helpers)**
 
@@ -24,79 +23,68 @@ src/app/**/page.tsx                    → compose sections only
 src/app/layout.tsx                     → fonts, Navbar, Footer, global CSS
 src/components/<domain>/<name>.tsx     → feature folders (kebab-case files)
 src/data/*.ts                          → typed static content (no React)
-src/lib/constants.ts                   → site-wide config (name, phone, nav, social)
-src/lib/*.ts                           → fonts, scroll, utils
+src/lib/constants.ts                   → site-wide config + section copy
+src/lib/*.ts                           → fonts, scroll, menu helpers, cn
 ```
 
-### Component domains
+### Component domains (Maydis)
 
 | Folder | Examples |
 |--------|----------|
 | `layout/` | `navbar`, `footer` |
 | `hero/` | `hero` |
-| `menu/` | `latest-menu-section`, `menu-section`, grid, modal, carousels |
-| `gallery/`, `moments/`, `about/`, `visit/` | section files |
-| `reviews/` | section + `star-rating` |
-| `qr/` | section + `qr-code-svg` |
-| `reserve/` | `reserve-form` |
-| `effects/` | `flip-fade-text` and other motion widgets |
-| `ui/` | `section-label`, `section-divider` |
+| `menu/` | latest + full menu, grid, card, modal, swipe carousel, scroll row |
+| `gallery/` | section, marquee, item modal — **photos + videos** (no Moments section) |
+| `about/`, `reviews/`, `visit/`, `qr/`, `reserve/` | feature sections |
+| `effects/` | `marquee`, `use-marquee`, `flip-fade-text` |
+| `ui/` | `button`, `link`, `image`, `typography`, `container`, section label/divider |
 
-Import: `@/components/menu/latest-menu-section` (not flat root).
+Import: `@/components/menu/latest-menu-section` (not a flat root).
 
 ## Steps when adding a section
 
 1. Put copy/lists in `src/data/` or `src/lib/constants.ts` if reused.
-2. Create `src/components/<domain>/<section-name>.tsx` (e.g. `menu/menu-section.tsx`).
+2. Create `src/components/<domain>/<section-name>.tsx`.
 3. Mark `"use client"` only if the section needs state, effects, or Motion.
-4. Import the section into the thin `page.tsx` (or layout if global chrome).
-5. Do **not** leave multi-section JSX inside a single page file.
+4. Import into thin `page.tsx` (or layout if global chrome).
+5. Prefer `Button` / `Link` / `Heading` / `Paragraph` / `Container` from `@/components/ui`.
 
-## Steps when refactoring a monolith
+## UI kit (required for CTAs)
 
-1. Identify sections (hero, menu, gallery, footer, …) and shared primitives.
-2. Extract data first (`data/`, `lib/constants.ts`).
-3. Extract pure presentational pieces (labels, ratings, cards).
-4. Extract stateful sections (menu tabs + modal, sticky nav).
-5. Replace the monolith with a page that only composes imports.
-6. Run `pnpm website:build` and confirm visuals/interactions unchanged.
+- **Button** / **Link** — shared variants; **mobile-compact** sizes by default.
+- **Link** supports `external` for off-site URLs.
+- **Image** — Next Image or `mode="native"`.
+- **Typography** — `Heading`, `Paragraph`, `Eyebrow`.
+- **Container** — `max-w-7xl` + `px-6 md:px-10` (same as navbar).
 
-## Rules of thumb
+## Motion primitives (`effects/`)
 
-| Put it here | When |
-|-------------|------|
-| `app/.../page.tsx` | Routing + composition only |
-| `components/<domain>/` | JSX UI for a single concern, grouped by feature |
-| `data/` | Arrays/objects of content used by UI |
-| `lib/constants.ts` | Brand, nav links, contact, hours |
-| `lib/` | Fonts, helpers, non-UI logic |
+| Primitive | Use |
+|-----------|-----|
+| `Marquee` + `useMarquee` | Horizontal GPU strip; `interactive` for wheel/drag; `direction` left/right |
+| `FlipFadeText` | Cycling title; **grid-size all words** so block size never jumps (prod fonts) |
 
-- Prefer **named exports**.
-- File names: **kebab-case**.
-- Preserve Tailwind classNames and Motion animation props during extraction.
-- Avoid porting unused UI kits “just in case”.
+- Gallery dual rows: two `Marquee`s, opposite `direction`, `interactive={false}` but tiles still clickable.
+- Menu large-screen row: `Marquee` with `interactive`.
+- Ease of record: `[0.22, 1, 0.36, 1]`.
 
-## Chrome & UI polish (navbar / hero / overlays)
+## Product patterns (Maydis)
 
-When elevating design (not just extracting structure):
+1. **Home menu** — `LatestMenuSection` + `pickLatestMenuItems()`; no category tabs.
+2. **Full menu** — `/menu` only: `MenuSection` + tabs + grid.
+3. **Gallery** — photos + videos in `data/gallery.ts`; lightbox `GalleryItemModal` (like menu modal). **No Moments section.**
+4. Always-on rules: `.grok/rules/structure.md`, `ui-polish.md`, `database.md`.
 
-1. **Assets** — use `lib/images.ts` for logo/hero paths.
-2. **Nav hierarchy** — section links as text; primary action (Reserve) as a pill CTA; Instagram icon-only on desktop.
-3. **Full-page mobile menu**
-   - Render the overlay as a **sibling** of the sticky header (`<>…</>`), not as a child of a bar with `backdrop-blur` / `backdrop-filter`.
-   - Those CSS properties create a containing block; nested `fixed inset-0` then fails and the panel looks transparent.
-   - Opaque fill: `style={{ backgroundColor: "var(--background)" }}` (or solid `bg-background` without alpha).
-   - Body scroll lock while open; Escape + route change close the menu.
-   - Menu / X toggle: cross-fade with `AnimatePresence mode="wait"`.
-4. **Hero motion** — stagger label → title → body → CTAs; respect `prefers-reduced-motion` for loops/Ken Burns.
-5. **Motion ease** — prefer `[0.22, 1, 0.36, 1]` site-wide for consistency.
-6. **Home menu vs full menu** — `LatestMenuSection` (latest dishes, no tabs) on home; `MenuSection` (categories + grid) only on `/menu`. Select via `pickLatestMenuItems` in `lib/menu.ts`.
-7. See always-on rule: `.grok/rules/ui-polish.md`.
+## Formatting
+
+- Prettier: import sort (`@ianvs/prettier-plugin-sort-imports`) + Tailwind class order (`prettier-plugin-tailwindcss` last).
+- `pnpm website:format`
 
 ## Anti-patterns
 
-- 500+ line `page.tsx` / `home-page.tsx` with every section inline
-- Hardcoding site phone/address in multiple components instead of `lib/constants.ts`
-- `"use client"` on a file that only renders static markup
-- Mixing fetch/business logic inside presentational section components without a `lib/` boundary
+- Monolithic `page.tsx`
+- Hardcoding phone/address outside `lib/constants.ts`
+- `"use client"` on static-only files
 - Nesting full-viewport fixed menus inside blurred sticky headers
+- Duplicating marquee logic outside `effects/`
+- Reintroducing a Moments section when videos belong in gallery

@@ -121,11 +121,11 @@ export function Marquee({
       ref={rootRef}
       className={[
         "overflow-hidden",
-        interactive ? "cursor-grab active:cursor-grabbing" : "pointer-events-none select-none",
+        // Non-interactive = no drag cursor, but children can still receive clicks (gallery lightbox)
+        interactive ? "cursor-grab active:cursor-grabbing" : "select-none",
         className,
       ].join(" ")}
       style={interactive ? { touchAction: "pan-y" } : undefined}
-      aria-hidden={!interactive ? true : undefined}
     >
       <div
         ref={trackRef as React.RefObject<HTMLDivElement>}

@@ -2,7 +2,6 @@ import { AboutSection } from "@/components/about/about-section";
 import { GallerySection } from "@/components/gallery/gallery-section";
 import { Hero } from "@/components/hero/hero";
 import { LatestMenuSection } from "@/components/menu/latest-menu-section";
-import { MomentsSection } from "@/components/moments/moments-section";
 import { QrSection } from "@/components/qr/qr-section";
 import { ReviewsSection } from "@/components/reviews/reviews-section";
 import { VisitSection } from "@/components/visit/visit-section";
@@ -20,7 +19,6 @@ export default async function HomePage() {
       <Hero />
       <LatestMenuSection items={latest} />
       <GallerySection />
-      <MomentsSection />
       <AboutSection />
       <ReviewsSection />
       <VisitSection />
