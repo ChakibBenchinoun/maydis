@@ -21,9 +21,9 @@ type MenuSwipeCarouselProps = {
 
 /**
  * Card swipe carousel for menu items — adapted from Skiper UI skiper48.
- * @see https://skiper-ui.com/v1/skiper48
- * Uses `motion/react` + Swiper EffectCards.
+ * Sized to stay inside the page container (no horizontal page overflow).
  *
+ * @see https://skiper-ui.com/v1/skiper48
  * Attribution: Skiper UI (free tier requires attribution).
  */
 export function MenuSwipeCarousel({
@@ -34,8 +34,6 @@ export function MenuSwipeCarousel({
   loop = true,
 }: MenuSwipeCarouselProps) {
   const uid = useId().replace(/:/g, "");
-  // EffectCards + loop needs many duplicates; use rewind for wrap-around instead
-  // (avoids "not enough slides for loop mode" with short category lists).
   const wrapAround = loop && items.length > 1;
 
   if (items.length === 0) {
@@ -51,21 +49,26 @@ export function MenuSwipeCarousel({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      className={`relative mx-auto flex w-full justify-center ${className}`}
+      className={`relative mx-auto w-full max-w-full overflow-x-clip ${className}`}
     >
       <style>{`
         .menu-swipe-carousel-${uid} {
-          padding-bottom: 3rem !important;
+          padding-bottom: 2.5rem !important;
           overflow: visible !important;
+          width: 100% !important;
         }
         .menu-swipe-carousel-${uid} .swiper-slide {
           border-radius: 1.5rem;
           overflow: hidden;
+          height: 100% !important;
           background: var(--card);
           border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
           box-shadow:
             0 16px 48px -12px rgba(44, 35, 24, 0.3),
             0 6px 16px -4px rgba(44, 35, 24, 0.12);
+        }
+        .menu-swipe-carousel-${uid} .swiper-slide > * {
+          height: 100%;
         }
         .menu-swipe-carousel-${uid} .swiper-pagination {
           bottom: 0 !important;
@@ -84,7 +87,8 @@ export function MenuSwipeCarousel({
         }
       `}</style>
 
-      <div className="w-[min(100%,360px)] sm:w-[400px] md:w-[430px]">
+      {/* Cap width to container so EffectCards stack stays on-screen */}
+      <div className="mx-auto w-full max-w-[min(100%,17rem)] sm:max-w-[18.5rem]">
         <Swiper
           key={items.map((i) => i.id).join("-")}
           effect="cards"
@@ -103,10 +107,10 @@ export function MenuSwipeCarousel({
           }
           pagination={{ clickable: true }}
           modules={[EffectCards, Autoplay, Pagination]}
-          className={`menu-swipe-carousel-${uid} h-[560px] w-full sm:h-[600px] md:h-[620px]`}
+          className={`menu-swipe-carousel-${uid} h-[min(26rem,62dvh)] w-full sm:h-[min(28rem,64dvh)]`}
           cardsEffect={{
-            perSlideOffset: 10,
-            perSlideRotate: 2,
+            perSlideOffset: 7,
+            perSlideRotate: 1.25,
             slideShadows: true,
           }}
         >
@@ -133,16 +137,16 @@ export function MenuSwipeCarousel({
                   ) : null}
                 </div>
 
-                <div className="bg-card shrink-0 px-5 pt-4 pb-5">
-                  <h3 className="font-display text-foreground line-clamp-2 text-xl leading-snug font-bold">
+                <div className="bg-card shrink-0 px-4 pt-3.5 pb-4">
+                  <h3 className="font-display text-foreground line-clamp-2 text-lg leading-snug font-bold">
                     {item.name}
                   </h3>
-                  <p className="text-muted-foreground mt-1.5 line-clamp-2 text-sm leading-relaxed">
+                  <p className="text-muted-foreground mt-1 line-clamp-2 text-xs leading-relaxed">
                     {item.description}
                   </p>
-                  <div className="mt-4 flex items-center justify-between gap-2">
-                    <span className="text-primary text-lg font-bold">{item.price}</span>
-                    <span className="text-muted-foreground/70 group-hover:text-primary text-[11px] font-semibold tracking-wider uppercase transition-colors">
+                  <div className="mt-3 flex items-center justify-between gap-2">
+                    <span className="text-primary text-base font-bold">{item.price}</span>
+                    <span className="text-muted-foreground/70 group-hover:text-primary text-[10px] font-semibold tracking-wider uppercase transition-colors">
                       View →
                     </span>
                   </div>

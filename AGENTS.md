@@ -55,7 +55,7 @@ src/
     visit/
     qr/
     reserve/
-    effects/            # flip-fade-text, other motion widgets
+    effects/            # marquee, use-marquee, flip-fade-text
     ui/                 # container, section-label, section-divider
     …
   data/                 # Static content / typed records (no React)

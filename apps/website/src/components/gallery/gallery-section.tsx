@@ -1,5 +1,6 @@
 import { Instagram } from "lucide-react";
 
+import { GalleryMarquee } from "@/components/gallery/gallery-marquee";
 import { Container } from "@/components/ui/container";
 import { SectionDivider } from "@/components/ui/section-divider";
 import { SectionLabel } from "@/components/ui/section-label";
@@ -8,9 +9,13 @@ import { socialLinks } from "@/lib/constants";
 
 const instagram = socialLinks[0];
 
+/**
+ * Home gallery — header/CTA in Container, edge-to-edge marquee clipped
+ * (no `100vw` — avoids horizontal page scroll).
+ */
 export function GallerySection() {
   return (
-    <section id="gallery" className="bg-secondary/45 py-24">
+    <section id="gallery" className="bg-secondary/45 overflow-x-hidden py-24">
       <Container>
         <div className="mb-14 text-center">
           <SectionLabel>Through the lens</SectionLabel>
@@ -20,26 +25,14 @@ export function GallerySection() {
             Bright food, warm corners, and moments that feel like a deep breath.
           </p>
         </div>
+      </Container>
 
-        <div className="columns-2 gap-4 [column-gap:1rem] md:columns-3 lg:columns-4">
-          {galleryPhotos.map((photo, i) => (
-            <div
-              key={i}
-              className={`bg-secondary mb-4 cursor-pointer break-inside-avoid overflow-hidden rounded-2xl shadow-sm transition-all duration-250 hover:-translate-y-0.5 hover:shadow-md ${
-                i % 3 === 0 ? "aspect-[3/4]" : "aspect-square"
-              }`}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={photo.url}
-                alt={photo.alt}
-                className="h-full w-full object-cover"
-                loading="lazy"
-              />
-            </div>
-          ))}
-        </div>
+      {/* Clip strip to section width — marquee track scrolls inside, no page overflow */}
+      <div className="w-full overflow-hidden">
+        <GalleryMarquee photos={galleryPhotos} />
+      </div>
 
+      <Container>
         <div className="mt-12 text-center">
           <a
             href={instagram.href}

@@ -27,7 +27,7 @@ When editing `apps/website`:
 | `visit/` | Visit / contact section |
 | `qr/` | QR section + QR SVG |
 | `reserve/` | Reservation form |
-| `effects/` | Reusable motion/text effects (e.g. FlipFadeText) |
+| `effects/` | Motion primitives: `marquee`, `use-marquee`, `flip-fade-text` |
 | `ui/` | Shared primitives (`container`, section label, divider) |
 
 Import as `@/components/<domain>/<file>` (no flat root component files for features).

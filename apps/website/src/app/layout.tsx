@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${fontSans.variable} ${fontDisplay.variable}`}>
-      <body className="bg-background text-foreground min-h-screen font-sans antialiased">
+      <body className="bg-background text-foreground min-h-screen overflow-x-hidden font-sans antialiased">
         <Navbar />
         {children}
         <Footer />

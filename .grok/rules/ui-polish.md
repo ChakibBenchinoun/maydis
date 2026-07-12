@@ -15,9 +15,15 @@ When refining design / motion in `apps/website` (nav, hero, sections):
    - Optional Ken Burns only when reduced-motion is off.
 5. **Home “latest menu” vs full menu**
    - Home: `LatestMenuSection` + `pickLatestMenuItems()` — no category tabs; showcase only.
-   - Below `lg`: `MenuSwipeCarousel` · `lg+`: `MenuScrollRow` · CTA “View full menu” below.
+   - Below `lg`: `MenuSwipeCarousel` · `lg+`: `MenuScrollRow` (uses shared `effects/marquee`, interactive).
    - `/menu`: `MenuSection` — all categories + `MenuGrid`.
    - Copy in `lib/constants.ts` (`latestMenuCopy`); limit in `lib/menu.ts` (`LATEST_MENU_LIMIT`).
    - Attribution comment required for free Skiper components.
+5b. **Gallery marquee**
+   - `GalleryMarquee` → `effects/marquee` with `interactive={false}` (auto only, no wheel/drag).
+   - Shared animation lives under `components/effects/` — not duplicated in feature folders.
+5c. **Marquee primitive** (`components/effects/marquee.tsx` + `use-marquee.ts`)
+   - GPU `translate3d`; in-view autoplay; optional interactive pan.
+
 6. Motion ease of record: `[0.22, 1, 0.36, 1]` (`motion/react`).
 7. After polish: `pnpm typecheck` (and visual check on mobile + desktop).
