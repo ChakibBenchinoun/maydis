@@ -12,7 +12,8 @@
     "website:lint:fix": "pnpm --filter @maydis/website lint:fix",
     "website:format": "pnpm --filter @maydis/website format",
     "website:format:check": "pnpm --filter @maydis/website format:check",
-    "website:format:fix": "pnpm --filter @maydis/website format:fix"
+    "website:format:fix": "pnpm --filter @maydis/website format:fix",
+    "whatsapp:bot": "pnpm --filter @maydis/whatsapp-bot dev"
   },
   "devDependencies": {
     "turbo": "^2.5.4",

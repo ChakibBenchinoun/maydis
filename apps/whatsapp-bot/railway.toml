@@ -1,0 +1,11 @@
+# Deploy this service alone on Railway (Root Directory: apps/whatsapp-bot)
+# https://railway.app
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+healthcheckPath = "/health"
+healthcheckTimeout = 30
+restartPolicyType = "ON_FAILURE"

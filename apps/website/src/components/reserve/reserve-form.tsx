@@ -46,11 +46,20 @@ const initial: FormState = {
   notes: "",
 };
 
+type WhatsAppStatus = {
+  owner: boolean;
+  guest: boolean;
+  ownerError?: string | null;
+  guestError?: string | null;
+  setupHint?: string | null;
+};
+
 export function ReserveForm() {
   const [form, setForm] = useState<FormState>(initial);
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [whatsapp, setWhatsapp] = useState<WhatsAppStatus | null>(null);
 
   const set =
     (key: keyof FormState) =>
@@ -61,6 +70,7 @@ export function ReserveForm() {
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     setError(null);
+    setWhatsapp(null);
     setLoading(true);
     try {
       const res = await fetch("/api/reserve", {
@@ -68,10 +78,14 @@ export function ReserveForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      const data = (await res.json().catch(() => ({}))) as { error?: string };
+      const data = (await res.json().catch(() => ({}))) as {
+        error?: string;
+        whatsapp?: WhatsAppStatus;
+      };
       if (!res.ok) {
         throw new Error(data.error || "Something went wrong. Please try again or call us.");
       }
+      setWhatsapp(data.whatsapp ?? null);
       setSent(true);
       setForm(initial);
     } catch (err) {
@@ -82,6 +96,9 @@ export function ReserveForm() {
   }
 
   if (sent) {
+    const waOk = whatsapp?.owner && whatsapp?.guest;
+    const waPartial = whatsapp && (whatsapp.owner || whatsapp.guest) && !waOk;
+
     return (
       <div className="px-4 py-10 text-center">
         <div className="bg-accent/15 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
@@ -89,15 +106,39 @@ export function ReserveForm() {
         </div>
         <h3 className="font-display text-foreground mb-2 text-2xl font-bold">Request received</h3>
         <p className="text-muted-foreground mx-auto max-w-xs text-sm leading-relaxed">
-          We will confirm your event as soon as possible. For same-day requests, call{" "}
+          {waOk
+            ? "WhatsApp confirmation was sent to your number, and our team got a booking alert. We'll follow up shortly."
+            : waPartial
+              ? "Your request was saved. Some WhatsApp messages could not be delivered — see details below."
+              : "Your request was saved. WhatsApp alerts need the free bot running (see below), or call us for same-day plans."}{" "}
+          Call{" "}
           <a href={site.phoneHref} className="text-primary font-semibold hover:underline">
             {site.phone}
-          </a>
-          .
+          </a>{" "}
+          if urgent.
         </p>
+
+        {whatsapp && !waOk && (
+          <div className="border-border/60 bg-secondary/80 text-muted-foreground mx-auto mt-5 max-w-sm rounded-xl border px-4 py-3 text-left text-xs leading-relaxed">
+            <p className="text-foreground mb-1.5 font-semibold">WhatsApp status</p>
+            <p>Owner alert: {whatsapp.owner ? "sent" : whatsapp.ownerError || "not sent"}</p>
+            <p>Guest confirmation: {whatsapp.guest ? "sent" : whatsapp.guestError || "not sent"}</p>
+            {whatsapp.setupHint ? (
+              <p className="text-foreground mt-2 font-medium">{whatsapp.setupHint}</p>
+            ) : null}
+            <p className="mt-2">
+              Dev setup: run <code className="text-foreground">pnpm whatsapp:bot</code>, scan the QR,
+              keep it open, then try again.
+            </p>
+          </div>
+        )}
+
         <button
           type="button"
-          onClick={() => setSent(false)}
+          onClick={() => {
+            setSent(false);
+            setWhatsapp(null);
+          }}
           className="text-primary mt-6 text-sm font-medium hover:underline"
         >
           Make another request
