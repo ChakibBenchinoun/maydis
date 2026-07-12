@@ -74,7 +74,8 @@ When elevating design (not just extracting structure):
    - Menu / X toggle: cross-fade with `AnimatePresence mode="wait"`.
 4. **Hero motion** — stagger label → title → body → CTAs; respect `prefers-reduced-motion` for loops/Ken Burns.
 5. **Motion ease** — prefer `[0.22, 1, 0.36, 1]` site-wide for consistency.
-6. See always-on rule: `.grok/rules/ui-polish.md`.
+6. **Home menu vs full menu** — `LatestMenuSection` (latest dishes, no tabs) on home; `MenuSection` (categories + grid) only on `/menu`. Select via `pickLatestMenuItems` in `lib/menu.ts`.
+7. See always-on rule: `.grok/rules/ui-polish.md`.
 
 ## Anti-patterns
 

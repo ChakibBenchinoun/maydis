@@ -19,7 +19,7 @@ export default async function MenuPage() {
   return (
     <main className="min-h-screen bg-background">
       <MenuPageHeader />
-      <MenuSection variant="full" items={items} />
+      <MenuSection items={items} />
     </main>
   );
 }

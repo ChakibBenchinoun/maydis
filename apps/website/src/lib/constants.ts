@@ -25,6 +25,17 @@ export const homeNavLinks = [
   { id: "visit", label: "Visit", href: "/#visit" },
 ] as const;
 
+/** Home “latest on the menu” section copy */
+export const latestMenuCopy = {
+  label: "Just in",
+  title: "Latest on the menu",
+  description:
+    "A few of our newest plates and seasonal favourites — the full list lives on the menu page.",
+  cta: "View full menu",
+  ctaHref: "/menu",
+  empty: "New dishes are on the way — check back soon.",
+} as const;
+
 /** Primary routes */
 export const pageLinks = [
   { href: "/menu", label: "Full Menu" },

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
 
@@ -11,6 +12,15 @@ type MenuItemModalProps = {
 };
 
 export function MenuItemModal({ item, onClose }: MenuItemModalProps) {
+  useEffect(() => {
+    if (!item) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [item]);
+
   return (
     <AnimatePresence>
       {item && (
@@ -19,16 +29,16 @@ export function MenuItemModal({ item, onClose }: MenuItemModalProps) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-50 flex items-end md:items-center justify-center p-4 md:p-6"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6"
           onClick={onClose}
         >
           <div className="absolute inset-0 bg-black/55 backdrop-blur-sm" />
           <motion.div
-            initial={{ opacity: 0, y: 40, scale: 0.97 }}
+            initial={{ opacity: 0, y: 16, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.97 }}
+            exit={{ opacity: 0, y: 12, scale: 0.97 }}
             transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-            className="relative bg-card rounded-3xl overflow-hidden max-w-md w-full shadow-2xl"
+            className="relative bg-card rounded-3xl overflow-hidden max-w-md w-full max-h-[min(90dvh,40rem)] overflow-y-auto shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="aspect-[4/3] bg-secondary">

@@ -52,6 +52,23 @@ export function categoriesFromItems(items: MenuItem[]): string[] {
   return out;
 }
 
+/** Default how many dishes to feature on the home “latest” section. */
+export const LATEST_MENU_LIMIT = 8;
+
+/**
+ * Pick the newest dishes for the home showcase.
+ * Prefers higher `id` (treat as recency); falls back to input order if ids tie.
+ */
+export function pickLatestMenuItems(
+  items: MenuItem[],
+  limit: number = LATEST_MENU_LIMIT,
+): MenuItem[] {
+  if (items.length <= limit) return items;
+  return [...items]
+    .sort((a, b) => b.id - a.id || a.name.localeCompare(b.name))
+    .slice(0, limit);
+}
+
 /**
  * Load menu for server components.
  * Prefers Supabase RPC `get_menu_items`; falls back to static `data/menu.ts`.

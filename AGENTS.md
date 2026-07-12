@@ -33,7 +33,8 @@ src/
     navbar.tsx
     footer.tsx
     hero.tsx
-    menu-section.tsx
+    latest-menu-section.tsx  # home: latest dishes only
+    menu-section.tsx         # /menu: full catalog
     menu-item-modal.tsx
     gallery-section.tsx
     moments-section.tsx
@@ -47,7 +48,8 @@ src/
     gallery.ts
     reviews.ts
   lib/                  # Shared non-UI helpers
-    constants.ts        # site, nav, social, hours
+    constants.ts        # site, nav, social, hours, section copy
+    menu.ts             # getMenuItems, pickLatestMenuItems, categories
     fonts.ts
     scroll.ts
   styles/               # Design system CSS
