@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 
 import { Container } from "@/components/ui/container";
-import { site } from "@/lib/constants";
 import { cn } from "@/lib/cn";
 
 type PageHeaderProps = {
@@ -27,12 +26,6 @@ export function PageHeader({
   return (
     <div className="bg-secondary/60 border-border border-b pt-24 pb-10">
       <Container>
-        <Link
-          href="/"
-          className="text-muted-foreground hover:text-primary mb-6 inline-flex text-sm transition-colors"
-        >
-          ← Back to {site.name}
-        </Link>
         <p className="text-accent mb-3 text-[10px] font-bold tracking-[0.35em] uppercase">
           {eyebrow}
         </p>

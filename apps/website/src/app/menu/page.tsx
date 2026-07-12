@@ -18,11 +18,6 @@ export default async function MenuPage() {
 
   return (
     <main className="bg-background min-h-screen">
-      <PageHeader
-        eyebrow="QR · Table side"
-        title="Notre Carte"
-        description="Browse by category, tap a dish for the full story. Prices in DA."
-      />
       <MenuSection items={items} />
     </main>
   );

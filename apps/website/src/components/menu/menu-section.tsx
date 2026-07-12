@@ -42,7 +42,7 @@ export function MenuSection({ items }: MenuSectionProps) {
 
   return (
     <>
-      <section className="py-10 md:py-14">
+      <section className="py-32 md:py-36">
         <Container>
           <div className="mb-14 text-center">
             <SectionLabel>Scan · Sip · Enjoy</SectionLabel>
