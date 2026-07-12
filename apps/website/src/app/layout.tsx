@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { Footer } from "@/components/layout/footer";
+import { HashScroll } from "@/components/layout/hash-scroll";
 import { Navbar } from "@/components/layout/navbar";
 import { site } from "@/lib/constants";
 import { fontDisplay, fontSans } from "@/lib/fonts";
@@ -21,8 +22,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${fontSans.variable} ${fontDisplay.variable} scroll-smooth`}>
-      <body className="bg-background text-foreground min-h-screen overflow-x-hidden font-sans antialiased">
+    <html lang="en" className={`${fontSans.variable} ${fontDisplay.variable}`}>
+      {/*
+        Prefer overflow-x-clip over hidden: WebKit disables CSS/JS smooth scroll when
+        the scrolling root has overflow-x: hidden. Clip still blocks horizontal bleed.
+      */}
+      <body className="bg-background text-foreground min-h-screen overflow-x-clip font-sans antialiased">
+        <HashScroll />
         <Navbar />
         {children}
         <Footer />

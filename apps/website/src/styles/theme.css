@@ -137,7 +137,11 @@
 
   html {
     font-size: var(--font-size);
-    /* Smooth anchor / programmatic scrolls site-wide */
+    /*
+     * CSS smooth scroll is a progressive enhancement only.
+     * iOS Safari often ignores it (esp. with overflow clipping) — nav/hero use
+     * the rAF helper in `lib/scroll.ts` for reliable smooth section jumps.
+     */
     scroll-behavior: smooth;
     /* Offset for fixed navbar when scrolling to #sections */
     scroll-padding-top: 4.5rem;
