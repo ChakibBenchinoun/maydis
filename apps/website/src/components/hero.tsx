@@ -4,12 +4,16 @@ import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { ChevronDown, Instagram } from "lucide-react";
 
+import { FlipFadeText } from "@/components/flip-fade-text";
 import { site, socialLinks } from "@/lib/constants";
 import { images } from "@/lib/images";
 import { scrollToId } from "@/lib/scroll";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 const instagram = socialLinks[0];
+
+/** Hero title cycles — flip-fade (Vengeance UI style) */
+const heroTitleWords = [site.nameDisplay, "CAFÉ", "ORAN"] as const;
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -84,9 +88,19 @@ export function Hero() {
           variants={fadeUp}
           initial={reduceMotion ? false : "hidden"}
           animate="show"
-          className="font-display text-7xl md:text-[100px] font-bold tracking-[0.1em] mb-6 leading-none"
+          className="font-display mb-6 leading-none"
         >
-          {site.nameDisplay}
+          <span className="sr-only">{site.nameDisplay}</span>
+          <FlipFadeText
+            words={[...heroTitleWords]}
+            interval={3200}
+            letterDuration={0.55}
+            staggerDelay={0.06}
+            exitStaggerDelay={0.04}
+            reduceMotion={reduceMotion}
+            className="min-h-[0.95em]"
+            textClassName="font-display text-7xl md:text-[100px] font-bold tracking-[0.1em] text-white"
+          />
         </motion.h1>
 
         <motion.p
