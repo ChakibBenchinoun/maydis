@@ -142,7 +142,7 @@ export function Hero() {
                 className="shadow-lg hover:scale-[1.02] hover:shadow-xl active:scale-[0.99] sm:w-auto"
                 onClick={() => scrollToId("menu")}
               >
-                Explore the Menu
+                Explore the latest
               </Button>
               <Button
                 variant="outlineLight"

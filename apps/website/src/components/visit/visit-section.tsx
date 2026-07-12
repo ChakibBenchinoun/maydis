@@ -1,4 +1,4 @@
-import { Clock, Instagram, MapPin } from "lucide-react";
+import { Clock, Facebook, Instagram, MapPin } from "lucide-react";
 
 import {
   Container,
@@ -9,6 +9,34 @@ import {
   SectionLabel,
 } from "@/components/ui";
 import { openingHours, site, socialLinks } from "@/lib/constants";
+
+function TikTokIcon({ size = 15 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden
+      className="shrink-0"
+    >
+      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43V7.83a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.26z" />
+    </svg>
+  );
+}
+
+function SocialIcon({ label, size = 15 }: { label: string; size?: number }) {
+  switch (label) {
+    case "Instagram":
+      return <Instagram size={size} strokeWidth={1.75} />;
+    case "Facebook":
+      return <Facebook size={size} strokeWidth={1.75} />;
+    case "TikTok":
+      return <TikTokIcon size={size} />;
+    default:
+      return null;
+  }
+}
 
 export function VisitSection() {
   return (
@@ -74,35 +102,36 @@ export function VisitSection() {
               <div className="bg-primary/10 mt-0.5 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl">
                 <Clock size={18} className="text-primary" />
               </div>
-              <div className="w-full">
-                <p className="text-foreground mb-3 text-sm font-semibold">Opening Hours</p>
-                <div className="space-y-2">
+              <div className="min-w-0 flex-1">
+                <p className="text-foreground mb-2 text-sm font-semibold">Opening Hours</p>
+                {/* Tight day/hours columns — not full-width justify-between */}
+                <div className="inline-grid grid-cols-[auto_auto] gap-x-5 gap-y-1 text-sm">
                   {openingHours.map(({ day, hours }) => (
-                    <div key={day} className="flex items-center justify-between">
-                      <span className="text-muted-foreground text-sm">{day}</span>
-                      <span className="text-foreground text-sm font-semibold">{hours}</span>
+                    <div key={day} className="contents">
+                      <span className="text-muted-foreground">{day}</span>
+                      <span className="text-foreground text-right font-semibold tabular-nums">
+                        {hours}
+                      </span>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-2">
-              {socialLinks.map((link, index) => (
-                <span key={link.href} className="contents">
-                  {index > 0 && <span className="text-border">·</span>}
-                  <a
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-primary flex items-center gap-1.5 text-xs font-semibold tracking-wide uppercase transition-colors"
-                  >
-                    {link.label === "Instagram" && <Instagram size={15} />}
-                    {link.label}
-                  </a>
-                </span>
+            <div className="flex flex-wrap items-center gap-3 pt-1">
+              {socialLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.label}
+                  title={link.label}
+                  className="text-muted-foreground hover:text-primary border-border/60 hover:border-primary/40 inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors"
+                >
+                  <SocialIcon label={link.label} size={16} />
+                </a>
               ))}
-              <span className="text-border">·</span>
               <a
                 href={site.guideUrl}
                 target="_blank"

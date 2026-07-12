@@ -33,19 +33,15 @@ export function QrSection() {
     <Section id="qr" tone="muted">
       <Container>
         <div className="mx-auto max-w-3xl text-center">
-          <SectionLabel>Table QR</SectionLabel>
+          <SectionLabel>Share with ur loved ones.</SectionLabel>
           <h2 className="font-display text-foreground text-4xl font-bold md:text-5xl">
             Menu at a glance
           </h2>
           <SectionDivider />
-          <p className="text-muted-foreground mx-auto mt-5 max-w-sm text-sm leading-relaxed">
-            Print this code for tables — guests open the full digital menu instantly.
-          </p>
-
           <div className="bg-card border-border/50 mt-10 inline-flex flex-col items-center gap-4 rounded-3xl border p-6 shadow-sm sm:mt-12 sm:p-8">
             {dataUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={dataUrl} alt="QR code to Maydi's menu" className="h-52 w-52 rounded-xl" />
+              <img src={dataUrl} alt="QR code to Maydi's menu" className="h-60 w-60 rounded-xl" />
             ) : (
               <div className="bg-secondary h-52 w-52 animate-pulse rounded-xl" />
             )}
