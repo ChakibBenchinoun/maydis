@@ -1,12 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import QRCode from "qrcode";
 
-import { Container } from "@/components/ui/container";
-import { SectionDivider } from "@/components/ui/section-divider";
-import { SectionLabel } from "@/components/ui/section-label";
+import { Container, Link, SectionDivider, SectionLabel } from "@/components/ui";
 
 function menuUrl() {
   if (typeof window !== "undefined") {
@@ -53,10 +50,7 @@ export function QrSection() {
               <div className="bg-secondary h-52 w-52 animate-pulse rounded-xl" />
             )}
             <p className="text-muted-foreground max-w-xs text-xs break-all">{url}</p>
-            <Link
-              href="/menu"
-              className="bg-primary rounded-full px-8 py-3 text-[11px] font-semibold tracking-[0.12em] text-white uppercase transition-colors hover:bg-amber-500"
-            >
+            <Link href="/menu" variant="primary">
               Open menu
             </Link>
           </div>

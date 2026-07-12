@@ -1,8 +1,6 @@
 import { Clock, Instagram, MapPin } from "lucide-react";
 
-import { Container } from "@/components/ui/container";
-import { SectionDivider } from "@/components/ui/section-divider";
-import { SectionLabel } from "@/components/ui/section-label";
+import { Container, Link, SectionDivider, SectionLabel } from "@/components/ui";
 import { openingHours, site, socialLinks } from "@/lib/constants";
 
 export function VisitSection() {
@@ -108,12 +106,9 @@ export function VisitSection() {
               </a>
             </div>
 
-            <a
-              href="/reserve"
-              className="bg-primary inline-flex w-full justify-center rounded-full px-6 py-3 text-center text-[11px] font-semibold tracking-[0.12em] text-white uppercase shadow-md transition-colors hover:bg-amber-500 sm:w-auto"
-            >
+            <Link href="/reserve" variant="primary" fullWidth className="sm:w-auto">
               Reserve a table online
-            </a>
+            </Link>
           </div>
         </div>
 

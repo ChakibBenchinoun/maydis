@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Instagram, Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
+import { buttonClassName } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { homeNavLinks, pageLinks, site, socialLinks } from "@/lib/constants";
 import { images } from "@/lib/images";
@@ -81,8 +82,8 @@ export function Navbar() {
   }`;
 
   const reserveClass = solid
-    ? "inline-flex items-center justify-center bg-primary text-primary-foreground px-5 py-2 rounded-full text-[11px] font-semibold tracking-[0.12em] uppercase shadow-sm hover:bg-amber-500 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-    : "inline-flex items-center justify-center border border-white/50 text-white px-5 py-2 rounded-full text-[11px] font-semibold tracking-[0.12em] uppercase backdrop-blur-sm hover:bg-white/12 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent";
+    ? buttonClassName({ variant: "primary", size: "sm" })
+    : buttonClassName({ variant: "outlineLight", size: "sm" });
 
   return (
     <>
@@ -279,7 +280,7 @@ export function Navbar() {
                 <Link
                   href={reserveLink.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="bg-primary text-primary-foreground inline-flex items-center justify-center rounded-full px-6 py-3.5 text-[11px] font-semibold tracking-[0.12em] uppercase shadow-sm transition-colors hover:bg-amber-500"
+                  className={buttonClassName({ variant: "primary", fullWidth: true })}
                 >
                   {reserveLink.label}
                 </Link>
@@ -288,7 +289,7 @@ export function Navbar() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="border-border text-foreground hover:border-primary hover:text-primary inline-flex items-center justify-center gap-2 rounded-full border px-6 py-3 text-[11px] font-semibold tracking-[0.12em] uppercase transition-colors"
+                  className={buttonClassName({ variant: "outline", fullWidth: true })}
                 >
                   <Instagram size={14} />
                   Instagram

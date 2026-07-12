@@ -1,14 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 
 import { MenuItemModal } from "@/components/menu/menu-item-modal";
 import { MenuScrollRow } from "@/components/menu/menu-scroll-row";
 import { MenuSwipeCarousel } from "@/components/menu/menu-swipe-carousel";
-import { Container } from "@/components/ui/container";
-import { SectionDivider } from "@/components/ui/section-divider";
-import { SectionLabel } from "@/components/ui/section-label";
+import { Container, Heading, Link, Paragraph, SectionDivider, SectionLabel } from "@/components/ui";
 import type { MenuItem } from "@/data/menu";
 import { latestMenuCopy } from "@/lib/constants";
 
@@ -31,13 +28,11 @@ export function LatestMenuSection({ items }: LatestMenuSectionProps) {
         <Container>
           <div className="mb-14 text-center">
             <SectionLabel>{latestMenuCopy.label}</SectionLabel>
-            <h2 className="font-display text-foreground text-4xl font-bold md:text-5xl">
-              {latestMenuCopy.title}
-            </h2>
+            <Heading>{latestMenuCopy.title}</Heading>
             <SectionDivider />
-            <p className="text-muted-foreground mx-auto mt-5 max-w-sm text-sm leading-relaxed">
+            <Paragraph size="sm" className="mx-auto mt-5 max-w-sm">
               {latestMenuCopy.description}
-            </p>
+            </Paragraph>
           </div>
 
           {hasItems ? (
@@ -50,14 +45,13 @@ export function LatestMenuSection({ items }: LatestMenuSectionProps) {
               </div>
             </>
           ) : (
-            <p className="text-muted-foreground py-8 text-center text-sm">{latestMenuCopy.empty}</p>
+            <Paragraph size="sm" className="py-8 text-center">
+              {latestMenuCopy.empty}
+            </Paragraph>
           )}
 
           <div className="mt-10 text-center">
-            <Link
-              href={latestMenuCopy.ctaHref}
-              className="bg-primary inline-flex items-center gap-2 rounded-full px-9 py-3.5 text-[11px] font-semibold tracking-[0.12em] text-white uppercase shadow-md transition-colors duration-200 hover:bg-amber-500"
-            >
+            <Link href={latestMenuCopy.ctaHref} variant="primary">
               {latestMenuCopy.cta}
             </Link>
           </div>

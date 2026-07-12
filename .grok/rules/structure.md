@@ -28,7 +28,7 @@ When editing `apps/website`:
 | `qr/` | QR section + QR SVG |
 | `reserve/` | Reservation form |
 | `effects/` | Motion primitives: `marquee`, `use-marquee`, `flip-fade-text` |
-| `ui/` | Shared primitives (`container`, section label, divider) |
+| `ui/` | Design system: `button`, `link`, `image`, `typography`, `container`, section label/divider |
 
 Import as `@/components/<domain>/<file>` (no flat root component files for features).
 
@@ -39,6 +39,20 @@ Import as `@/components/<domain>/<file>` (no flat root component files for featu
 - Navbar / footer use `Container` for the same horizontal bounds.
 - Full-bleed blocks (hero image, mobile menu overlay) stay outside `Container`.
 
+
+## UI primitives (`components/ui/`)
+
+Prefer these over one-off Tailwind on CTAs and copy:
+
+| Component | Use for |
+|-----------|---------|
+| `Button` | Native buttons / form actions |
+| `Link` | Internal (`next/link`) or `external` anchors; same variants as Button |
+| `Image` | `next/image` or `mode="native"` for plain img |
+| `Heading` / `Paragraph` / `Eyebrow` | Section titles and body copy |
+| `Container` | Page width aligned to navbar |
+
+Button/Link sizes are **mobile-compact** by default (`text-[10px]` + tighter padding → larger from `sm`).
 
 ## Formatting (always on)
 

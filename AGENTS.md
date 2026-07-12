@@ -56,7 +56,7 @@ src/
     qr/
     reserve/
     effects/            # marquee, use-marquee, flip-fade-text
-    ui/                 # container, section-label, section-divider
+    ui/                 # button, link, image, typography, container, …
     …
   data/                 # Static content / typed records (no React)
     menu.ts

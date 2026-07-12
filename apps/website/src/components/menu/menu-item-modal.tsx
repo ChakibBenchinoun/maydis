@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
+import { Button } from "@/components/ui/button";
 import type { MenuItem } from "@/data/menu";
 
 type MenuItemModalProps = {
@@ -71,12 +72,9 @@ export function MenuItemModal({ item, onClose }: MenuItemModalProps) {
               <p className="text-muted-foreground mb-7 text-sm leading-relaxed">{item.details}</p>
               <div className="flex items-center justify-between">
                 <span className="text-primary text-2xl font-bold">{item.price}</span>
-                <button
-                  onClick={onClose}
-                  className="bg-primary rounded-full px-6 py-2.5 text-xs font-semibold tracking-wide text-white uppercase transition-colors hover:bg-amber-500"
-                >
+                <Button size="sm" onClick={onClose}>
                   Close
-                </button>
+                </Button>
               </div>
             </div>
           </motion.div>
