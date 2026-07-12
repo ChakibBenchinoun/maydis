@@ -1,4 +1,5 @@
 import { AboutSection } from "@/components/about/about-section";
+import { ScrollLineRegion } from "@/components/effects/page-scroll-line";
 import { GallerySection } from "@/components/gallery/gallery-section";
 import { Hero } from "@/components/hero/hero";
 import { LatestMenuSection } from "@/components/menu/latest-menu-section";
@@ -17,12 +18,14 @@ export default async function HomePage() {
   return (
     <main>
       <Hero />
-      <LatestMenuSection items={latest} />
-      <GallerySection />
-      <AboutSection />
-      <ReviewsSection />
-      <VisitSection />
-      <QrSection />
+      <ScrollLineRegion>
+        <LatestMenuSection items={latest} />
+        <GallerySection />
+        <AboutSection />
+        <ReviewsSection />
+        <VisitSection />
+        <QrSection />
+      </ScrollLineRegion>
     </main>
   );
 }

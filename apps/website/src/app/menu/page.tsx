@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { ScrollLineRegion } from "@/components/effects/page-scroll-line";
 import { MenuSection } from "@/components/menu/menu-section";
 import { site } from "@/lib/constants";
 import { getMenuItems } from "@/lib/menu";
@@ -16,8 +17,8 @@ export default async function MenuPage() {
   const { items } = await getMenuItems();
 
   return (
-    <main className="bg-background min-h-screen">
+    <ScrollLineRegion as="main" className="bg-background min-h-screen">
       <MenuSection items={items} />
-    </main>
+    </ScrollLineRegion>
   );
 }

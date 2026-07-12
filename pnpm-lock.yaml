@@ -38,6 +38,9 @@ importers:
       react-dom:
         specifier: ^19.1.0
         version: 19.2.7(react@19.2.7)
+      svg-scroll-draw:
+        specifier: ^2.9.0
+        version: 2.9.0(react@19.2.7)
       swiper:
         specifier: ^14.0.5
         version: 14.0.5
@@ -2127,6 +2130,21 @@ packages:
   supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+
+  svg-scroll-draw@2.9.0:
+    resolution: {integrity: sha512-+9d+xeI4F3hGmmiJ3O+CDXMhInWAJ7TZSO9rXDMwMv7IIVCzzkS/5qhfiIEQNCKc7g4RYpvw5xKXAdga/Ujy7w==}
+    hasBin: true
+    peerDependencies:
+      react: '>=17'
+      solid-js: '>=1'
+      vue: '>=3'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      solid-js:
+        optional: true
+      vue:
+        optional: true
 
   swiper@14.0.5:
     resolution: {integrity: sha512-SMSKS0sj+lPIFzngfIKb5cyBtzmAuJw7rXgXdyYiDReb+pSpJXuNljHYgT4DXa5Stnl2Ew2/Lam5ipv4PIqZ7A==}
@@ -4414,6 +4432,10 @@ snapshots:
       has-flag: 4.0.0
 
   supports-preserve-symlinks-flag@1.0.0: {}
+
+  svg-scroll-draw@2.9.0(react@19.2.7):
+    optionalDependencies:
+      react: 19.2.7
 
   swiper@14.0.5: {}
 

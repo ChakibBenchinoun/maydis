@@ -22,9 +22,25 @@ When editing `apps/website`:
 | Same markup/pattern appears **2+ times** | Used once and is static/simple |
 | Shared design-system primitive (Button, Link, Container, SectionLabel, …) | Tiny helper only one parent needs (e.g. stars in one review card) |
 | Non-trivial interactive unit that would bloat a parent (~80+ lines / own state) | Thin re-export / alias of another module |
-| Page chrome shared by multiple routes (e.g. `PageHeader`) | Dead code, placeholders no longer imported |
+| Reusable capability (e.g. scroll-drawn line, page header) | Place-specific one-line wrappers (`HomeBelowHero`, `MenuPageShell`) |
 
 Delete unused files; prefer deleting deprecated re-exports over keeping “compat” shims.
+
+## Name by capability, not by place of use
+
+Reusable UI must be **generic, configurable, and portable**:
+
+| Do | Don't |
+|----|--------|
+| `PageScrollLine`, `ScrollLineRegion` | `HomeBelowHero`, `MenuPageShell` |
+| `PageHeader` (eyebrow, title, description props) | `MenuPageHeader` / `ReservePageHeader` as separate files |
+| Props for color, path, `as`, className | Hardcoded only for one route |
+| Put shared primitives in `ui/` or `effects/` | Copy the same wrapper into `home/`, `menu/`, … |
+
+1. If the same pattern is needed on 2+ routes, extract **one** shared component named for **what it does**.
+2. Pages **compose** that component; do not invent a new shell file per feature folder.
+3. Domain folders (`menu/`, `gallery/`) hold **domain UI** (cards, forms, sections) — not generic layout chrome renamed for that page.
+4. Prefer extending props on the shared component over a second near-duplicate.
 
 ## Component domains (`src/components/`)
 
@@ -39,7 +55,7 @@ Delete unused files; prefer deleting deprecated re-exports over keeping “compa
 | `visit/` | Visit / contact section |
 | `qr/` | QR section |
 | `reserve/` | Reservation form |
-| `effects/` | Motion primitives: `marquee`, `use-marquee`, `flip-fade-text` |
+| `effects/` | Portable motion/scroll primitives: `marquee`, `use-marquee`, `flip-fade-text`, `page-scroll-line` |
 | `ui/` | Design system: `button`, `link`, `image`, `typography`, `container`, section label/divider |
 
 Import as `@/components/<domain>/<file>` (no flat root component files for features).

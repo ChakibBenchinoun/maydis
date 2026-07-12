@@ -42,8 +42,8 @@ export function MenuSection({ items }: MenuSectionProps) {
 
   return (
     <>
-      <section className="py-28 md:py-32">
-        <Container>
+      <section className="relative py-28 md:py-32">
+        <Container className="relative z-[1]">
           <div className="mb-14 text-center">
             <SectionLabel>Scan · Sip · Enjoy</SectionLabel>
             <h2 className="font-display text-foreground text-4xl font-bold md:text-5xl">

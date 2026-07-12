@@ -36,18 +36,26 @@ src/lib/*.ts                           → fonts, scroll, menu helpers, cn
 | `menu/` | latest + full menu, grid, card, modal, swipe carousel, scroll row |
 | `gallery/` | section, marquee, item modal — **photos + videos** (no Moments section) |
 | `about/`, `reviews/`, `visit/`, `qr/`, `reserve/` | feature sections |
-| `effects/` | `marquee`, `use-marquee`, `flip-fade-text` |
+| `effects/` | Portable motion/scroll: `marquee`, `use-marquee`, `flip-fade-text`, `page-scroll-line` |
 | `ui/` | `button`, `link`, `image`, `typography`, `container`, section label/divider |
 
 Import: `@/components/menu/latest-menu-section` (not a flat root).
 
+## Name by capability (required)
+
+- Shared components: name for **what they do** (`PageScrollLine`, `ScrollLineRegion`, `PageHeader`), not **where first used** (`HomeBelowHero`, `MenuPageShell`).
+- Make them **props-driven** (color, path, `as`, className) so any page can compose them.
+- Domain folders hold domain UI only; generic chrome lives in `ui/` / `effects/` / `layout/`.
+- If two routes need the same wrapper, **one** shared component + page composition — never two thin shells.
+
 ## Steps when adding a section
 
 1. Put copy/lists in `src/data/` or `src/lib/constants.ts` if reused.
-2. Create `src/components/<domain>/<section-name>.tsx`.
-3. Mark `"use client"` only if the section needs state, effects, or Motion.
-4. Import into thin `page.tsx` (or layout if global chrome).
-5. Prefer `Button` / `Link` / `Heading` / `Paragraph` / `Container` from `@/components/ui`.
+2. Prefer composing existing shared primitives before creating a new file.
+3. Create `src/components/<domain>/<section-name>.tsx` only for domain-specific UI.
+4. Mark `"use client"` only if the section needs state, effects, or Motion.
+5. Import into thin `page.tsx` (or layout if global chrome).
+6. Prefer `Button` / `Link` / `Heading` / `Paragraph` / `Container` / `ScrollLineRegion` from shared modules.
 
 ## UI kit (required for CTAs)
 
@@ -63,6 +71,7 @@ Import: `@/components/menu/latest-menu-section` (not a flat root).
 |-----------|-----|
 | `Marquee` + `useMarquee` | Horizontal GPU strip; `interactive` for wheel/drag; `direction` left/right |
 | `FlipFadeText` | Cycling title; **grid-size all words** so block size never jumps (prod fonts) |
+| `PageScrollLine` + `ScrollLineRegion` | Scroll-drawn decorative line (`svg-scroll-draw`); region wraps any band of content |
 
 - Gallery dual rows: two `Marquee`s, opposite `direction`, `interactive={false}` but tiles still clickable.
 - Menu large-screen row: `Marquee` with `interactive`.
@@ -101,3 +110,5 @@ See skill **`extract-when-repeated`** and `.grok/rules/structure.md`.
 - Reintroducing a Moments section when videos belong in gallery
 - One-off static markup forced into its own file “for cleanliness”
 - Duplicate primitives (e.g. Eyebrow + SectionLabel with the same styles)
+- Place-named shells that only wrap a shared primitive (`HomeBelowHero`, `MenuPageShell`)
+- Tying portable effect names to one route (`MenuScrollVine` for a generic line)

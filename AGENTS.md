@@ -54,7 +54,7 @@ src/
     visit/
     qr/
     reserve/
-    effects/            # marquee, use-marquee, flip-fade-text
+    effects/            # portable motion: marquee, flip-fade-text, page-scroll-line
     ui/                 # button, link, image, typography, section, container, …
     …
   data/                 # Static content / typed records (no React)
@@ -82,6 +82,7 @@ src/
 7. **Files** — kebab-case filenames; named exports for components.
 8. **No mega-files** — if a component grows past ~200 lines or owns multiple sections, split it.
 9. **Extract only when repeated** — do not create a component for one-off static JSX. Extract at **2+** uses, for design-system primitives, or for non-trivial interactive units. Inline single-use static helpers; delete dead files.
+10. **Name by capability, not place** — shared UI is portable and props-driven (`PageScrollLine`, `ScrollLineRegion`, `PageHeader`). Do **not** invent place-tied shells (`HomeBelowHero`, `MenuPageShell`) that only wrap a shared primitive. Domain folders hold domain UI; generic chrome lives in `ui/` / `effects/` / `layout/`.
 
 ## Design fidelity
 
