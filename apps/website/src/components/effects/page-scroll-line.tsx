@@ -12,8 +12,8 @@ import { ScrollDraw } from "svg-scroll-draw/react";
 
 import { cn } from "@/lib/cn";
 
-/** Default theme accent green */
-const DEFAULT_COLOR = "#6b9b67";
+/** Soft accent green — readable through for body copy */
+const DEFAULT_COLOR = "#a8c9a5";
 
 /**
  * Default meandering path (viewBox 0 0 1000 1000).
@@ -29,7 +29,7 @@ export const DEFAULT_SCROLL_LINE_PATH =
 
 export type PageScrollLineProps = {
   className?: string;
-  /** Stroke color (default theme accent green). */
+  /** Stroke color (default soft accent green). */
   color?: string;
   /** Path `d` in viewBox 0 0 1000 1000. */
   path?: string;
@@ -41,15 +41,25 @@ export type PageScrollLineProps = {
   speed?: number;
   /** ScrollDraw easing name. */
   easing?: "linear" | "ease-in" | "ease-out" | "ease-in-out" | "spring";
-  /** Reverse draw when scrolling up. */
+  /**
+   * Reverse when scrolling up. Default false — iOS touch bounce + autoReverse
+   * causes visible flicker; scroll progress still scrubs the draw.
+   */
   autoReverse?: boolean;
   /** When the draw starts / finishes relative to the line box. */
   trigger?: { start?: string; end?: string };
 };
 
+function documentTop(el: Element) {
+  const rect = el.getBoundingClientRect();
+  // Avoid iOS overscroll jitter in the sum
+  const y = window.scrollY || window.pageYOffset || 0;
+  return rect.top + Math.max(0, y);
+}
+
 /**
- * Decorative green (or custom) line that draws as the user scrolls.
- * Absolute-fills its positioned ancestor; height extends to the site footer.
+ * Decorative line that draws as the user scrolls.
+ * Height is measured once (and on resize) to the footer — not on every scroll frame.
  * Place inside a `relative` parent — or use `ScrollLineRegion`.
  *
  * @see https://svg-scroll-draw.vercel.app/
@@ -58,45 +68,65 @@ export function PageScrollLine({
   className,
   color = DEFAULT_COLOR,
   path = DEFAULT_SCROLL_LINE_PATH,
-  strokeWidth = 3,
-  opacity = 0.55,
-  speed = 1.15,
+  strokeWidth = 2,
+  opacity = 0.28,
+  speed = 1.1,
   easing = "ease-out",
-  autoReverse = true,
+  autoReverse = false,
   trigger = { start: "top 85%", end: "bottom bottom" },
 }: PageScrollLineProps) {
   const rootRef = useRef<HTMLDivElement>(null);
-  const [height, setHeight] = useState<number | undefined>(undefined);
+  const [height, setHeight] = useState<number | null>(null);
+  const heightRef = useRef<number | null>(null);
 
   useLayoutEffect(() => {
     const root = rootRef.current;
-    if (!root) return;
+    const region = root?.parentElement;
+    if (!root || !region) return;
+
+    let debounceTimer: ReturnType<typeof setTimeout> | null = null;
+    let raf = 0;
 
     const measure = () => {
       const footer = document.querySelector("footer");
-      const top = root.getBoundingClientRect().top + window.scrollY;
-      const end = footer
-        ? footer.getBoundingClientRect().top + window.scrollY
-        : top + (root.parentElement?.scrollHeight ?? root.offsetHeight);
-      const next = Math.max(
-        end - top,
-        root.parentElement?.offsetHeight ?? 0,
-        window.innerHeight,
-      );
+      const top = documentTop(region);
+      const end = footer ? documentTop(footer) : top + region.scrollHeight;
+      const next = Math.max(Math.ceil(end - top), region.scrollHeight, 1);
+
+      // Ignore sub-pixel / rubber-band noise (avoids remount flicker)
+      if (heightRef.current !== null && Math.abs(heightRef.current - next) < 12) {
+        return;
+      }
+      heightRef.current = next;
       setHeight(next);
     };
 
+    const schedule = () => {
+      if (debounceTimer) clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(measure);
+      }, 80);
+    };
+
     measure();
-    const t = window.setTimeout(measure, 100);
-    window.addEventListener("resize", measure);
-    const ro = new ResizeObserver(measure);
-    if (root.parentElement) ro.observe(root.parentElement);
+    // After images/fonts settle
+    const t1 = window.setTimeout(measure, 200);
+    const t2 = window.setTimeout(measure, 800);
+
+    window.addEventListener("resize", schedule, { passive: true });
+    // Only observe the content region — not the absolute line (avoids feedback loops)
+    const ro = new ResizeObserver(schedule);
+    ro.observe(region);
     const footer = document.querySelector("footer");
     if (footer) ro.observe(footer);
 
     return () => {
-      window.clearTimeout(t);
-      window.removeEventListener("resize", measure);
+      if (debounceTimer) clearTimeout(debounceTimer);
+      cancelAnimationFrame(raf);
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+      window.removeEventListener("resize", schedule);
       ro.disconnect();
     };
   }, []);
@@ -104,36 +134,46 @@ export function PageScrollLine({
   return (
     <div
       ref={rootRef}
-      className={cn("pointer-events-none absolute top-0 right-0 left-0 z-0 overflow-visible", className)}
-      style={height ? { height } : { bottom: 0 }}
+      className={cn(
+        // Keep behind content; never capture touch (critical on iOS)
+        "pointer-events-none absolute top-0 right-0 left-0 z-0 overflow-visible select-none",
+        className,
+      )}
+      style={{ height: height ?? "100%" }}
       aria-hidden
     >
-      <ScrollDraw
-        className="block h-full w-full"
-        style={{ height: "100%", width: "100%" }}
-        easing={easing}
-        speed={speed}
-        autoReverse={autoReverse}
-        strokeColor={color}
-        trigger={trigger}
-      >
-        <svg
-          viewBox="0 0 1000 1000"
-          className="block h-full w-full overflow-visible"
-          preserveAspectRatio="none"
-          fill="none"
+      {/* Wait for stable height so ScrollDraw doesn't re-init mid-scroll */}
+      {height !== null ? (
+        <ScrollDraw
+          key={height}
+          className="block h-full w-full"
+          style={{ height: "100%", width: "100%", pointerEvents: "none" }}
+          easing={easing}
+          speed={speed}
+          autoReverse={autoReverse}
+          strokeColor={color}
+          trigger={trigger}
+          // JS engine is more predictable on iOS Safari than view() timeline
+          native={false}
         >
-          <path
-            d={path}
+          <svg
+            viewBox="0 0 1000 1000"
+            className="pointer-events-none block h-full w-full overflow-visible"
+            preserveAspectRatio="none"
             fill="none"
-            stroke={color}
-            strokeWidth={strokeWidth}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            opacity={opacity}
-          />
-        </svg>
-      </ScrollDraw>
+          >
+            <path
+              d={path}
+              fill="none"
+              stroke={color}
+              strokeWidth={strokeWidth}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity={opacity}
+            />
+          </svg>
+        </ScrollDraw>
+      ) : null}
     </div>
   );
 }
@@ -149,11 +189,7 @@ type ScrollLineRegionProps<T extends ElementType = "div"> = {
 
 /**
  * Relative region with an optional full-height scroll-drawn line behind content.
- * Use on any page/band — not tied to home or menu.
- *
- * @example
- * <ScrollLineRegion as="main" className="min-h-screen">…</ScrollLineRegion>
- * <ScrollLineRegion>…sections under hero…</ScrollLineRegion>
+ * Portable — any page/band can compose it.
  */
 export function ScrollLineRegion<T extends ElementType = "div">({
   as,
