@@ -41,10 +41,14 @@ Wait until status is **Healthy**.
 
 | object | value |
 |--------|--------|
-| menu_items | 9 |
+| menu_items | 48 |
 | functions | create_reservation, get_menu_items |
 
-Creates: tables, grants, RLS, RPCs, menu seed.
+Creates: tables, grants, RLS, RPCs, menu seed (16 dishes × 3 for density).
+
+If the project already ran an older `001` with a short seed, also run:
+
+`supabase/migrations/002_seed_full_menu.sql`
 
 ---
 
@@ -101,11 +105,12 @@ Same env vars; root directory **`apps/website`**.
 | Feature | Uses |
 |---------|------|
 | `/api/reserve` | RPC `create_reservation(payload jsonb)` |
-| Menu UI today | Static `src/data/menu.ts` |
-| Menu from DB later | RPC `get_menu_items()` |
+| Menu UI | RPC `get_menu_items()` → fallback static `src/data/menu.ts` |
 
 ---
 
 ## Future schema changes
 
 Add `002_….sql`, `003_….sql`, … — do not rewrite `001_init.sql` after production use.
+
+**Agents:** do not create or edit files under `supabase/migrations/` without the human’s explicit approval. Propose SQL in chat first (see `.grok/rules/database.md`).

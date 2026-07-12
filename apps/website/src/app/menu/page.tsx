@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import { PageHeader } from "@/components/layout/page-header";
 import { MenuSection } from "@/components/menu/menu-section";
 import { site } from "@/lib/constants";
 import { getMenuItems } from "@/lib/menu";

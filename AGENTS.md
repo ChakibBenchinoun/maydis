@@ -100,6 +100,7 @@ src/
 - Menu reads: `lib/menu.ts` → RPC `get_menu_items` with static `data/menu.ts` fallback
 - Skill: **supabase-clean-setup** (project + global) — clean start over grant-patching
 - Future changes: add `002_*.sql`, do not rewrite applied production `001` without a new file
+- **Migrations require approval** — do **not** create/edit/delete `supabase/migrations/*` unless the user explicitly approves in this chat. Propose SQL first; wait for yes. Always-on: `.grok/rules/database.md`.
 
 ## Agent skills in this repo
 

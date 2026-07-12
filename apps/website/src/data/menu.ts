@@ -9,6 +9,10 @@ export type MenuItem = {
   tags: string[];
 };
 
+/**
+ * Static fallback when Supabase is empty / offline.
+ * Keep in sync with `supabase/migrations/*seed*` (DB is source of truth in prod).
+ */
 export const menuItems: MenuItem[] = [
   {
     id: 1,
