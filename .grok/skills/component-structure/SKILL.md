@@ -60,9 +60,26 @@ src/lib/*.ts                 → fonts, scroll, utils
 - Preserve Tailwind classNames and Motion animation props during extraction.
 - Avoid porting unused UI kits “just in case”.
 
+## Chrome & UI polish (navbar / hero / overlays)
+
+When elevating design (not just extracting structure):
+
+1. **Assets** — use `lib/images.ts` for logo/hero paths.
+2. **Nav hierarchy** — section links as text; primary action (Reserve) as a pill CTA; Instagram icon-only on desktop.
+3. **Full-page mobile menu**
+   - Render the overlay as a **sibling** of the sticky header (`<>…</>`), not as a child of a bar with `backdrop-blur` / `backdrop-filter`.
+   - Those CSS properties create a containing block; nested `fixed inset-0` then fails and the panel looks transparent.
+   - Opaque fill: `style={{ backgroundColor: "var(--background)" }}` (or solid `bg-background` without alpha).
+   - Body scroll lock while open; Escape + route change close the menu.
+   - Menu / X toggle: cross-fade with `AnimatePresence mode="wait"`.
+4. **Hero motion** — stagger label → title → body → CTAs; respect `prefers-reduced-motion` for loops/Ken Burns.
+5. **Motion ease** — prefer `[0.22, 1, 0.36, 1]` site-wide for consistency.
+6. See always-on rule: `.grok/rules/ui-polish.md`.
+
 ## Anti-patterns
 
 - 500+ line `page.tsx` / `home-page.tsx` with every section inline
 - Hardcoding site phone/address in multiple components instead of `lib/constants.ts`
 - `"use client"` on a file that only renders static markup
 - Mixing fetch/business logic inside presentational section components without a `lib/` boundary
+- Nesting full-viewport fixed menus inside blurred sticky headers

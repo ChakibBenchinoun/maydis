@@ -69,7 +69,9 @@ src/
 - Source design: Maydi's single-page café prototype
 - Theme tokens in `src/styles/theme.css` are the source of truth
 - Prefer editing data/constants over hardcoding strings in JSX when the value is site-wide
-
+- UI polish phase: elevate section-by-section (navbar → hero → …); keep Motion ease `[0.22, 1, 0.36, 1]`
+- Full-page mobile menus must be **siblings** of blurred sticky headers (see `.grok/rules/ui-polish.md`)
+- Image paths for chrome: `src/lib/images.ts`
 ## Database (Supabase)
 
 - Guide: `docs/SUPABASE.md`
@@ -84,7 +86,9 @@ src/
 
 | Skill | Scope | Use for |
 |-------|--------|---------|
-| `component-structure` | project (+ global if installed) | Thin pages, section components |
+| `component-structure` | project (+ global if installed) | Thin pages, section components, chrome/UI polish |
 | `supabase-clean-setup` | project + global | Clean Supabase/bootstrap/env |
+
+Always-on rules: `.grok/rules/structure.md`, `database.md`, `ui-polish.md`.
 
 Invoke: `/supabase-clean-setup` or describe “set up Supabase cleanly”.
