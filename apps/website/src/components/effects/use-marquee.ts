@@ -65,8 +65,11 @@ export function useMarquee({
   const resumeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastTickRef = useRef(0);
 
-  speedRef.current = speed;
-  directionRef.current = direction;
+  // Keep latest speed/direction for the rAF loop without re-subscribing.
+  useEffect(() => {
+    speedRef.current = speed;
+    directionRef.current = direction;
+  }, [speed, direction]);
 
   const applyTransform = useCallback(() => {
     const track = trackRef.current;

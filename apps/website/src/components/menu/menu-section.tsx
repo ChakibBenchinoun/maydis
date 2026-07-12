@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 import { MenuCategoryTabs } from "@/components/menu/menu-category-tabs";
 import { MenuGrid } from "@/components/menu/menu-grid";
@@ -26,13 +26,19 @@ export function MenuSection({ items }: MenuSectionProps) {
   const [activeCategory, setActiveCategory] = useState(categories[0] ?? "Brunch");
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
 
-  useEffect(() => {
-    if (categories.length && !categories.includes(activeCategory)) {
-      setActiveCategory(categories[0]);
-    }
-  }, [categories, activeCategory]);
+  // Keep selection valid when the catalog changes (adjust during render).
+  const selectedCategory =
+    categories.length === 0
+      ? activeCategory
+      : categories.includes(activeCategory)
+        ? activeCategory
+        : categories[0];
 
-  const filteredItems = items.filter((i) => i.category === activeCategory);
+  if (selectedCategory !== activeCategory) {
+    setActiveCategory(selectedCategory);
+  }
+
+  const filteredItems = items.filter((i) => i.category === selectedCategory);
 
   return (
     <>
@@ -53,13 +59,13 @@ export function MenuSection({ items }: MenuSectionProps) {
             <>
               <MenuCategoryTabs
                 categories={categories}
-                activeCategory={activeCategory}
+                activeCategory={selectedCategory}
                 onChange={setActiveCategory}
                 className="mb-12"
               />
               <MenuGrid
                 items={filteredItems}
-                categoryKey={activeCategory}
+                categoryKey={selectedCategory}
                 onSelect={setSelectedItem}
               />
             </>

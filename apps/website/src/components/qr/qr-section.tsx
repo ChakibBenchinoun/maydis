@@ -15,19 +15,30 @@ function menuUrl() {
 }
 
 export function QrSection() {
-  const [dataUrl, setDataUrl] = useState<string | null>(null);
-  const [url, setUrl] = useState<string>(menuLink.href);
+  const [qr, setQr] = useState<{ url: string; dataUrl: string | null }>({
+    url: menuLink.href,
+    dataUrl: null,
+  });
 
   useEffect(() => {
     const target = menuUrl();
-    setUrl(target);
+    let cancelled = false;
+
     QRCode.toDataURL(target, {
       width: 280,
       margin: 2,
       color: { dark: "#2C2318", light: "#FFFFFF" },
     })
-      .then(setDataUrl)
-      .catch(() => setDataUrl(null));
+      .then((dataUrl) => {
+        if (!cancelled) setQr({ url: target, dataUrl });
+      })
+      .catch(() => {
+        if (!cancelled) setQr({ url: target, dataUrl: null });
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   return (
@@ -40,13 +51,17 @@ export function QrSection() {
           </h2>
           <SectionDivider />
           <div className="bg-card border-border/50 mt-10 inline-flex flex-col items-center gap-4 rounded-3xl border p-6 shadow-sm sm:mt-12 sm:p-8">
-            {dataUrl ? (
+            {qr.dataUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={dataUrl} alt="QR code to Maydi's menu" className="h-60 w-60 rounded-xl" />
+              <img
+                src={qr.dataUrl}
+                alt="QR code to Maydi's menu"
+                className="h-60 w-60 rounded-xl"
+              />
             ) : (
               <div className="bg-secondary h-52 w-52 animate-pulse rounded-xl" />
             )}
-            <p className="text-muted-foreground max-w-xs text-xs break-all">{url}</p>
+            <p className="text-muted-foreground max-w-xs text-xs break-all">{qr.url}</p>
             <Link href={menuLink.href} variant="primary">
               Open menu
             </Link>

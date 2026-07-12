@@ -2,19 +2,13 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Instagram, Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
 import { buttonClassName } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import {
-  isSectionNavLink,
-  mainNavLinks,
-  reserveLink,
-  site,
-  socialLinks,
-} from "@/lib/constants";
+import { isSectionNavLink, mainNavLinks, reserveLink, site, socialLinks } from "@/lib/constants";
 import { images } from "@/lib/images";
 import { scrollToId } from "@/lib/scroll";
 
@@ -31,9 +25,17 @@ const mobileItemVariants = {
 
 export function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const isHome = pathname === "/";
   const [navScrolled, setNavScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [menuPathname, setMenuPathname] = useState(pathname);
+
+  // Close mobile menu when the route changes (adjust state during render).
+  if (pathname !== menuPathname) {
+    setMenuPathname(pathname);
+    setMobileMenuOpen(false);
+  }
 
   const solid = !isHome || navScrolled || mobileMenuOpen;
 
@@ -44,10 +46,6 @@ export function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [isHome]);
-
-  useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [pathname]);
 
   useEffect(() => {
     if (!mobileMenuOpen) return;
@@ -67,7 +65,7 @@ export function Navbar() {
     if (isHome) {
       scrollToId(id);
     } else {
-      window.location.href = `/#${id}`;
+      router.push(`/#${id}`);
     }
     setMobileMenuOpen(false);
   };
@@ -76,7 +74,7 @@ export function Navbar() {
     if (isHome) {
       scrollToId("hero");
     } else {
-      window.location.href = "/";
+      router.push("/");
     }
     setMobileMenuOpen(false);
   };
