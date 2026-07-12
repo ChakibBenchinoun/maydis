@@ -24,8 +24,8 @@ type LatestMenuSectionProps = {
 };
 
 /**
- * Home section: showcase of the latest dishes only (not the full categorized menu).
- * Mobile: swipe stack · Desktop: centered horizontal scroll row.
+ * Home section: latest dishes only.
+ * Header + CTA stay in Container; cards run full-bleed (like gallery).
  */
 export function LatestMenuSection({ items }: LatestMenuSectionProps) {
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
@@ -33,7 +33,7 @@ export function LatestMenuSection({ items }: LatestMenuSectionProps) {
 
   return (
     <>
-      <Section id="menu">
+      <Section id="menu" className="overflow-x-hidden">
         <Container>
           <div className={sectionHeaderClass}>
             <SectionLabel>{latestMenuCopy.label}</SectionLabel>
@@ -43,22 +43,26 @@ export function LatestMenuSection({ items }: LatestMenuSectionProps) {
               {latestMenuCopy.description}
             </Paragraph>
           </div>
+        </Container>
 
-          {hasItems ? (
-            <>
-              <div className="lg:hidden">
-                <MenuSwipeCarousel items={items} onSelect={setSelectedItem} className="mb-4" />
-              </div>
-              <div className="hidden lg:block">
-                <MenuScrollRow items={items} categoryKey="latest" onSelect={setSelectedItem} />
-              </div>
-            </>
-          ) : (
+        {hasItems ? (
+          <div className="w-full overflow-hidden">
+            <div className="lg:hidden">
+              <MenuSwipeCarousel items={items} onSelect={setSelectedItem} className="mb-2" />
+            </div>
+            <div className="hidden lg:block">
+              <MenuScrollRow items={items} categoryKey="latest" onSelect={setSelectedItem} />
+            </div>
+          </div>
+        ) : (
+          <Container>
             <Paragraph size="sm" className="py-8 text-center">
               {latestMenuCopy.empty}
             </Paragraph>
-          )}
+          </Container>
+        )}
 
+        <Container>
           <div className="mt-10 text-center md:mt-12">
             <Link href={latestMenuCopy.ctaHref} variant="primary">
               {latestMenuCopy.cta}
