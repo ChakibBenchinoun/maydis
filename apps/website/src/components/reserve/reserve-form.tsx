@@ -89,7 +89,7 @@ export function ReserveForm() {
         </div>
         <h3 className="font-display text-foreground mb-2 text-2xl font-bold">Request received</h3>
         <p className="text-muted-foreground mx-auto max-w-xs text-sm leading-relaxed">
-          We will confirm your table as soon as possible. For same-day bookings, call{" "}
+          We will confirm your event as soon as possible. For same-day requests, call{" "}
           <a href={site.phoneHref} className="text-primary font-semibold hover:underline">
             {site.phone}
           </a>
@@ -109,7 +109,7 @@ export function ReserveForm() {
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div>
-        <h3 className="font-display text-foreground mb-1 text-lg font-bold">Reservation form</h3>
+        <h3 className="font-display text-foreground mb-1 text-lg font-bold">Event request</h3>
         <p className="text-muted-foreground mb-4 text-xs">
           We will confirm by phone · {site.name}, Oran
         </p>
@@ -220,7 +220,7 @@ export function ReserveForm() {
           rows={3}
           value={form.notes}
           onChange={set("notes")}
-          placeholder="Occasion, allergies, high chair…"
+          placeholder="Occasion, setup, dietary needs…"
           className={`${fieldClass} resize-none`}
         />
       </div>
@@ -236,7 +236,7 @@ export function ReserveForm() {
         disabled={loading}
         className="bg-primary hover:bg-primary/90 w-full rounded-lg py-3.5 text-sm font-bold tracking-wider text-white uppercase shadow-sm transition-colors disabled:opacity-60"
       >
-        {loading ? "Sending…" : "Request reservation"}
+        {loading ? "Sending…" : "Request event"}
       </button>
       <p className="text-muted-foreground text-center text-xs">
         Prefer to call?{" "}

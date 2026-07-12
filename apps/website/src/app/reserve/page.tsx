@@ -7,7 +7,7 @@ import { openingHours, site } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Reserve",
-  description: `Reserve a table at ${site.name} in Oran.`,
+  description: `Book a private event or celebration at ${site.name} in Oran.`,
 };
 
 export default function ReservePage() {
@@ -22,28 +22,29 @@ export default function ReservePage() {
             ← Back to {site.name}
           </Link>
           <p className="text-accent mb-3 text-[10px] font-bold tracking-[0.35em] uppercase">
-            Book a table
+            Events
           </p>
           <h1 className="font-display text-foreground text-4xl font-bold md:text-5xl">
-            Reserve at {site.name}
+            Reserve for an event
           </h1>
           <p className="text-muted-foreground mt-3 max-w-xl text-sm leading-relaxed">
-            Tell us when you would like to visit. We confirm by phone as soon as we can.
+            Birthdays, gatherings, and private moments at {site.name}. Tell us your date and we
+            will confirm by phone.
           </p>
         </Container>
       </div>
 
       <Container className="py-12 md:py-16">
-        <div className="grid items-start gap-10 lg:grid-cols-[1fr_420px]">
-          <div className="space-y-6">
-            <div className="bg-card border-border/50 rounded-2xl border p-7 shadow-sm">
+        <div className="grid min-w-0 items-start gap-10 lg:grid-cols-[1fr_420px]">
+          <div className="min-w-0 space-y-6">
+            <div className="bg-card border-border/50 rounded-2xl border p-5 shadow-sm sm:p-7">
               <h2 className="font-display text-foreground mb-4 text-xl font-bold">
                 Before you book
               </h2>
               <ul className="text-muted-foreground space-y-3 text-sm leading-relaxed">
-                <li>· Requests are confirmed by our team — not instant auto-booking.</li>
+                <li>· Event requests are confirmed by our team — not instant auto-booking.</li>
                 <li>
-                  · Same-day or large groups: call{" "}
+                  · Same-day or larger celebrations: call{" "}
                   <a href={site.phoneHref} className="text-primary font-semibold hover:underline">
                     {site.phone}
                   </a>
@@ -64,21 +65,23 @@ export default function ReservePage() {
               </ul>
             </div>
 
-            <div className="bg-card border-border/50 rounded-2xl border p-7 shadow-sm">
+            <div className="bg-card border-border/50 rounded-2xl border p-5 shadow-sm sm:p-7">
               <h2 className="font-display text-foreground mb-4 text-xl font-bold">Opening hours</h2>
               <div className="space-y-2">
                 {openingHours.map(({ day, hours }) => (
-                  <div key={day} className="flex justify-between text-sm">
+                  <div key={day} className="flex justify-between gap-4 text-sm">
                     <span className="text-muted-foreground">{day}</span>
-                    <span className="text-foreground font-semibold">{hours}</span>
+                    <span className="text-foreground shrink-0 font-semibold tabular-nums">
+                      {hours}
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
-          <div className="lg:sticky lg:top-24">
-            <div className="bg-card border-border/50 rounded-2xl border p-7 shadow-sm">
+          <div className="min-w-0 lg:sticky lg:top-24">
+            <div className="bg-card border-border/50 rounded-2xl border p-5 shadow-sm sm:p-7">
               <ReserveForm />
             </div>
           </div>

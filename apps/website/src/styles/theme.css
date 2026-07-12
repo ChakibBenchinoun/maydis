@@ -137,6 +137,16 @@
 
   html {
     font-size: var(--font-size);
+    /* Smooth anchor / programmatic scrolls site-wide */
+    scroll-behavior: smooth;
+    /* Offset for fixed navbar when scrolling to #sections */
+    scroll-padding-top: 4.5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 
   h1 {

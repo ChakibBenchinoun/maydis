@@ -23,8 +23,8 @@ export function VisitSection() {
           <SectionDivider />
         </div>
 
-        <div className="border-border/30 mb-8 grid gap-0 overflow-hidden rounded-3xl border shadow-xl md:grid-cols-2">
-          <div className="bg-secondary relative aspect-[4/3] min-h-[300px] md:aspect-auto">
+        <div className="border-border/30 mb-8 grid w-full max-w-full gap-0 overflow-hidden rounded-3xl border shadow-xl md:grid-cols-2">
+          <div className="bg-secondary relative aspect-[4/3] min-h-[300px] min-w-0 md:aspect-auto">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/gallery-01.jpg"
@@ -34,14 +34,14 @@ export function VisitSection() {
             <div className="absolute inset-0 bg-gradient-to-r from-black/5 to-black/30 md:bg-gradient-to-l" />
           </div>
 
-          <div className="bg-card flex flex-col justify-center gap-8 px-8 py-10 md:px-12 md:py-12">
-            <div>
+          <div className="bg-card flex w-full min-w-0 max-w-full flex-col justify-center gap-8 overflow-hidden px-5 py-10 sm:px-8 md:px-12 md:py-12">
+            <div className="min-w-0">
               <p className="text-accent mb-2 text-[10px] font-bold tracking-[0.3em] uppercase">
-                Reserve a table
+                Book an event
               </p>
               <a
                 href={site.phoneHref}
-                className="font-display text-primary text-3xl leading-tight font-bold transition-colors hover:text-amber-500 md:text-4xl"
+                className="font-display text-primary break-all text-2xl leading-tight font-bold transition-colors hover:text-amber-500 sm:text-3xl md:text-4xl"
               >
                 {site.phone}
               </a>
@@ -49,11 +49,11 @@ export function VisitSection() {
 
             <div className="bg-border h-px w-full" />
 
-            <div className="flex items-start gap-4">
-              <div className="bg-primary/10 mt-0.5 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl">
+            <div className="flex min-w-0 items-start gap-4">
+              <div className="bg-primary/10 mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
                 <MapPin size={18} className="text-primary" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <p className="text-foreground mb-1 text-sm font-semibold">Address</p>
                 <p className="text-muted-foreground text-sm leading-relaxed">
                   {site.addressLine1}
@@ -71,14 +71,14 @@ export function VisitSection() {
               </div>
             </div>
 
-            <div className="flex items-start gap-4">
-              <div className="bg-primary/10 mt-0.5 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl">
+            <div className="flex min-w-0 items-start gap-4">
+              <div className="bg-primary/10 mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
                 <Clock size={18} className="text-primary" />
               </div>
               <div className="min-w-0 flex-1">
                 <p className="text-foreground mb-2 text-sm font-semibold">Opening Hours</p>
                 {/* Tight day/hours columns — not full-width justify-between */}
-                <div className="inline-grid grid-cols-[auto_auto] gap-x-5 gap-y-1 text-sm">
+                <div className="inline-grid max-w-full grid-cols-[auto_auto] gap-x-5 gap-y-1 text-sm">
                   {openingHours.map(({ day, hours }) => (
                     <div key={day} className="contents">
                       <span className="text-muted-foreground">{day}</span>
@@ -91,7 +91,7 @@ export function VisitSection() {
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3 pt-1">
+            <div className="flex min-w-0 flex-wrap items-center gap-3 pt-1">
               {socialLinks.map((link) => (
                 <a
                   key={link.href}
@@ -100,7 +100,7 @@ export function VisitSection() {
                   rel="noopener noreferrer"
                   aria-label={link.label}
                   title={link.label}
-                  className="text-muted-foreground hover:text-primary border-border/60 hover:border-primary/40 inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors"
+                  className="text-muted-foreground hover:text-primary border-border/60 hover:border-primary/40 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors"
                 >
                   <SocialIcon label={link.label} size={16} />
                 </a>
@@ -115,9 +115,17 @@ export function VisitSection() {
               </a>
             </div>
 
-            <Link href={reserveLink.href} variant="primary" fullWidth className="sm:w-auto">
-              Reserve a table online
-            </Link>
+            {/* Stay within card: full width, tight padding, no sm:w-auto growth */}
+            <div className="w-full min-w-0 max-w-full">
+              <Link
+                href={reserveLink.href}
+                variant="primary"
+                fullWidth
+                className="box-border w-full max-w-full !px-4 !tracking-[0.08em] whitespace-normal"
+              >
+                Book an event
+              </Link>
+            </div>
           </div>
         </div>
 

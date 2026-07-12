@@ -52,7 +52,14 @@ export function buttonClassName({
   fullWidth?: boolean;
   className?: string;
 } = {}) {
-  return cn(base, variants[variant], sizes[size], fullWidth && "w-full", className);
+  return cn(
+    base,
+    variants[variant],
+    sizes[size],
+    // min-w-0 prevents flex/grid parents from letting the pill grow past the card
+    fullWidth && "box-border w-full min-w-0 max-w-full",
+    className,
+  );
 }
 
 export function Button({

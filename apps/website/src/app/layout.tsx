@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${fontSans.variable} ${fontDisplay.variable}`}>
+    <html lang="en" className={`${fontSans.variable} ${fontDisplay.variable} scroll-smooth`}>
       <body className="bg-background text-foreground min-h-screen overflow-x-hidden font-sans antialiased">
         <Navbar />
         {children}
