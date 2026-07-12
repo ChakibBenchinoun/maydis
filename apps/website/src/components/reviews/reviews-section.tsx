@@ -4,16 +4,20 @@ import { Quote } from "lucide-react";
 import { motion } from "motion/react";
 
 import { StarRating } from "@/components/reviews/star-rating";
-import { Container } from "@/components/ui/container";
-import { SectionDivider } from "@/components/ui/section-divider";
-import { SectionLabel } from "@/components/ui/section-label";
+import {
+  Container,
+  Section,
+  SectionDivider,
+  sectionHeaderClass,
+  SectionLabel,
+} from "@/components/ui";
 import { reviews } from "@/data/reviews";
 
 export function ReviewsSection() {
   return (
-    <section className="py-24">
+    <Section tone="muted">
       <Container>
-        <div className="mb-14 text-center">
+        <div className={sectionHeaderClass}>
           <SectionLabel>What our guests say</SectionLabel>
           <h2 className="font-display text-foreground text-4xl font-bold md:text-5xl">
             Avis Clients
@@ -49,6 +53,6 @@ export function ReviewsSection() {
           ))}
         </div>
       </Container>
-    </section>
+    </Section>
   );
 }

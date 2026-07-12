@@ -1,12 +1,13 @@
-import { Container } from "@/components/ui/container";
+import { Container, Section } from "@/components/ui";
 import { SectionLabel } from "@/components/ui/section-label";
 
 export function AboutSection() {
   return (
-    <section id="about" className="bg-secondary/45 py-24">
+    <Section id="about">
       <Container>
-        <div className="grid items-center gap-16 md:grid-cols-2 lg:gap-24">
-          <div className="relative">
+        <div className="grid items-center gap-12 md:grid-cols-2 md:gap-16 lg:gap-24">
+          {/* Image column — desktop only */}
+          <div className="relative hidden md:block">
             <div className="bg-secondary aspect-[4/5] overflow-hidden rounded-3xl shadow-2xl">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -15,7 +16,7 @@ export function AboutSection() {
                 className="h-full w-full object-cover"
               />
             </div>
-            <div className="border-background bg-secondary absolute -right-6 -bottom-6 hidden h-36 w-36 overflow-hidden rounded-2xl border-4 shadow-2xl md:block">
+            <div className="border-background bg-secondary absolute -right-6 -bottom-6 h-36 w-36 overflow-hidden rounded-2xl border-4 shadow-2xl">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/sealing.webp"
@@ -51,6 +52,6 @@ export function AboutSection() {
           </div>
         </div>
       </Container>
-    </section>
+    </Section>
   );
 }

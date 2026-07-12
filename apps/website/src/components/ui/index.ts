@@ -10,4 +10,5 @@ export { Image, type ImageProps } from "./image";
 export { Link, type LinkProps } from "./link";
 export { SectionDivider } from "./section-divider";
 export { SectionLabel } from "./section-label";
+export { Section, sectionHeaderClass, sectionPaddingClass, type SectionTone } from "./section";
 export { Eyebrow, Heading, Paragraph, type HeadingSize, type ParagraphSize } from "./typography";

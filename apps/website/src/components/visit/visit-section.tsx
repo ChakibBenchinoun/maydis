@@ -1,13 +1,20 @@
 import { Clock, Instagram, MapPin } from "lucide-react";
 
-import { Container, Link, SectionDivider, SectionLabel } from "@/components/ui";
+import {
+  Container,
+  Link,
+  Section,
+  SectionDivider,
+  sectionHeaderClass,
+  SectionLabel,
+} from "@/components/ui";
 import { openingHours, site, socialLinks } from "@/lib/constants";
 
 export function VisitSection() {
   return (
-    <section id="visit" className="bg-secondary/45 py-24">
+    <Section id="visit">
       <Container>
-        <div className="mb-14 text-center">
+        <div className={sectionHeaderClass}>
           <SectionLabel>Come find us</SectionLabel>
           <h2 className="font-display text-foreground text-4xl font-bold md:text-5xl">
             Visit {site.name}
@@ -125,6 +132,6 @@ export function VisitSection() {
           />
         </div>
       </Container>
-    </section>
+    </Section>
   );
 }

@@ -5,7 +5,16 @@ import { useState } from "react";
 import { MenuItemModal } from "@/components/menu/menu-item-modal";
 import { MenuScrollRow } from "@/components/menu/menu-scroll-row";
 import { MenuSwipeCarousel } from "@/components/menu/menu-swipe-carousel";
-import { Container, Heading, Link, Paragraph, SectionDivider, SectionLabel } from "@/components/ui";
+import {
+  Container,
+  Heading,
+  Link,
+  Paragraph,
+  Section,
+  SectionDivider,
+  sectionHeaderClass,
+  SectionLabel,
+} from "@/components/ui";
 import type { MenuItem } from "@/data/menu";
 import { latestMenuCopy } from "@/lib/constants";
 
@@ -24,9 +33,9 @@ export function LatestMenuSection({ items }: LatestMenuSectionProps) {
 
   return (
     <>
-      <section id="menu" className="py-24">
+      <Section id="menu">
         <Container>
-          <div className="mb-14 text-center">
+          <div className={sectionHeaderClass}>
             <SectionLabel>{latestMenuCopy.label}</SectionLabel>
             <Heading>{latestMenuCopy.title}</Heading>
             <SectionDivider />
@@ -50,13 +59,13 @@ export function LatestMenuSection({ items }: LatestMenuSectionProps) {
             </Paragraph>
           )}
 
-          <div className="mt-10 text-center">
+          <div className="mt-10 text-center md:mt-12">
             <Link href={latestMenuCopy.ctaHref} variant="primary">
               {latestMenuCopy.cta}
             </Link>
           </div>
         </Container>
-      </section>
+      </Section>
 
       <MenuItemModal item={selectedItem} onClose={() => setSelectedItem(null)} />
     </>

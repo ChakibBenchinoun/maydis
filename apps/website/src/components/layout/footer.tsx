@@ -7,9 +7,9 @@ export function Footer() {
   const instagram = socialLinks[0];
 
   return (
-    <footer className="bg-foreground text-background pt-16 pb-10">
+    <footer className="bg-foreground text-background pt-14 pb-10 sm:pt-16 md:pt-20">
       <Container>
-        <div className="mb-12 flex flex-col items-start justify-between gap-10 md:flex-row md:items-end">
+        <div className="mb-10 flex flex-col items-start justify-between gap-10 md:mb-12 md:flex-row md:items-end">
           <div>
             <h2 className="font-display text-primary mb-3 text-3xl font-bold tracking-[0.16em]">
               {site.nameDisplay}

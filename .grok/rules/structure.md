@@ -31,12 +31,19 @@ When editing `apps/website`:
 
 Import as `@/components/<domain>/<file>` (no flat root component files for features).
 
-## Layout container
+## Layout container & section rhythm
 
-- Shared width lives in `components/ui/container.tsx` — same as navbar: `max-w-7xl` + `px-6 md:px-10`.
-- Sections keep vertical padding / background on `<section>`; wrap content in `<Container>`.
-- Navbar / footer use `Container` for the same horizontal bounds.
-- Full-bleed blocks (hero image, mobile menu overlay) stay outside `Container`.
+- Shared width: `components/ui/container.tsx` — `max-w-7xl` + `px-6 md:px-10`.
+- Shared vertical rhythm: `components/ui/section.tsx` — `py-16 sm:py-20 md:py-24` (+ optional `tone="muted"`).
+- Section headers: `sectionHeaderClass` → `mb-10 md:mb-14 text-center`.
+- Prefer `<Section>` + `<Container>` over ad-hoc `py-24` / `bg-secondary/45` on every file.
+- Full-bleed media (hero, gallery marquee) stays outside Container; clip overflow as needed.
+
+## Band alternation (home)
+
+Prefer alternating tones so consecutive muted blocks don’t stack:
+
+`menu (default)` → `gallery (muted)` → `about (default)` → `reviews (muted)` → `visit (default)` → `qr (muted)`.
 
 
 ## UI primitives (`components/ui/`)

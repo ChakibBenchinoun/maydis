@@ -5,7 +5,16 @@ import { Instagram } from "lucide-react";
 
 import { GalleryItemModal } from "@/components/gallery/gallery-item-modal";
 import { GalleryMarquee } from "@/components/gallery/gallery-marquee";
-import { Container, Heading, Link, Paragraph, SectionDivider, SectionLabel } from "@/components/ui";
+import {
+  Container,
+  Heading,
+  Link,
+  Paragraph,
+  Section,
+  SectionDivider,
+  sectionHeaderClass,
+  SectionLabel,
+} from "@/components/ui";
 import { galleryItems, type GalleryItem } from "@/data/gallery";
 import { socialLinks } from "@/lib/constants";
 
@@ -19,9 +28,9 @@ export function GallerySection() {
 
   return (
     <>
-      <section id="gallery" className="bg-secondary/45 overflow-x-hidden py-24">
+      <Section id="gallery" tone="muted" className="overflow-x-hidden">
         <Container>
-          <div className="mb-14 text-center">
+          <div className={sectionHeaderClass}>
             <SectionLabel>Through the lens</SectionLabel>
             <Heading>Gallery</Heading>
             <SectionDivider />
@@ -36,14 +45,14 @@ export function GallerySection() {
         </div>
 
         <Container>
-          <div className="mt-12 text-center">
+          <div className="mt-10 text-center md:mt-12">
             <Link external href={instagram.href} variant="primary">
               <Instagram size={15} />
               Follow {instagram.handle}
             </Link>
           </div>
         </Container>
-      </section>
+      </Section>
 
       <GalleryItemModal item={selected} onClose={() => setSelected(null)} />
     </>

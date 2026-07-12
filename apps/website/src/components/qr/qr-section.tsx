@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import QRCode from "qrcode";
 
-import { Container, Link, SectionDivider, SectionLabel } from "@/components/ui";
+import { Container, Link, Section, SectionDivider, SectionLabel } from "@/components/ui";
 
 function menuUrl() {
   if (typeof window !== "undefined") {
@@ -30,7 +30,7 @@ export function QrSection() {
   }, []);
 
   return (
-    <section id="qr" className="bg-secondary/45 py-24">
+    <Section id="qr" tone="muted">
       <Container>
         <div className="mx-auto max-w-3xl text-center">
           <SectionLabel>Table QR</SectionLabel>
@@ -42,7 +42,7 @@ export function QrSection() {
             Print this code for tables — guests open the full digital menu instantly.
           </p>
 
-          <div className="bg-card border-border/50 mt-10 inline-flex flex-col items-center gap-4 rounded-3xl border p-8 shadow-sm">
+          <div className="bg-card border-border/50 mt-10 inline-flex flex-col items-center gap-4 rounded-3xl border p-6 shadow-sm sm:mt-12 sm:p-8">
             {dataUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={dataUrl} alt="QR code to Maydi's menu" className="h-52 w-52 rounded-xl" />
@@ -56,6 +56,6 @@ export function QrSection() {
           </div>
         </div>
       </Container>
-    </section>
+    </Section>
   );
 }
