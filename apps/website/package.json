@@ -14,7 +14,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.110.2",
+    "@supabase/ssr": "^0.12.1",
+    "@supabase/supabase-js": "^2.110.5",
     "lucide-react": "^0.511.0",
     "motion": "^12.23.24",
     "next": "^16.0.0",
@@ -22,7 +23,8 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "svg-scroll-draw": "^2.9.0",
-    "swiper": "^14.0.5"
+    "swiper": "^14.0.5",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.6",

@@ -73,6 +73,9 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000
 NEXT_PUBLIC_SUPABASE_URL=https://YOUR_REF.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
 SUPABASE_SERVICE_ROLE_KEY=eyJ...
+
+# Staff admin — bootstrap owner only (others added in /admin/staff)
+OWNER_EMAIL=you@yourdomain.com
 ```
 
 Rules:
@@ -80,6 +83,11 @@ Rules:
 - URL must be **`https://`** (never `postgresql://`)
 - Next.js reads **`apps/website/.env.local`** (not only repo root)
 - No `DATABASE_URL` needed for the website
+- Create the **owner** user in Supabase Auth (email = `OWNER_EMAIL`)
+- Extra staff: owner adds them in **Admin → Staff** (not in env)
+- Login is **email + password** for now; phone/SMS OTP can be added later with a provider (Twilio, etc.)
+- Run `004_staff_members.sql` for the staff table
+
 
 ---
 

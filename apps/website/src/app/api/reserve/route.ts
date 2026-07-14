@@ -1,43 +1,34 @@
 import { NextResponse } from "next/server";
 
+import { reserveRequestSchema } from "@/lib/reservations/schema";
+import { createReservation } from "@/lib/reservations/service";
 import { getSupabaseServerClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import { notifyEventBookingWhatsApp } from "@/lib/whatsapp/send";
 
-type Body = {
-  name?: string;
-  phone?: string;
-  email?: string;
-  date?: string;
-  time?: string;
-  guests?: string;
-  notes?: string;
-};
-
 export async function POST(request: Request) {
-  let body: Body;
+  let json: unknown;
   try {
-    body = (await request.json()) as Body;
+    json = await request.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const name = body.name?.trim() ?? "";
-  const phone = body.phone?.trim() ?? "";
-  const date = body.date?.trim() ?? "";
-  const time = body.time?.trim() ?? "";
-  const guests = body.guests?.trim() ?? "";
-  const email = body.email?.trim() || null;
-  const notes = body.notes?.trim() || null;
-
-  if (!name || !phone || !date || !time || !guests) {
+  const parsed = reserveRequestSchema.safeParse(json);
+  if (!parsed.success) {
+    const first = parsed.error.issues[0];
     return NextResponse.json(
-      { error: "Name, phone, date, time, and guests are required." },
+      {
+        error: first?.message ?? "Invalid reservation data",
+        issues: parsed.error.issues.map((i) => ({
+          path: i.path.join("."),
+          message: i.message,
+        })),
+      },
       { status: 400 },
     );
   }
 
-  const booking = { name, phone, email, date, time, guests, notes };
-
+  const booking = parsed.data;
   let reservationId: string | null = null;
   let stored = false;
 
@@ -49,59 +40,18 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Database unavailable" }, { status: 503 });
     }
 
-    const { data: rpcId, error: rpcError } = await supabase.rpc("create_reservation", {
-      payload: {
-        name,
-        phone,
-        email,
-        date,
-        time,
-        guests,
-        notes,
-      },
-    });
-
-    if (!rpcError && rpcId) {
-      stored = true;
-      reservationId = String(rpcId);
-    } else {
-      if (rpcError) {
-        console.warn("[reserve] RPC failed, trying direct insert:", rpcError.message);
-      }
-
-      const { data: row, error } = await supabase
-        .from("reservations")
-        .insert({
-          name,
-          phone,
-          email,
-          date,
-          time,
-          guests,
-          notes,
-          status: "pending",
-        })
-        .select("id")
-        .single();
-
-      if (error) {
-        console.error("[reserve] insert failed", { rpc: rpcError, insert: error });
-        return NextResponse.json(
-          {
-            error:
-              "Could not save reservation. Run supabase/migrations/001_init.sql in the Supabase SQL Editor (see docs/SUPABASE.md).",
-          },
-          { status: 500 },
-        );
-      }
-
-      stored = true;
-      reservationId = row?.id ? String(row.id) : null;
+    const result = await createReservation(supabase, booking);
+    if (!result.stored && result.error) {
+      return NextResponse.json({ error: result.error }, { status: 500 });
     }
+    stored = result.stored;
+    reservationId = result.id;
   }
 
   const whatsapp = await notifyEventBookingWhatsApp({
     ...booking,
+    email: booking.email ?? null,
+    notes: booking.notes ?? null,
     reservationId,
   });
 
