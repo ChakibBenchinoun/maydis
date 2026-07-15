@@ -119,7 +119,7 @@ export function MenuSwipeCarousel({
               <button
                 type="button"
                 onClick={() => onSelect(item)}
-                className="group focus-visible:ring-primary relative flex h-full w-full flex-col text-left focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-inset"
+                className="group focus-visible:ring-primary relative flex h-full w-full flex-col text-left focus-visible:ring-2 focus-visible:outline-hidden focus-visible:ring-inset"
               >
                 <div className="bg-secondary relative min-h-0 flex-1 overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -129,7 +129,7 @@ export function MenuSwipeCarousel({
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     draggable={false}
                   />
-                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-linear-to-t from-black/70 via-black/25 to-transparent" />
                   {item.tags[0] ? (
                     <span className="bg-primary/95 text-primary-foreground absolute top-3.5 left-3.5 rounded-full px-3 py-1 text-[10px] font-semibold tracking-wider uppercase shadow-sm">
                       {item.tags[0]}

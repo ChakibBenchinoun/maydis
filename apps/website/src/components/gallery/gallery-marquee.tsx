@@ -36,7 +36,7 @@ function GalleryTile({
       type="button"
       onClick={() => onSelect(item)}
       className={[
-        "bg-secondary group focus-visible:ring-primary relative h-[11.5rem] shrink-0 cursor-pointer overflow-hidden rounded-2xl shadow-sm transition-shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none sm:h-[15rem] lg:h-[18rem]",
+        "bg-secondary group focus-visible:ring-primary relative h-[11.5rem] shrink-0 cursor-pointer overflow-hidden rounded-2xl shadow-sm transition-shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden sm:h-[15rem] lg:h-[18rem]",
         TILE_WIDTHS[index % TILE_WIDTHS.length],
       ].join(" ")}
       aria-label={item.title ?? item.alt}
@@ -51,7 +51,7 @@ function GalleryTile({
       />
       {item.type === "video" ? (
         <>
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+          <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/55 via-black/10 to-transparent" />
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 shadow-lg transition-transform duration-200 group-hover:scale-110 sm:h-14 sm:w-14">
               <Play size={18} className="text-primary ml-0.5" fill="currentColor" />

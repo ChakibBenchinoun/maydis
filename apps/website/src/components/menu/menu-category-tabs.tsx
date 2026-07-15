@@ -22,7 +22,7 @@ export function MenuCategoryTabs({
           key={cat}
           type="button"
           onClick={() => onChange(cat)}
-          className={`flex-shrink-0 rounded-full px-5 py-2.5 text-xs font-semibold tracking-wide transition-all duration-200 ${
+          className={`shrink-0 rounded-full px-5 py-2.5 text-xs font-semibold tracking-wide transition-all duration-200 ${
             activeCategory === cat
               ? "bg-primary text-white shadow-md"
               : "bg-secondary text-secondary-foreground hover:bg-primary/10 hover:text-primary"

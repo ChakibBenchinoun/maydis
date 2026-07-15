@@ -14,7 +14,7 @@ import { reviews } from "@/data/reviews";
 
 export function ReviewsSection() {
   return (
-    <Section tone="muted">
+    <Section id="reviews" tone="muted">
       <Container>
         <div className={sectionHeaderClass}>
           <SectionLabel>What our guests say</SectionLabel>

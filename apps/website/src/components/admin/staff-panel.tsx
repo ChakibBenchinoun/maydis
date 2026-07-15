@@ -98,7 +98,7 @@ export function StaffPanel({
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="border-border bg-secondary focus:border-primary w-full rounded-lg border px-3.5 py-2.5 text-sm focus:outline-none"
+                className="border-border bg-secondary focus:border-primary w-full rounded-lg border px-3.5 py-2.5 text-sm focus:outline-hidden"
                 placeholder="colleague@example.com"
               />
             </div>
@@ -112,7 +112,7 @@ export function StaffPanel({
                 minLength={8}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="border-border bg-secondary focus:border-primary w-full rounded-lg border px-3.5 py-2.5 text-sm focus:outline-none"
+                className="border-border bg-secondary focus:border-primary w-full rounded-lg border px-3.5 py-2.5 text-sm focus:outline-hidden"
                 placeholder="Min. 8 characters"
                 autoComplete="new-password"
               />

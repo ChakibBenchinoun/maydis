@@ -1,7 +1,7 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
@@ -61,6 +61,13 @@ export function ReserveForm() {
     });
   }
 
+  // After success mounts, scroll to card top (ref exists again on success wrapper)
+  useEffect(() => {
+    if (!sent) return;
+    const t = window.setTimeout(() => scrollToCardTop(), 50);
+    return () => window.clearTimeout(t);
+  }, [sent]);
+
   const form = useForm({
     defaultValues: initialValues,
     onSubmit: async ({ value }) => {
@@ -80,11 +87,10 @@ export function ReserveForm() {
           throw new Error(data.error || "Something went wrong. Please try again or call us.");
         }
         setWhatsapp(data.whatsapp ?? null);
-        setSent(true);
         form.reset();
         setStep(0);
+        setSent(true);
         fireReserveConfetti();
-        scrollToCardTop();
       } catch (err) {
         setSubmitError(err instanceof Error ? err.message : "Request failed");
       } finally {
@@ -164,22 +170,25 @@ export function ReserveForm() {
     void form.handleSubmit();
   }
 
+  const stepTitle = RESERVE_STEPS[step]?.label ?? "Reserve";
+
   if (sent) {
     return (
-      <ReserveSuccess
-        whatsapp={whatsapp}
-        onAgain={() => {
-          setSent(false);
-          setWhatsapp(null);
-          form.reset();
-          setStep(0);
-          clearErrors();
-        }}
-      />
+      <div ref={cardTopRef} className="flex scroll-mt-28 flex-col">
+        <ReserveSuccess
+          whatsapp={whatsapp}
+          onAgain={() => {
+            setSent(false);
+            setWhatsapp(null);
+            form.reset();
+            setStep(0);
+            clearErrors();
+            requestAnimationFrame(() => scrollToCardTop());
+          }}
+        />
+      </div>
     );
   }
-
-  const stepTitle = RESERVE_STEPS[step]?.label ?? "Reserve";
 
   return (
     <div ref={cardTopRef} className="flex scroll-mt-28 flex-col">
@@ -622,7 +631,7 @@ function ReviewDlRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="px-0 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
       <dt className="text-foreground text-sm font-medium">{label}</dt>
-      <dd className="text-muted-foreground mt-1 text-sm break-words sm:col-span-2 sm:mt-0">
+      <dd className="text-muted-foreground mt-1 text-sm wrap-break-word sm:col-span-2 sm:mt-0">
         {value}
       </dd>
     </div>

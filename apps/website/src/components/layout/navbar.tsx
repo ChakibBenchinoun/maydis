@@ -3,17 +3,16 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Instagram, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
 import { buttonClassName } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { isSectionNavLink, mainNavLinks, reserveLink, site, socialLinks } from "@/lib/constants";
+import { isSectionNavLink, mainNavLinks, menuLink, reserveLink, site } from "@/lib/constants";
 import { images } from "@/lib/images";
 import { scrollToId } from "@/lib/scroll";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
-const instagram = socialLinks[0];
 const mobileItemVariants = {
   hidden: { opacity: 0, y: 12 },
   show: {
@@ -79,17 +78,15 @@ export function Navbar() {
     setMobileMenuOpen(false);
   };
 
-  const linkClass = `text-[11px] font-semibold tracking-[0.14em] uppercase transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary rounded-sm ${
+  const linkClass = `text-[11px] font-semibold tracking-[0.14em] uppercase transition-colors duration-200 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary rounded-sm ${
     solid
       ? "text-foreground hover:text-primary focus-visible:ring-offset-background"
       : "text-white/90 hover:text-white focus-visible:ring-white/70 focus-visible:ring-offset-transparent"
   }`;
 
-  const iconBtnClass = `inline-flex items-center justify-center p-2 rounded-full transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary ${
-    solid
-      ? "text-foreground hover:text-primary hover:bg-secondary/80 focus-visible:ring-offset-background"
-      : "text-white/90 hover:text-white hover:bg-white/10 focus-visible:ring-white/70 focus-visible:ring-offset-transparent"
-  }`;
+  const menuClass = solid
+    ? buttonClassName({ variant: "outline", size: "sm" })
+    : buttonClassName({ variant: "outlineLight", size: "sm" });
 
   const reserveClass = solid
     ? buttonClassName({ variant: "primary", size: "sm" })
@@ -118,7 +115,7 @@ export function Navbar() {
           <button
             type="button"
             onClick={goHome}
-            className="font-display text-primary focus-visible:ring-primary flex items-center gap-2.5 rounded-sm text-xl font-bold tracking-[0.2em] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+            className="font-display text-primary focus-visible:ring-primary flex items-center gap-2.5 rounded-sm text-xl font-bold tracking-[0.2em] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -166,28 +163,20 @@ export function Navbar() {
               initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.28, ease: easeOut }}
-              className="flex items-center gap-4 lg:gap-5"
+              className="flex items-center gap-3 lg:gap-4"
             >
+              <Link href={menuLink.href} className={menuClass}>
+                {menuLink.label}
+              </Link>
               <Link href={reserveLink.href} className={reserveClass}>
                 {reserveLink.label}
               </Link>
-
-              <a
-                href={instagram.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                title="Instagram"
-                className={iconBtnClass}
-              >
-                <Instagram size={16} strokeWidth={1.75} />
-              </a>
             </motion.div>
           </div>
 
           <button
             type="button"
-            className={`focus-visible:ring-primary relative inline-flex h-10 w-10 items-center justify-center rounded-md transition-colors focus-visible:ring-2 focus-visible:outline-none md:hidden ${
+            className={`focus-visible:ring-primary relative inline-flex h-10 w-10 items-center justify-center rounded-md transition-colors focus-visible:ring-2 focus-visible:outline-hidden md:hidden ${
               solid ? "text-foreground" : "text-white"
             }`}
             onClick={() => setMobileMenuOpen((v) => !v)}
@@ -256,7 +245,7 @@ export function Navbar() {
               >
                 {mainNavLinks.map((link) => {
                   const itemClass =
-                    "text-foreground hover:text-primary border-border/50 focus-visible:text-primary block w-full border-b py-4 text-left text-sm font-semibold tracking-[0.16em] uppercase transition-colors focus-visible:outline-none";
+                    "text-foreground hover:text-primary border-border/50 focus-visible:text-primary block w-full border-b py-4 text-left text-sm font-semibold tracking-[0.16em] uppercase transition-colors focus-visible:outline-hidden";
 
                   if (isSectionNavLink(link)) {
                     return (
@@ -293,22 +282,19 @@ export function Navbar() {
                 className="flex flex-col gap-3 pt-10"
               >
                 <Link
+                  href={menuLink.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={buttonClassName({ variant: "outline", fullWidth: true })}
+                >
+                  {menuLink.label}
+                </Link>
+                <Link
                   href={reserveLink.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={buttonClassName({ variant: "primary", fullWidth: true })}
                 >
                   {reserveLink.label}
                 </Link>
-                <a
-                  href={instagram.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={buttonClassName({ variant: "outline", fullWidth: true })}
-                >
-                  <Instagram size={14} />
-                  Instagram
-                </a>
               </motion.div>
             </div>
           </motion.div>

@@ -49,7 +49,7 @@ export function PageHeader({
           />
           {/* Readable text over photo — warm dark wash matching brand */}
           <div
-            className="absolute inset-0 bg-gradient-to-b from-[#2c2318]/75 via-[#2c2318]/65 to-[#2c2318]/80"
+            className="absolute inset-0 bg-linear-to-b from-[#2c2318]/75 via-[#2c2318]/65 to-[#2c2318]/80"
             aria-hidden
           />
         </>

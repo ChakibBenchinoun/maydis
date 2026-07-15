@@ -17,7 +17,7 @@ export function MenuCard({ item, onSelect, className = "" }: MenuCardProps) {
       <button
         type="button"
         onClick={() => onSelect(item)}
-        className="group bg-card border-border/50 focus-visible:ring-primary flex h-full w-full flex-col overflow-hidden rounded-2xl border text-left shadow-sm transition-shadow duration-300 hover:shadow-xl focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+        className="group bg-card border-border/50 focus-visible:ring-primary flex h-full w-full flex-col overflow-hidden rounded-2xl border text-left shadow-sm transition-shadow duration-300 hover:shadow-xl focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden"
       >
         <div className="bg-secondary relative h-[140px] w-full shrink-0 overflow-hidden lg:h-[150px]">
           {/* eslint-disable-next-line @next/next/no-img-element */}

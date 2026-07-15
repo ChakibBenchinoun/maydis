@@ -64,8 +64,8 @@ export function Hero() {
         </motion.div>
       </div>
 
-      <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/30 to-black/75" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/50 to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-b from-black/25 via-black/30 to-black/75" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-black/50 to-transparent" />
 
       {/* Same horizontal bounds as navbar */}
       <Container className="relative z-10 text-center text-white">
@@ -140,7 +140,7 @@ export function Hero() {
               <Button
                 fullWidth
                 className="shadow-lg hover:scale-[1.02] hover:shadow-xl active:scale-[0.99] sm:w-auto"
-                onClick={() => scrollToId("menu")}
+                onClick={() => scrollToId("latest")}
               >
                 Explore the latest
               </Button>
@@ -171,7 +171,7 @@ export function Hero() {
                 onClick={() => scrollToId("qr")}
                 aria-label="View menu QR code"
                 title="Menu QR code"
-                className="rounded-full p-1.5 text-white/60 transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none"
+                className="rounded-full p-1.5 text-white/60 transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-hidden"
               >
                 <QrCode size={18} strokeWidth={1.5} />
               </button>
@@ -182,8 +182,8 @@ export function Hero() {
 
       <motion.button
         type="button"
-        onClick={() => scrollToId("menu")}
-        aria-label="Scroll to menu"
+        onClick={() => scrollToId("latest")}
+        aria-label="Scroll to latest on the menu"
         initial={reduceMotion ? false : { opacity: 0 }}
         animate={reduceMotion ? { opacity: 0.55 } : { opacity: 0.55, y: [0, 8, 0] }}
         transition={
@@ -194,7 +194,7 @@ export function Hero() {
                 y: { repeat: Infinity, duration: 2.4, ease: "easeInOut", delay: 1.1 },
               }
         }
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 rounded-full p-1 text-white/55 transition-colors hover:text-white/90 focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 rounded-full p-1 text-white/55 transition-colors hover:text-white/90 focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-hidden"
       >
         <ChevronDown size={22} />
       </motion.button>

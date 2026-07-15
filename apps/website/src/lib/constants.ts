@@ -17,14 +17,19 @@ export const site = {
 } as const;
 
 /**
- * Primary nav — Menu first (page), then home section anchors, then Reserve.
+ * Primary nav — text links first, then Menu + Reserve as CTAs.
  * Section links use `/#id` (scroll on home); page links are absolute paths.
+ * Order matches home scroll: hero → latest → gallery → about → reviews → visit → qr.
  */
 export const homeNavLinks = [
-  { id: "menu", label: "Menu", href: "/menu" },
+  { id: "hero", label: "Home", href: "/#hero" },
+  { id: "latest", label: "Our Latest", href: "/#latest" },
   { id: "gallery", label: "Gallery", href: "/#gallery" },
   { id: "about", label: "Our Story", href: "/#about" },
+  { id: "reviews", label: "What Customers Say", href: "/#reviews" },
   { id: "visit", label: "Visit", href: "/#visit" },
+  { id: "qr", label: "Share Our Menu", href: "/#qr" },
+  { id: "menu", label: "Menu", href: "/menu" },
   { id: "reserve", label: "Reserve", href: "/reserve" },
 ] as const;
 
@@ -40,8 +45,10 @@ export function isSectionNavLink(link: HomeNavLink): boolean {
   return link.href.includes("#");
 }
 
-/** Nav list items (excludes Reserve CTA). */
-export const mainNavLinks = homeNavLinks.filter((l) => l.id !== "reserve");
+/** Nav list items (excludes Menu + Reserve CTAs). */
+export const mainNavLinks = homeNavLinks.filter(
+  (l) => l.id !== "menu" && l.id !== "reserve",
+);
 
 /** Named page routes derived from homeNavLinks */
 export const menuLink = getHomeNavLink("menu");

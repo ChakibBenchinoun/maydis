@@ -90,8 +90,13 @@ export function PageScrollLine({
     const measure = () => {
       const footer = document.querySelector("footer");
       const top = documentTop(region);
-      const end = footer ? documentTop(footer) : top + region.scrollHeight;
-      const next = Math.max(Math.ceil(end - top), region.scrollHeight, 1);
+      const regionH = Math.ceil(region.getBoundingClientRect().height);
+      // Distance from region top → footer top (or region bottom if no footer)
+      const toFooter = footer
+        ? Math.ceil(documentTop(footer) - top)
+        : regionH;
+      // Never taller than the region itself — avoids painting over the footer
+      const next = Math.max(Math.min(regionH, toFooter > 0 ? toFooter : regionH), 1);
 
       // Ignore sub-pixel / rubber-band noise (avoids remount flicker)
       if (heightRef.current !== null && Math.abs(heightRef.current - next) < 12) {
@@ -201,7 +206,7 @@ export function ScrollLineRegion<T extends ElementType = "div">({
 }: ScrollLineRegionProps<T>) {
   const Comp = (as ?? "div") as ElementType;
   return (
-    <Comp className={cn("relative", className)} {...rest}>
+    <Comp className={cn("relative overflow-x-clip", className)} {...rest}>
       {line ? <PageScrollLine {...lineProps} /> : null}
       <div className="relative z-[1]">{children}</div>
     </Comp>

@@ -31,7 +31,7 @@ export function VisitSection() {
               alt="Maydi's warm interior"
               className="h-full w-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/5 to-black/30 md:bg-gradient-to-l" />
+            <div className="absolute inset-0 bg-linear-to-r from-black/5 to-black/30 md:bg-linear-to-l" />
           </div>
 
           <div className="bg-card flex w-full min-w-0 max-w-full flex-col justify-center gap-8 overflow-hidden px-5 py-10 sm:px-8 md:px-12 md:py-12">

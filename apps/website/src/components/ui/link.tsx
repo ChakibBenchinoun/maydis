@@ -6,10 +6,10 @@ import { cn } from "@/lib/cn";
 
 const textVariants = {
   default:
-    "text-foreground hover:text-primary font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm",
+    "text-foreground hover:text-primary font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary rounded-sm",
   muted:
-    "text-muted-foreground hover:text-primary text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm",
-  nav: "text-[11px] font-semibold tracking-[0.14em] uppercase transition-colors duration-200 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm",
+    "text-muted-foreground hover:text-primary text-sm transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary rounded-sm",
+  nav: "text-[11px] font-semibold tracking-[0.14em] uppercase transition-colors duration-200 hover:text-primary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary rounded-sm",
   underline: "underline-offset-4 hover:underline text-primary font-semibold",
 } as const;
 

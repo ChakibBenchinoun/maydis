@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function ReservePage() {
   return (
-    <main className="bg-background min-h-screen">
+    <main className="flex min-h-0 flex-1 flex-col">
       {/* Header outside the line region so the line starts below it */}
       <PageHeader
         eyebrow="Events"
@@ -25,11 +25,14 @@ export default function ReservePage() {
         imageAlt={`${site.name} café interior`}
       />
 
-      {/* Line runs from end of header → start of footer (home-page pattern) */}
-      <ScrollLineRegion>
-        <Container className="py-12 md:py-16">
-          <div className="mx-auto min-w-0 max-w-lg">
-            <div className="bg-card border-border/50 rounded-2xl border p-6 shadow-sm sm:p-8">
+      {/*
+        flex-1 grows to fill space above the footer (sticky footer layout).
+        Line is clipped to this region — never draws over the footer.
+      */}
+      <ScrollLineRegion className="flex min-h-0 flex-1 flex-col">
+        <Container className="flex flex-1 flex-col py-12 md:py-16">
+          <div className="mx-auto flex w-full min-w-0 max-w-lg flex-1 flex-col">
+            <div className="bg-card border-border/50 my-auto w-full rounded-2xl border p-6 shadow-sm sm:p-8">
               <ReserveForm />
             </div>
           </div>

@@ -33,7 +33,7 @@ export function LatestMenuSection({ items }: LatestMenuSectionProps) {
 
   return (
     <>
-      <Section id="menu" className="overflow-x-hidden">
+      <Section id="latest" className="overflow-x-hidden">
         <Container>
           <div className={sectionHeaderClass}>
             <SectionLabel>{latestMenuCopy.label}</SectionLabel>
