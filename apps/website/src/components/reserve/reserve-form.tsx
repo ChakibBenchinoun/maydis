@@ -210,52 +210,44 @@ export function ReserveForm() {
         aria-labelledby={headingId}
       >
         <div className={`${STEP_BODY_MIN_H} flex flex-col`}>
-          {/* 0 — Info */}
+          {/* 0 — Info (centered like the page header) */}
           {step === 0 && (
-            <div className="space-y-6">
+            <div className="space-y-6 text-center">
               <div>
                 <h4 className="font-display text-foreground mb-4 text-xl font-bold sm:text-2xl">
                   Welcome to {site.name}
                 </h4>
-                <p className="text-muted-foreground mb-5 text-sm leading-relaxed">
+                <p className="text-muted-foreground mx-auto mb-5 max-w-md text-sm leading-relaxed">
                   A glimpse of what we share with you — space, tables, food, and the feeling of a
                   slow good day in Oran.
                 </p>
-                <ul className="text-muted-foreground space-y-3 text-sm leading-relaxed">
-                  <li className="flex gap-2.5">
-                    <span className="text-primary mt-0.5 shrink-0">·</span>
-                    <span>
-                      <span className="text-foreground font-medium">Indoor & outdoor space</span>
-                      {" — "}
-                      bright interior seating and a garden-like terrace for sunny days and golden
+                <ul className="mx-auto max-w-md space-y-5 text-sm leading-relaxed">
+                  <li>
+                    <p className="text-foreground mb-1 font-semibold">Indoor & outdoor space</p>
+                    <p className="text-muted-foreground">
+                      Bright interior seating and a garden-like terrace for sunny days and golden
                       evenings.
-                    </span>
+                    </p>
                   </li>
-                  <li className="flex gap-2.5">
-                    <span className="text-primary mt-0.5 shrink-0">·</span>
-                    <span>
-                      <span className="text-foreground font-medium">Tables for every gathering</span>
-                      {" — "}
-                      intimate corners for two, family tables, and room for larger celebrations
-                      when booked in advance.
-                    </span>
+                  <li>
+                    <p className="text-foreground mb-1 font-semibold">Tables for every gathering</p>
+                    <p className="text-muted-foreground">
+                      Intimate corners for two, family tables, and room for larger celebrations when
+                      booked in advance.
+                    </p>
                   </li>
-                  <li className="flex gap-2.5">
-                    <span className="text-primary mt-0.5 shrink-0">·</span>
-                    <span>
-                      <span className="text-foreground font-medium">Food with variety</span>
-                      {" — "}
-                      brunch plates, bowls, cakes, and drinks — something for slow mornings and
-                      long lunches.
-                    </span>
+                  <li>
+                    <p className="text-foreground mb-1 font-semibold">Food with variety</p>
+                    <p className="text-muted-foreground">
+                      Brunch plates, bowls, cakes, and drinks — something for slow mornings and long
+                      lunches.
+                    </p>
                   </li>
-                  <li className="flex gap-2.5">
-                    <span className="text-primary mt-0.5 shrink-0">·</span>
-                    <span>
-                      <span className="text-foreground font-medium">The vibe</span>
-                      {" — "}
-                      calm, warm, and welcoming. Come for the food, stay for the atmosphere.
-                    </span>
+                  <li>
+                    <p className="text-foreground mb-1 font-semibold">The vibe</p>
+                    <p className="text-muted-foreground">
+                      Calm, warm, and welcoming. Come for the food, stay for the atmosphere.
+                    </p>
                   </li>
                 </ul>
               </div>
@@ -264,27 +256,18 @@ export function ReserveForm() {
                 <h4 className="font-display text-foreground mb-3 text-base font-bold">
                   Before you book
                 </h4>
-                <ul className="text-muted-foreground space-y-3 text-sm leading-relaxed">
-                  <li className="flex gap-2.5">
-                    <span className="text-primary mt-0.5 shrink-0">·</span>
-                    <span>Requests are confirmed by our team — not instant auto-booking.</span>
-                  </li>
-                  <li className="flex gap-2.5">
-                    <span className="text-primary mt-0.5 shrink-0">·</span>
-                    <span>We will confirm by phone or WhatsApp message.</span>
-                  </li>
-                  <li className="flex gap-2.5">
-                    <span className="text-primary mt-0.5 shrink-0">·</span>
-                    <span>
-                      Same-day or larger parties: call{" "}
-                      <a
-                        href={site.phoneHref}
-                        className="text-primary font-semibold hover:underline"
-                      >
-                        {site.phone}
-                      </a>
-                      .
-                    </span>
+                <ul className="text-muted-foreground mx-auto max-w-md space-y-3 text-sm leading-relaxed">
+                  <li>Requests are confirmed by our team — not instant auto-booking.</li>
+                  <li>We will confirm by phone or WhatsApp message.</li>
+                  <li>
+                    Same-day or larger parties: call{" "}
+                    <a
+                      href={site.phoneHref}
+                      className="text-primary font-semibold hover:underline"
+                    >
+                      {site.phone}
+                    </a>
+                    .
                   </li>
                 </ul>
               </div>
@@ -293,11 +276,11 @@ export function ReserveForm() {
                 <h4 className="font-display text-foreground mb-3 text-base font-bold">
                   Opening hours
                 </h4>
-                <div className="space-y-2.5">
+                <div className="mx-auto inline-grid max-w-full grid-cols-[auto_auto] gap-x-8 gap-y-2.5 text-left text-sm">
                   {openingHours.map(({ day, hours }) => (
-                    <div key={day} className="flex justify-between gap-4 text-sm">
+                    <div key={day} className="contents">
                       <span className="text-muted-foreground">{day}</span>
-                      <span className="text-foreground shrink-0 font-semibold tabular-nums">
+                      <span className="text-foreground text-right font-semibold tabular-nums">
                         {hours}
                       </span>
                     </div>

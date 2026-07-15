@@ -30,19 +30,6 @@ export default function ReservePage() {
             <p className="text-muted-foreground mx-auto mt-5 max-w-md text-sm leading-relaxed">
               Birthdays, gatherings, and private moments at {site.name}.
             </p>
-            {/* Trust line — confirmation model up front (matches Visit / form copy) */}
-            <p className="text-foreground/80 mx-auto mt-4 max-w-md text-sm leading-relaxed">
-              We’ll confirm by{" "}
-              <span className="text-foreground font-medium">WhatsApp or phone</span>
-              {" — "}
-              not instant auto-booking. Prefer to call?{" "}
-              <a
-                href={site.phoneHref}
-                className="text-primary font-semibold hover:underline"
-              >
-                {site.phone}
-              </a>
-            </p>
           </div>
 
           <div className="mx-auto w-full min-w-0 max-w-lg">
