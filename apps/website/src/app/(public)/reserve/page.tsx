@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 import { ScrollLineRegion } from "@/components/effects/page-scroll-line";
-import { PageHeader } from "@/components/layout/page-header";
 import { ReserveForm } from "@/components/reserve/reserve-form";
 import { Container } from "@/components/ui/container";
+import { SectionDivider } from "@/components/ui/section-divider";
+import { SectionLabel } from "@/components/ui/section-label";
 import { site } from "@/lib/constants";
-import { images } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "Reserve",
@@ -14,30 +14,32 @@ export const metadata: Metadata = {
 
 export default function ReservePage() {
   return (
-    <main className="flex min-h-0 flex-1 flex-col">
-      {/* Header outside the line region so the line starts below it */}
-      <PageHeader
-        eyebrow="Events"
-        title="Reserve for an event"
-        description={`Birthdays, gatherings, and private moments at ${site.name}. Tell us your date and we will confirm by phone.`}
-        descriptionClassName="max-w-xl"
-        imageSrc={images.visit}
-        imageAlt={`${site.name} café interior`}
-      />
+    <ScrollLineRegion
+      as="main"
+      className="bg-background flex min-h-0 flex-1 flex-col"
+    >
+      {/* Same header rhythm as /menu — centered label, title, divider, description */}
+      <section className="relative flex flex-1 flex-col py-28 md:py-32">
+        <Container className="relative z-[1] flex flex-1 flex-col">
+          <div className="mb-14 text-center">
+            <SectionLabel>Events</SectionLabel>
+            <h1 className="font-display text-foreground text-4xl font-bold md:text-5xl">
+              Reserve for an event
+            </h1>
+            <SectionDivider />
+            <p className="text-muted-foreground mx-auto mt-5 max-w-xl text-sm leading-relaxed">
+              Birthdays, gatherings, and private moments at {site.name}. Tell us your date
+              and we will confirm by phone.
+            </p>
+          </div>
 
-      {/*
-        flex-1 grows to fill space above the footer (sticky footer layout).
-        Line is clipped to this region — never draws over the footer.
-      */}
-      <ScrollLineRegion className="flex min-h-0 flex-1 flex-col">
-        <Container className="flex flex-1 flex-col py-12 md:py-16">
           <div className="mx-auto flex w-full min-w-0 max-w-lg flex-1 flex-col">
             <div className="bg-card border-border/50 my-auto w-full rounded-2xl border p-6 shadow-sm sm:p-8">
               <ReserveForm />
             </div>
           </div>
         </Container>
-      </ScrollLineRegion>
-    </main>
+      </section>
+    </ScrollLineRegion>
   );
 }
