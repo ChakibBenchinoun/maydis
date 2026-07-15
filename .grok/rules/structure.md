@@ -11,7 +11,7 @@ When editing `apps/website`:
 7. Prefer `lib/images.ts` paths over hardcoding `/images/...` in chrome sections (navbar, hero).
 8. Full-page mobile overlays: render as a **sibling** of the sticky header bar (not inside a `backdrop-blur` / `backdrop-filter` parent), or fixed positioning will break and the panel can look transparent. Use an opaque `backgroundColor: var(--background)`.
 9. Motion: reuse ease `[0.22, 1, 0.36, 1]`; respect `prefers-reduced-motion` for Ken Burns / loops.
-10. Nav hierarchy: section anchors + secondary links as text; **Reserve** as primary pill CTA; Instagram icon-only on desktop when space is tight.
+10. Nav hierarchy: section anchors as text links (`homeNavLinks` / `mainNavLinks`); **Menu** + **Reserve** as pill CTAs (Reserve primary by default; active page demotes the other). Site strings/nav in `lib/constants.ts`. Section jumps via `lib/scroll.ts` (`scrollToId`) — never rely on CSS smooth alone for SPA nav.
 
 ## Extract only when repeated (or non-trivial)
 

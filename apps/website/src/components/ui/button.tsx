@@ -3,7 +3,7 @@ import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-full font-semibold tracking-[0.12em] uppercase transition-all duration-200 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
+  "inline-flex cursor-pointer items-center justify-center gap-2 rounded-full font-semibold tracking-[0.12em] uppercase transition-all duration-200 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50";
 
 /**
  * Mobile-first sizes (compact on small screens, larger from `sm`).
@@ -17,18 +17,18 @@ const sizes = {
 
 const variants = {
   primary:
-    "bg-primary text-primary-foreground shadow-md hover:bg-amber-500 hover:shadow-lg focus-visible:ring-primary focus-visible:ring-offset-background",
+    "bg-primary text-primary-foreground shadow-md hover:bg-amber-500 hover:shadow-lg active:bg-amber-600 focus-visible:ring-primary focus-visible:ring-offset-background",
   secondary:
-    "bg-secondary text-secondary-foreground hover:bg-primary/10 hover:text-primary focus-visible:ring-primary focus-visible:ring-offset-background",
+    "bg-secondary text-secondary-foreground hover:bg-primary/10 hover:text-primary active:bg-primary/15 focus-visible:ring-primary focus-visible:ring-offset-background",
   outline:
-    "border border-border bg-transparent text-foreground hover:border-primary hover:text-primary focus-visible:ring-primary focus-visible:ring-offset-background",
+    "border border-border bg-transparent text-foreground hover:border-primary hover:text-primary active:bg-primary/10 focus-visible:ring-primary focus-visible:ring-offset-background",
   /** Light outline for dark/hero backgrounds */
   outlineLight:
-    "border border-white/50 bg-white/5 text-white backdrop-blur-sm hover:bg-white/12 focus-visible:ring-white/70 focus-visible:ring-offset-transparent",
+    "border border-white/50 bg-white/5 text-white backdrop-blur-sm hover:bg-white/12 active:bg-white/20 focus-visible:ring-white/70 focus-visible:ring-offset-transparent",
   ghost:
-    "bg-transparent text-foreground hover:bg-secondary/80 hover:text-primary focus-visible:ring-primary focus-visible:ring-offset-background",
+    "bg-transparent text-foreground hover:bg-secondary/80 hover:text-primary active:bg-secondary focus-visible:ring-primary focus-visible:ring-offset-background",
   ghostLight:
-    "bg-transparent text-white/70 hover:text-amber-200 focus-visible:ring-white/60 focus-visible:ring-offset-transparent",
+    "bg-transparent text-white/70 hover:text-amber-200 active:text-amber-100 focus-visible:ring-white/60 focus-visible:ring-offset-transparent",
 } as const;
 
 export type ButtonVariant = keyof typeof variants;

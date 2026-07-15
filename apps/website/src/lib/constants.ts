@@ -6,8 +6,10 @@ export const site = {
     "A bright, garden-like café in the heart of Oran — for slow mornings, nourishing lunches, and golden afternoon breaks.",
   phone: "+213 541 45 30 73",
   phoneHref: "tel:+213541453073",
-  addressLine1: "Maydi's",
-  addressLine2: "Oran, Algeria",
+  /** Digits-only E.164 for wa.me links */
+  whatsappHref: "https://wa.me/213541453073",
+  addressLine1: "Hai Khemisiti, Cité 2000 Logements Belle Vue",
+  addressLine2: "Oran 31000, Algeria",
   mapsUrl:
     "https://www.google.com/maps/place/Maydi's/@35.7205944,-0.5985259,17z/data=!4m6!3m5!1s0xd7e63770f48b90f:0x5e16e7269ba85e4!8m2!3d35.7205944!4d-0.5985259!16s%2Fg%2F11gmt_vj5_",
   mapEmbedUrl: "https://www.google.com/maps?q=35.7205944,-0.5985259&z=17&output=embed",
@@ -19,14 +21,11 @@ export const site = {
 /**
  * Primary nav — text links first, then Menu + Reserve as CTAs.
  * Section links use `/#id` (scroll on home); page links are absolute paths.
- * Order matches home scroll: hero → latest → gallery → about → reviews → visit → qr.
  */
 export const homeNavLinks = [
   { id: "hero", label: "Home", href: "/#hero" },
-  { id: "latest", label: "Our Latest", href: "/#latest" },
   { id: "gallery", label: "Gallery", href: "/#gallery" },
   { id: "about", label: "Our Story", href: "/#about" },
-  { id: "reviews", label: "What Customers Say", href: "/#reviews" },
   { id: "visit", label: "Visit", href: "/#visit" },
   { id: "qr", label: "Share Our Menu", href: "/#qr" },
   { id: "menu", label: "Menu", href: "/menu" },

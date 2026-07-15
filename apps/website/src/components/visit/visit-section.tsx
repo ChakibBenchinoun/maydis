@@ -1,4 +1,4 @@
-import { Clock, MapPin } from "lucide-react";
+import { Clock, MapPin, MessageCircle, Phone } from "lucide-react";
 
 import {
   Container,
@@ -24,30 +24,36 @@ export function VisitSection() {
         </div>
 
         <div className="border-border/30 mb-8 grid w-full max-w-full gap-0 overflow-hidden rounded-3xl border shadow-xl md:grid-cols-2">
-          <div className="bg-secondary relative aspect-[4/3] min-h-[300px] min-w-0 md:aspect-auto">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/gallery-01.jpg"
-              alt="Maydi's warm interior"
-              className="h-full w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-linear-to-r from-black/5 to-black/30 md:bg-linear-to-l" />
-          </div>
-
           <div className="bg-card flex w-full min-w-0 max-w-full flex-col justify-center gap-8 overflow-hidden px-5 py-10 sm:px-8 md:px-12 md:py-12">
-            <div className="min-w-0">
-              <p className="text-accent mb-2 text-[10px] font-bold tracking-[0.3em] uppercase">
-                Book an event
-              </p>
-              <a
-                href={site.phoneHref}
-                className="font-display text-primary break-all text-2xl leading-tight font-bold transition-colors hover:text-amber-500 sm:text-3xl md:text-4xl"
-              >
-                {site.phone}
-              </a>
+            <div className="flex min-w-0 items-start gap-4">
+              <div className="bg-primary/10 mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
+                <Phone size={18} className="text-primary" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-foreground mb-1 text-sm font-semibold">Phone</p>
+                <p className="text-muted-foreground text-sm leading-relaxed tabular-nums">
+                  {site.phone}
+                </p>
+                <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1">
+                  <a
+                    href={site.phoneHref}
+                    className="text-primary inline-flex items-center gap-1.5 text-xs font-semibold hover:underline"
+                  >
+                    <Phone size={12} strokeWidth={2.25} />
+                    Call
+                  </a>
+                  <a
+                    href={site.whatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary inline-flex items-center gap-1.5 text-xs font-semibold hover:underline"
+                  >
+                    <MessageCircle size={12} strokeWidth={2.25} />
+                    WhatsApp
+                  </a>
+                </div>
+              </div>
             </div>
-
-            <div className="bg-border h-px w-full" />
 
             <div className="flex min-w-0 items-start gap-4">
               <div className="bg-primary/10 mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
@@ -60,14 +66,6 @@ export function VisitSection() {
                   <br />
                   {site.addressLine2}
                 </p>
-                <a
-                  href={site.mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary mt-2 inline-block text-xs font-semibold hover:underline"
-                >
-                  Open in Google Maps →
-                </a>
               </div>
             </div>
 
@@ -126,6 +124,17 @@ export function VisitSection() {
                 Book an event
               </Link>
             </div>
+          </div>
+
+          <div className="bg-secondary relative aspect-[4/3] min-h-[300px] min-w-0 md:aspect-auto">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/gallery-01.jpg"
+              alt="Maydi's warm interior"
+              className="h-full w-full object-cover"
+            />
+            {/* Soft wash toward the content edge (left on desktop) */}
+            <div className="absolute inset-0 bg-linear-to-l from-black/5 to-black/30 md:bg-linear-to-r" />
           </div>
         </div>
 

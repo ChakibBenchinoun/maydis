@@ -6,11 +6,12 @@ import { cn } from "@/lib/cn";
 
 const textVariants = {
   default:
-    "text-foreground hover:text-primary font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary rounded-sm",
+    "cursor-pointer text-foreground hover:text-primary active:text-primary active:opacity-80 font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary rounded-sm",
   muted:
-    "text-muted-foreground hover:text-primary text-sm transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary rounded-sm",
-  nav: "text-[11px] font-semibold tracking-[0.14em] uppercase transition-colors duration-200 hover:text-primary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary rounded-sm",
-  underline: "underline-offset-4 hover:underline text-primary font-semibold",
+    "cursor-pointer text-muted-foreground hover:text-primary active:text-primary active:opacity-80 text-sm transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary rounded-sm",
+  nav: "cursor-pointer text-[11px] font-semibold tracking-[0.14em] uppercase transition-colors duration-200 hover:text-primary active:text-primary active:opacity-80 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary rounded-sm",
+  underline:
+    "cursor-pointer underline-offset-4 hover:underline active:opacity-80 text-primary font-semibold",
 } as const;
 
 export type LinkTextVariant = keyof typeof textVariants;

@@ -8,7 +8,14 @@ import { AnimatePresence, motion } from "motion/react";
 
 import { buttonClassName } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { isSectionNavLink, mainNavLinks, menuLink, reserveLink, site } from "@/lib/constants";
+import {
+  isSectionNavLink,
+  mainNavLinks,
+  menuLink,
+  reserveLink,
+  site,
+  type HomeNavLink,
+} from "@/lib/constants";
 import { images } from "@/lib/images";
 import { scrollToId } from "@/lib/scroll";
 
@@ -22,6 +29,33 @@ const mobileItemVariants = {
   },
 } as const;
 
+/** Home section anchors in document order (for scroll-spy). */
+const sectionNavIds = mainNavLinks.filter(isSectionNavLink).map((l) => l.id);
+
+function navOffsetPx() {
+  if (typeof document === "undefined") return 72;
+  const raw = getComputedStyle(document.documentElement).scrollPaddingTop;
+  const n = parseFloat(raw);
+  return Number.isFinite(n) && n > 0 ? n : 72;
+}
+
+/**
+ * Which home section is “current” under the sticky nav.
+ * Last section whose top has crossed the nav threshold wins.
+ */
+function getActiveSectionId(): string {
+  const threshold = navOffsetPx() + 8;
+  let current = sectionNavIds[0] ?? "hero";
+  for (const id of sectionNavIds) {
+    const el = document.getElementById(id);
+    if (!el) continue;
+    if (el.getBoundingClientRect().top <= threshold) {
+      current = id;
+    }
+  }
+  return current;
+}
+
 export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -29,6 +63,8 @@ export function Navbar() {
   const [navScrolled, setNavScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [menuPathname, setMenuPathname] = useState(pathname);
+  /** Active home section id (scroll-spy). Null off home. */
+  const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
 
   // Close mobile menu when the route changes (adjust state during render).
   if (pathname !== menuPathname) {
@@ -37,13 +73,37 @@ export function Navbar() {
   }
 
   const solid = !isHome || navScrolled || mobileMenuOpen;
+  const isMenuPage = pathname === menuLink.href || pathname.startsWith(`${menuLink.href}/`);
+  const isReservePage =
+    pathname === reserveLink.href || pathname.startsWith(`${reserveLink.href}/`);
 
   useEffect(() => {
-    if (!isHome) return;
-    const onScroll = () => setNavScrolled(window.scrollY > 80);
-    onScroll();
+    if (!isHome) {
+      setNavScrolled(true);
+      setActiveSectionId(null);
+      return;
+    }
+
+    // rAF-throttle: avoid setState every scroll event during section animations
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      setNavScrolled(window.scrollY > 80);
+      setActiveSectionId(getActiveSectionId());
+    };
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, [isHome]);
 
   useEffect(() => {
@@ -63,6 +123,7 @@ export function Navbar() {
   const goToSection = (id: string) => {
     if (isHome) {
       scrollToId(id);
+      setActiveSectionId(id);
     } else {
       router.push(`/#${id}`);
     }
@@ -72,25 +133,59 @@ export function Navbar() {
   const goHome = () => {
     if (isHome) {
       scrollToId("hero");
+      setActiveSectionId("hero");
     } else {
       router.push("/");
     }
     setMobileMenuOpen(false);
   };
 
-  const linkClass = `text-[11px] font-semibold tracking-[0.14em] uppercase transition-colors duration-200 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary rounded-sm ${
-    solid
-      ? "text-foreground hover:text-primary focus-visible:ring-offset-background"
-      : "text-white/90 hover:text-white focus-visible:ring-white/70 focus-visible:ring-offset-transparent"
-  }`;
+  const isLinkCurrent = (link: HomeNavLink) => {
+    if (isSectionNavLink(link)) {
+      return isHome && activeSectionId === link.id;
+    }
+    if (link.id === "menu") return isMenuPage;
+    if (link.id === "reserve") return isReservePage;
+    return pathname === link.href;
+  };
 
-  const menuClass = solid
-    ? buttonClassName({ variant: "outline", size: "sm" })
-    : buttonClassName({ variant: "outlineLight", size: "sm" });
+  const desktopLinkClass = (current: boolean) =>
+    [
+      "cursor-pointer text-[11px] font-semibold tracking-[0.14em] uppercase transition-colors duration-200",
+      "focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary rounded-sm",
+      current
+        ? solid
+          ? "text-primary focus-visible:ring-offset-background"
+          : "text-primary focus-visible:ring-white/70 focus-visible:ring-offset-transparent"
+        : solid
+          ? "text-foreground hover:text-primary focus-visible:ring-offset-background"
+          : "text-white/90 hover:text-primary focus-visible:ring-white/70 focus-visible:ring-offset-transparent",
+    ].join(" ");
 
-  const reserveClass = solid
-    ? buttonClassName({ variant: "primary", size: "sm" })
-    : buttonClassName({ variant: "outlineLight", size: "sm" });
+  const mobileLinkClass = (current: boolean) =>
+    [
+      "block w-full cursor-pointer border-b py-4 text-left text-sm font-semibold tracking-[0.16em] uppercase transition-colors duration-200 focus-visible:outline-hidden",
+      current
+        ? "border-primary/40 text-primary"
+        : "text-foreground hover:text-primary border-border/50 focus-visible:text-primary",
+    ].join(" ");
+
+  // Only one CTA is primary at a time: current page wins; otherwise Reserve is the default CTA.
+  const menuClass = buttonClassName({
+    variant: isMenuPage ? "primary" : solid ? "outline" : "outlineLight",
+    size: "sm",
+  });
+
+  const reserveClass = buttonClassName({
+    variant: isMenuPage
+      ? solid
+        ? "outline"
+        : "outlineLight"
+      : solid || isReservePage
+        ? "primary"
+        : "outlineLight",
+    size: "sm",
+  });
 
   return (
     <>
@@ -115,7 +210,7 @@ export function Navbar() {
           <button
             type="button"
             onClick={goHome}
-            className="font-display text-primary focus-visible:ring-primary flex items-center gap-2.5 rounded-sm text-xl font-bold tracking-[0.2em] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden"
+            className="font-display text-primary focus-visible:ring-primary flex cursor-pointer items-center gap-2.5 rounded-sm text-xl font-bold tracking-[0.2em] transition-opacity duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden active:opacity-70"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -130,6 +225,7 @@ export function Navbar() {
 
           <div className="hidden items-center gap-5 md:flex lg:gap-7">
             {mainNavLinks.map((link, i) => {
+              const current = isLinkCurrent(link);
               const motionProps = {
                 initial: { opacity: 0, y: -6 },
                 animate: { opacity: 1, y: 0 },
@@ -142,7 +238,8 @@ export function Navbar() {
                     key={link.id}
                     type="button"
                     onClick={() => goToSection(link.id)}
-                    className={linkClass}
+                    className={desktopLinkClass(current)}
+                    aria-current={current ? "true" : undefined}
                     {...motionProps}
                   >
                     {link.label}
@@ -152,7 +249,11 @@ export function Navbar() {
 
               return (
                 <motion.div key={link.id} {...motionProps}>
-                  <Link href={link.href} className={linkClass}>
+                  <Link
+                    href={link.href}
+                    className={desktopLinkClass(current)}
+                    aria-current={current ? "page" : undefined}
+                  >
                     {link.label}
                   </Link>
                 </motion.div>
@@ -165,10 +266,18 @@ export function Navbar() {
               transition={{ duration: 0.45, delay: 0.28, ease: easeOut }}
               className="flex items-center gap-3 lg:gap-4"
             >
-              <Link href={menuLink.href} className={menuClass}>
+              <Link
+                href={menuLink.href}
+                className={menuClass}
+                aria-current={isMenuPage ? "page" : undefined}
+              >
                 {menuLink.label}
               </Link>
-              <Link href={reserveLink.href} className={reserveClass}>
+              <Link
+                href={reserveLink.href}
+                className={reserveClass}
+                aria-current={isReservePage ? "page" : undefined}
+              >
                 {reserveLink.label}
               </Link>
             </motion.div>
@@ -176,8 +285,10 @@ export function Navbar() {
 
           <button
             type="button"
-            className={`focus-visible:ring-primary relative inline-flex h-10 w-10 items-center justify-center rounded-md transition-colors focus-visible:ring-2 focus-visible:outline-hidden md:hidden ${
-              solid ? "text-foreground" : "text-white"
+            className={`focus-visible:ring-primary relative inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-md transition-colors focus-visible:ring-2 focus-visible:outline-hidden md:hidden active:scale-95 ${
+              solid
+                ? "text-foreground hover:bg-secondary/80 hover:text-primary active:bg-secondary"
+                : "text-white hover:bg-white/10 hover:text-white active:bg-white/15"
             }`}
             onClick={() => setMobileMenuOpen((v) => !v)}
             aria-label={mobileMenuOpen ? "Close navigation" : "Open navigation"}
@@ -244,8 +355,8 @@ export function Navbar() {
                 className="flex flex-col"
               >
                 {mainNavLinks.map((link) => {
-                  const itemClass =
-                    "text-foreground hover:text-primary border-border/50 focus-visible:text-primary block w-full border-b py-4 text-left text-sm font-semibold tracking-[0.16em] uppercase transition-colors focus-visible:outline-hidden";
+                  const current = isLinkCurrent(link);
+                  const itemClass = mobileLinkClass(current);
 
                   if (isSectionNavLink(link)) {
                     return (
@@ -255,6 +366,7 @@ export function Navbar() {
                         onClick={() => goToSection(link.id)}
                         variants={mobileItemVariants}
                         className={itemClass}
+                        aria-current={current ? "true" : undefined}
                       >
                         {link.label}
                       </motion.button>
@@ -267,6 +379,7 @@ export function Navbar() {
                         href={link.href}
                         onClick={() => setMobileMenuOpen(false)}
                         className={itemClass}
+                        aria-current={current ? "page" : undefined}
                       >
                         {link.label}
                       </Link>
@@ -284,14 +397,22 @@ export function Navbar() {
                 <Link
                   href={menuLink.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={buttonClassName({ variant: "outline", fullWidth: true })}
+                  className={buttonClassName({
+                    variant: isMenuPage ? "primary" : "outline",
+                    fullWidth: true,
+                  })}
+                  aria-current={isMenuPage ? "page" : undefined}
                 >
                   {menuLink.label}
                 </Link>
                 <Link
                   href={reserveLink.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={buttonClassName({ variant: "primary", fullWidth: true })}
+                  className={buttonClassName({
+                    variant: isReservePage ? "primary" : "outline",
+                    fullWidth: true,
+                  })}
+                  aria-current={isReservePage ? "page" : undefined}
                 >
                   {reserveLink.label}
                 </Link>
