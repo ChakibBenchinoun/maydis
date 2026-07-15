@@ -8,6 +8,7 @@ export type EventBooking = {
   email?: string | null;
   date: string;
   time: string;
+  eventName?: string | null;
   guests: string;
   notes?: string | null;
   reservationId?: string | null;
@@ -21,6 +22,7 @@ export function ownerBookingMessage(b: EventBooking): string {
     `Name: ${b.name}`,
     `Phone: ${formatPhoneDisplay(b.phoneE164)}`,
     b.email ? `Email: ${b.email}` : null,
+    b.eventName ? `Event: ${b.eventName}` : null,
     `Date: ${b.date}`,
     `Time: ${b.time}`,
     `Guests: ${b.guests}`,
@@ -38,6 +40,7 @@ export function guestBookingMessage(b: EventBooking): string {
     `Hi ${b.name} 👋`,
     ``,
     `We received your event request at ${site.name}:`,
+    b.eventName ? `• Event: ${b.eventName}` : null,
     `• Date: ${b.date}`,
     `• Time: ${b.time}`,
     `• Guests: ${b.guests}`,

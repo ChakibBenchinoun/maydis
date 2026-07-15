@@ -10,7 +10,7 @@
  */
 
 import { createServer } from "node:http";
-import { mkdirSync, existsSync, readFileSync } from "node:fs";
+import { mkdirSync, existsSync, readFileSync, unlinkSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -139,6 +139,12 @@ async function startSocket() {
         lastQr = null;
         waStatus = "open";
         lastError = null;
+        // Drop stale QR file so /health hasQr stays false when linked
+        try {
+          if (existsSync(QR_PNG)) unlinkSync(QR_PNG);
+        } catch {
+          /* ignore */
+        }
         console.log("[whatsapp-bot] ✅ WhatsApp connected — ready to send");
       }
 

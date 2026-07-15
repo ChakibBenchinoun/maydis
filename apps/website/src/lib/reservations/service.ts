@@ -11,6 +11,12 @@ export async function createReservation(
   supabase: SupabaseClient,
   input: ReserveRequest,
 ): Promise<{ id: string | null; stored: boolean; error?: string }> {
+  // No event_name column yet — store with notes for admin visibility
+  const notesParts = [
+    input.eventName ? `Event: ${input.eventName}` : null,
+    input.notes ?? null,
+  ].filter(Boolean) as string[];
+
   const payload = {
     name: input.name,
     phone: input.phone,
@@ -18,7 +24,7 @@ export async function createReservation(
     date: input.date,
     time: input.time,
     guests: input.guests,
-    notes: input.notes ?? null,
+    notes: notesParts.length ? notesParts.join("\n") : null,
   };
 
   const { data: rpcId, error: rpcError } = await supabase.rpc("create_reservation", {

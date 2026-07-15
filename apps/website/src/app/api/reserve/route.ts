@@ -51,6 +51,7 @@ export async function POST(request: Request) {
   const whatsapp = await notifyEventBookingWhatsApp({
     ...booking,
     email: booking.email ?? null,
+    eventName: booking.eventName ?? null,
     notes: booking.notes ?? null,
     reservationId,
   });

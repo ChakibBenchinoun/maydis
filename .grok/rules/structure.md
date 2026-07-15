@@ -42,6 +42,12 @@ Reusable UI must be **generic, configurable, and portable**:
 3. Domain folders (`menu/`, `gallery/`) hold **domain UI** (cards, forms, sections) — not generic layout chrome renamed for that page.
 4. Prefer extending props on the shared component over a second near-duplicate.
 
+## Page header & scroll line
+
+1. `PageHeader` supports optional `imageSrc` as a **full-bleed background** (overlay + light text), not a side card unless product asks otherwise.
+2. On interior pages that use the decorative line: put **header outside** `ScrollLineRegion`, content inside — line runs **end of header → start of footer** (same idea as home below the hero).
+3. Do not wrap the whole page including the header in `ScrollLineRegion` unless intentional.
+
 ## Component domains (`src/components/`)
 
 | Folder | Put here |
@@ -54,7 +60,8 @@ Reusable UI must be **generic, configurable, and portable**:
 | `reviews/` | Reviews section |
 | `visit/` | Visit / contact section |
 | `qr/` | QR section |
-| `reserve/` | Reservation form |
+| `reserve/` | Multi-step reservation form (stepper, calendar, time slots, success) |
+| `admin/` | Staff shell, reservations table, staff panel |
 | `effects/` | Portable motion/scroll primitives: `marquee`, `use-marquee`, `flip-fade-text`, `page-scroll-line` |
 | `ui/` | Design system: `button`, `link`, `image`, `typography`, `container`, section label/divider |
 

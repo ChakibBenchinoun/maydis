@@ -9,6 +9,12 @@ Conventions for coding agents working in this monorepo.
 - Styling: Tailwind CSS v4 + `src/styles/theme.css` tokens (do not invent a new palette)
 - Animations: `motion` (`motion/react`)
 - Icons: `lucide-react`
+- Forms: **TanStack Form** + **Zod** (`lib/**/schema.ts`) for public + admin CRUDs
+- Server data (admin lists later): prefer **TanStack Query** when touching admin fetch/mutations
+- UI primitives: existing `components/ui/*`; adopt **shadcn/ui** when it fits (calendar, dialog, etc.) — do not replace brand sections wholesale. Project MCP: `.cursor/mcp.json` (`shadcn@latest mcp`); global Cursor config may also list shadcn.
+- WhatsApp: free Baileys bot (`apps/whatsapp-bot`) — local `pnpm whatsapp:bot` on `:3100`; production on Railway + Vercel `WHATSAPP_BOT_*`
+- Admin: `/admin` — bootstrap `OWNER_EMAIL`, staff in UI (`staff_members`); see `docs/ADMIN.md`
+
 
 ## Commands
 
@@ -97,10 +103,11 @@ src/
 - Guide: `docs/SUPABASE.md`
 - Bootstrap SQL (empty project): `supabase/migrations/001_init.sql`
 - Env: **`apps/website/.env.local`** only — `NEXT_PUBLIC_SUPABASE_URL` must be `https://…supabase.co`
-- Reserve writes: RPC `create_reservation` via `/api/reserve`
+- Reserve writes: RPC `create_reservation` via `/api/reserve` + Zod `lib/reservations/schema.ts`
 - Menu reads: `lib/menu.ts` → RPC `get_menu_items` with static `data/menu.ts` fallback
+- Staff table: `004_staff_members.sql`; reservation statuses: `003_admin_reservation_status.sql`
 - Skill: **supabase-clean-setup** (project + global) — clean start over grant-patching
-- Future changes: add `002_*.sql`, do not rewrite applied production `001` without a new file
+- Future changes: add `00N_*.sql`, do not rewrite applied production `001` without a new file
 - **Migrations require approval** — do **not** create/edit/delete `supabase/migrations/*` unless the user explicitly approves in this chat. Propose SQL first; wait for yes. Always-on: `.grok/rules/database.md`.
 
 ## Agent skills in this repo
@@ -110,7 +117,8 @@ src/
 | `component-structure` | project (+ global if installed) | Thin pages, section components, chrome/UI polish |
 | `extract-when-repeated` | project + global | Extract only on repeat / primitives / non-trivial UI; scan dead wrappers |
 | `supabase-clean-setup` | project + global | Clean Supabase/bootstrap/env |
+| `forms-tanstack` | project | TanStack Form + Zod, multi-step wizards, validation UX |
 
-Always-on rules: `.grok/rules/structure.md`, `database.md`, `ui-polish.md`.
+Always-on rules: `.grok/rules/structure.md`, `database.md`, `ui-polish.md`, **`forms.md`**, **`admin.md`**.
 
-Invoke: `/extract-when-repeated`, `/supabase-clean-setup`, or describe the task.
+Invoke: `/extract-when-repeated`, `/supabase-clean-setup`, `/forms-tanstack`, or describe the task.
