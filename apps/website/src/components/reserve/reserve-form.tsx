@@ -6,7 +6,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 import { fireReserveConfetti } from "@/lib/confetti";
-import { openingHours, site } from "@/lib/constants";
+import { openingHours } from "@/lib/constants";
 import { clampPhoneDigits, formatDisplayDate } from "@/lib/reservations/options";
 import {
   EVENT_FOR_MAX,
@@ -212,12 +212,9 @@ export function ReserveForm() {
         <div className={`${STEP_BODY_MIN_H} flex flex-col`}>
           {/* 0 — Info (centered like the page header) */}
           {step === 0 && (
-            <div className="space-y-6 text-center">
+            <div className="space-y-8 text-center">
               <div>
-                <h4 className="font-display text-foreground mb-4 text-xl font-bold sm:text-2xl">
-                  Welcome to {site.name}
-                </h4>
-                <p className="text-muted-foreground mx-auto mb-5 max-w-md text-sm leading-relaxed">
+                <p className="text-muted-foreground mx-auto mb-6 max-w-md text-sm leading-relaxed">
                   A glimpse of what we share with you — space, tables, food, and the feeling of a
                   slow good day in Oran.
                 </p>
@@ -252,27 +249,7 @@ export function ReserveForm() {
                 </ul>
               </div>
 
-              <div className="border-border/50 border-t pt-5">
-                <h4 className="font-display text-foreground mb-3 text-base font-bold">
-                  Before you book
-                </h4>
-                <ul className="text-muted-foreground mx-auto max-w-md space-y-3 text-sm leading-relaxed">
-                  <li>Requests are confirmed by our team — not instant auto-booking.</li>
-                  <li>We will confirm by phone or WhatsApp message.</li>
-                  <li>
-                    Same-day or larger parties: call{" "}
-                    <a
-                      href={site.phoneHref}
-                      className="text-primary font-semibold hover:underline"
-                    >
-                      {site.phone}
-                    </a>
-                    .
-                  </li>
-                </ul>
-              </div>
-
-              <div className="border-border/50 border-t pt-5">
+              <div className="border-border/50 border-t pt-6">
                 <h4 className="font-display text-foreground mb-3 text-base font-bold">
                   Opening hours
                 </h4>

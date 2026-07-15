@@ -42,16 +42,16 @@ export function ReserveStepper({
               key={step.id}
               className={cn("relative flex items-center", !isLast && "min-w-0 flex-1")}
             >
-              {/* Circle */}
+              {/* Circle — bright card fill so progress reads clearly on cream */}
               {status === "complete" ? (
                 <span
                   className={cn(
-                    "bg-primary relative z-10 flex size-8 shrink-0 items-center justify-center rounded-full",
+                    "bg-primary relative z-10 flex size-8 shrink-0 items-center justify-center rounded-full shadow-sm",
                     "transition-all duration-300 ease-out",
                   )}
                 >
                   <Check
-                    className="size-4 text-white transition-opacity duration-300"
+                    className="text-primary-foreground size-4 transition-opacity duration-300"
                     strokeWidth={2.5}
                     aria-hidden
                   />
@@ -61,7 +61,8 @@ export function ReserveStepper({
                 <span
                   aria-current="step"
                   className={cn(
-                    "border-primary bg-background relative z-10 flex size-8 shrink-0 items-center justify-center rounded-full border-2",
+                    "border-primary bg-card relative z-10 flex size-8 shrink-0 items-center justify-center rounded-full border-2 shadow-sm",
+                    "ring-primary/20 ring-2 ring-offset-2 ring-offset-background",
                     "transition-all duration-300 ease-out",
                   )}
                 >
@@ -74,20 +75,20 @@ export function ReserveStepper({
               ) : (
                 <span
                   className={cn(
-                    "border-border bg-background relative z-10 flex size-8 shrink-0 items-center justify-center rounded-full border-2",
+                    "border-border bg-card relative z-10 flex size-8 shrink-0 items-center justify-center rounded-full border-2",
                     "transition-all duration-300 ease-out",
                   )}
                 >
-                  <span aria-hidden className="size-2.5 rounded-full bg-transparent" />
+                  <span aria-hidden className="bg-secondary size-2.5 rounded-full" />
                   <span className="sr-only">{step.label} — upcoming</span>
                 </span>
               )}
 
-              {/* Connector — track + animated fill from left */}
+              {/* Connector — bright track + gold fill */}
               {!isLast ? (
                 <div
                   aria-hidden
-                  className="bg-border relative mx-2 h-0.5 min-w-0 flex-1 overflow-hidden rounded-full sm:mx-3"
+                  className="bg-card relative mx-2 h-1.5 min-w-0 flex-1 overflow-hidden rounded-full border border-border/60 sm:mx-3"
                 >
                   <div
                     className={cn(

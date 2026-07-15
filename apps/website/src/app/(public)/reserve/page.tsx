@@ -21,15 +21,12 @@ export default function ReservePage() {
       */}
       <section className="relative flex flex-1 flex-col py-28 md:py-32">
         <Container className="relative z-[1] w-full">
-          <div className="mb-12 text-center md:mb-14">
+          <div className="mb-5 text-center md:mb-8">
             <SectionLabel>Events</SectionLabel>
             <h1 className="font-display text-foreground text-4xl font-bold md:text-5xl">
               Reserve for an event
             </h1>
             <SectionDivider />
-            <p className="text-muted-foreground mx-auto mt-5 max-w-md text-sm leading-relaxed">
-              Birthdays, gatherings, and private moments at {site.name}.
-            </p>
           </div>
 
           <div className="mx-auto w-full min-w-0 max-w-lg">
