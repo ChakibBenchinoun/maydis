@@ -71,9 +71,11 @@ src/
     constants.ts        # site, nav, social, hours, section copy
     menu.ts             # getMenuItems, pickLatestMenuItems, categories
     fonts.ts
-    scroll.ts
+    scroll.ts           # rAF section scroll (instant frames; don’t fight CSS smooth)
   styles/               # Design system CSS
 ```
+
+**Nav:** `homeNavLinks` in `constants.ts` — text sections + Menu/Reserve CTAs; scroll-spy + pathname current state in `navbar.tsx`. Always-on polish: `.grok/rules/ui-polish.md`.
 
 **Layout:** use `Container` (`@/components/ui/container`) for the same width as the navbar (`max-w-7xl` + horizontal padding). Sections put `py` / background on the outer element only.
 
