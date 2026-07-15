@@ -5,6 +5,15 @@ import { Play, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
 import { Button } from "@/components/ui/button";
+import {
+  VideoPlayer,
+  VideoPlayerContent,
+  VideoPlayerControlBar,
+  VideoPlayerMuteButton,
+  VideoPlayerPlayButton,
+  VideoPlayerTimeDisplay,
+  VideoPlayerTimeRange,
+} from "@/components/ui/video-player";
 import type { GalleryItem } from "@/data/gallery";
 
 type GalleryItemModalProps = {
@@ -14,6 +23,7 @@ type GalleryItemModalProps = {
 
 /**
  * Lightbox for gallery photos / videos (same interaction pattern as menu modal).
+ * Videos use Media Chrome controls (Skiper-inspired player shell).
  */
 export function GalleryItemModal({ item, onClose }: GalleryItemModalProps) {
   useEffect(() => {
@@ -33,6 +43,8 @@ export function GalleryItemModal({ item, onClose }: GalleryItemModalProps) {
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [item, onClose]);
+
+  const isPlayableVideo = item?.type === "video" && Boolean(item.videoSrc);
 
   return (
     <AnimatePresence>
@@ -54,19 +66,32 @@ export function GalleryItemModal({ item, onClose }: GalleryItemModalProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.97 }}
             transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-card relative max-h-[min(90dvh,42rem)] w-full max-w-lg overflow-hidden overflow-y-auto rounded-3xl shadow-2xl"
+            className="bg-card relative max-h-[min(90dvh,42rem)] w-full max-w-2xl overflow-hidden overflow-y-auto rounded-3xl shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="bg-secondary relative aspect-[4/3]">
-              {item.type === "video" && item.videoSrc ? (
-                <video
-                  src={item.videoSrc}
-                  poster={item.image}
-                  controls
-                  playsInline
-                  className="h-full w-full object-cover"
-                  autoPlay
-                />
+            <div
+              className={
+                isPlayableVideo
+                  ? "bg-secondary relative aspect-video"
+                  : "bg-secondary relative aspect-[4/3]"
+              }
+            >
+              {isPlayableVideo ? (
+                <VideoPlayer className="h-full w-full">
+                  <VideoPlayerContent
+                    src={item.videoSrc}
+                    poster={item.image}
+                    autoPlay
+                    muted={false}
+                    className="h-full w-full object-cover"
+                  />
+                  <VideoPlayerControlBar>
+                    <VideoPlayerPlayButton />
+                    <VideoPlayerTimeRange />
+                    <VideoPlayerTimeDisplay />
+                    <VideoPlayerMuteButton />
+                  </VideoPlayerControlBar>
+                </VideoPlayer>
               ) : (
                 <>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -85,7 +110,7 @@ export function GalleryItemModal({ item, onClose }: GalleryItemModalProps) {
             <button
               type="button"
               onClick={onClose}
-              className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-sm transition-colors hover:bg-black/55"
+              className="absolute top-4 right-4 z-20 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-sm transition-colors hover:bg-black/55"
               aria-label="Close"
             >
               <X size={17} />
@@ -100,13 +125,7 @@ export function GalleryItemModal({ item, onClose }: GalleryItemModalProps) {
               <h3 className="font-display text-foreground mb-2 text-2xl leading-snug font-bold">
                 {item.title ?? item.alt}
               </h3>
-              {item.type === "video" && !item.videoSrc ? (
-                <p className="text-muted-foreground mb-6 text-sm leading-relaxed">
-                  Full video coming soon — this is a still from the moment.
-                </p>
-              ) : (
-                <p className="text-muted-foreground mb-6 text-sm leading-relaxed">{item.alt}</p>
-              )}
+              <p className="text-muted-foreground mb-6 text-sm leading-relaxed">{item.alt}</p>
               <div className="flex justify-end">
                 <Button size="sm" onClick={onClose}>
                   Close

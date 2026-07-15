@@ -5,6 +5,7 @@ import { Play } from "lucide-react";
 
 import { Marquee } from "@/components/effects/marquee";
 import type { GalleryItem } from "@/data/gallery";
+import { cn } from "@/lib/cn";
 
 type GalleryMarqueeProps = {
   items: readonly GalleryItem[];
@@ -31,24 +32,42 @@ function GalleryTile({
   index: number;
   onSelect: (item: GalleryItem) => void;
 }) {
+  const isVideo = item.type === "video" && Boolean(item.videoSrc);
+
   return (
     <button
       type="button"
       onClick={() => onSelect(item)}
-      className={[
+      className={cn(
         "bg-secondary group focus-visible:ring-primary relative h-[11.5rem] shrink-0 cursor-pointer overflow-hidden rounded-2xl shadow-sm transition-shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden sm:h-[15rem] lg:h-[18rem]",
         TILE_WIDTHS[index % TILE_WIDTHS.length],
-      ].join(" ")}
+      )}
       aria-label={item.title ?? item.alt}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={item.image}
-        alt={item.alt}
-        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-        loading="lazy"
-        draggable={false}
-      />
+      {isVideo ? (
+        <video
+          src={item.videoSrc}
+          poster={item.image}
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          // Decorative preview — full audio/controls open in the modal
+          aria-hidden
+        />
+      ) : (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={item.image}
+          alt={item.alt}
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
+          draggable={false}
+        />
+      )}
+
       {item.type === "video" ? (
         <>
           <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/55 via-black/10 to-transparent" />
@@ -70,6 +89,7 @@ function GalleryTile({
 
 /**
  * Two gallery rows — opposite auto-scroll; tiles open the lightbox on click.
+ * Video tiles: muted autoplay loop preview (Skiper-style); click opens full player.
  * Animation: `@/components/effects/marquee` (no wheel/drag pan).
  */
 export function GalleryMarquee({
