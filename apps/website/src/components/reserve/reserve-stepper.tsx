@@ -5,6 +5,8 @@ import { Check } from "lucide-react";
 import { RESERVE_STEPS } from "@/lib/reservations/schema";
 import { cn } from "@/lib/cn";
 
+import { controlSurfaceClass } from "./reserve-field-styles";
+
 type StepStatus = "complete" | "current" | "upcoming";
 
 function statusFor(index: number, current: number): StepStatus {
@@ -42,7 +44,7 @@ export function ReserveStepper({
               key={step.id}
               className={cn("relative flex items-center", !isLast && "min-w-0 flex-1")}
             >
-              {/* Circle — bright card fill so progress reads clearly on cream */}
+              {/* Circle — pure white surface so progress reads bright on cream */}
               {status === "complete" ? (
                 <span
                   className={cn(
@@ -61,8 +63,8 @@ export function ReserveStepper({
                 <span
                   aria-current="step"
                   className={cn(
-                    "border-primary bg-card relative z-10 flex size-8 shrink-0 items-center justify-center rounded-full border-2 shadow-sm",
-                    "ring-primary/20 ring-2 ring-offset-2 ring-offset-background",
+                    "border-primary relative z-10 flex size-8 shrink-0 items-center justify-center rounded-full border-2 bg-[#ffffff] shadow-[0_2px_8px_rgba(44,35,24,0.08)]",
+                    "ring-primary/30 ring-2 ring-offset-2 ring-offset-background",
                     "transition-all duration-300 ease-out",
                   )}
                 >
@@ -75,20 +77,24 @@ export function ReserveStepper({
               ) : (
                 <span
                   className={cn(
-                    "border-border bg-card relative z-10 flex size-8 shrink-0 items-center justify-center rounded-full border-2",
+                    controlSurfaceClass,
+                    "relative z-10 flex size-8 shrink-0 items-center justify-center rounded-full border-2",
                     "transition-all duration-300 ease-out",
                   )}
                 >
-                  <span aria-hidden className="bg-secondary size-2.5 rounded-full" />
+                  <span aria-hidden className="size-2.5 rounded-full bg-black/10" />
                   <span className="sr-only">{step.label} — upcoming</span>
                 </span>
               )}
 
-              {/* Connector — bright track + gold fill */}
+              {/* Connector — bright white track + gold fill */}
               {!isLast ? (
                 <div
                   aria-hidden
-                  className="bg-card relative mx-2 h-1.5 min-w-0 flex-1 overflow-hidden rounded-full border border-border/60 sm:mx-3"
+                  className={cn(
+                    controlSurfaceClass,
+                    "relative mx-2 h-2 min-w-0 flex-1 overflow-hidden rounded-full sm:mx-3",
+                  )}
                 >
                   <div
                     className={cn(

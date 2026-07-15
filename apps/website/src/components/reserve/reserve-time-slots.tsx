@@ -3,6 +3,8 @@
 import { TIME_SLOTS } from "@/lib/reservations/options";
 import { cn } from "@/lib/cn";
 
+import { controlSurfaceClass } from "./reserve-field-styles";
+
 export function ReserveTimeSlots({
   value,
   onChange,
@@ -26,10 +28,10 @@ export function ReserveTimeSlots({
               aria-selected={selected}
               onClick={() => onChange(t)}
               className={cn(
-                "rounded-full px-3 py-1.5 text-xs font-semibold tabular-nums transition-colors",
+                "rounded-full px-3 py-1.5 text-sm font-semibold tabular-nums transition-colors",
                 selected
                   ? "bg-primary text-primary-foreground shadow-sm"
-                  : "bg-card text-foreground hover:border-primary/40 border-border border",
+                  : cn(controlSurfaceClass, "text-foreground hover:border-primary/50"),
               )}
             >
               {t}

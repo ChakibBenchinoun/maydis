@@ -5,6 +5,8 @@ import { Minus, Plus } from "lucide-react";
 import { GUESTS_MAX, GUESTS_MIN } from "@/lib/reservations/options";
 import { cn } from "@/lib/cn";
 
+import { controlSurfaceClass } from "./reserve-field-styles";
+
 /**
  * Compact guest count control — slightly smaller than default field height.
  */
@@ -32,7 +34,8 @@ export function ReserveGuestStepper({
         disabled={n <= GUESTS_MIN}
         onClick={() => set(n - 1)}
         className={cn(
-          "border-border bg-card text-foreground hover:border-primary flex h-8 w-8 items-center justify-center rounded-md border transition-colors",
+          controlSurfaceClass,
+          "text-foreground hover:border-primary flex h-9 w-9 items-center justify-center rounded-md transition-colors",
           "disabled:pointer-events-none disabled:opacity-40",
         )}
       >
@@ -40,11 +43,11 @@ export function ReserveGuestStepper({
       </button>
       <div
         id={id}
-        className="border-border bg-card min-w-[4.75rem] rounded-md border px-2.5 py-1.5 text-center"
+        className={cn(controlSurfaceClass, "min-w-[4.75rem] rounded-md px-2.5 py-1.5 text-center")}
         aria-live="polite"
       >
-        <span className="text-foreground text-sm font-semibold tabular-nums">{n}</span>
-        <span className="text-muted-foreground ml-1 text-[11px]">
+        <span className="text-foreground text-base font-semibold tabular-nums">{n}</span>
+        <span className="text-muted-foreground ml-1 text-xs">
           {n === 1 ? "guest" : "guests"}
         </span>
       </div>
@@ -54,7 +57,8 @@ export function ReserveGuestStepper({
         disabled={n >= GUESTS_MAX}
         onClick={() => set(n + 1)}
         className={cn(
-          "border-border bg-card text-foreground hover:border-primary flex h-8 w-8 items-center justify-center rounded-md border transition-colors",
+          controlSurfaceClass,
+          "text-foreground hover:border-primary flex h-9 w-9 items-center justify-center rounded-md transition-colors",
           "disabled:pointer-events-none disabled:opacity-40",
         )}
       >
