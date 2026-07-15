@@ -5,7 +5,6 @@
  * Free use with attribution to Skiper UI / @gurvinder-singh02.
  * @see https://skiperui.com
  */
-
 import type { ComponentProps } from "react";
 import {
   MediaControlBar,
@@ -62,7 +61,9 @@ export function VideoPlayerPlayButton({
   className,
   ...props
 }: ComponentProps<typeof MediaPlayButton>) {
-  return <MediaPlayButton className={cn("bg-transparent p-1.5 text-white", className)} {...props} />;
+  return (
+    <MediaPlayButton className={cn("bg-transparent p-1.5 text-white", className)} {...props} />
+  );
 }
 
 export function VideoPlayerTimeRange({
@@ -85,7 +86,10 @@ export function VideoPlayerTimeDisplay({
   ...props
 }: ComponentProps<typeof MediaTimeDisplay>) {
   return (
-    <MediaTimeDisplay className={cn("px-1.5 text-xs text-white/90 tabular-nums", className)} {...props} />
+    <MediaTimeDisplay
+      className={cn("px-1.5 text-xs text-white/90 tabular-nums", className)}
+      {...props}
+    />
   );
 }
 
@@ -93,5 +97,7 @@ export function VideoPlayerMuteButton({
   className,
   ...props
 }: ComponentProps<typeof MediaMuteButton>) {
-  return <MediaMuteButton className={cn("bg-transparent p-1.5 text-white", className)} {...props} />;
+  return (
+    <MediaMuteButton className={cn("bg-transparent p-1.5 text-white", className)} {...props} />
+  );
 }

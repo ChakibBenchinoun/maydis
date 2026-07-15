@@ -45,9 +45,7 @@ export function isSectionNavLink(link: HomeNavLink): boolean {
 }
 
 /** Nav list items (excludes Menu + Reserve CTAs). */
-export const mainNavLinks = homeNavLinks.filter(
-  (l) => l.id !== "menu" && l.id !== "reserve",
-);
+export const mainNavLinks = homeNavLinks.filter((l) => l.id !== "menu" && l.id !== "reserve");
 
 /** Named page routes derived from homeNavLinks */
 export const menuLink = getHomeNavLink("menu");
@@ -62,6 +60,15 @@ export const latestMenuCopy = {
   cta: "View full menu",
   ctaHref: menuLink.href,
   empty: "New dishes are on the way — check back soon.",
+} as const;
+
+/** Full `/menu` page header + empty state */
+export const menuPageCopy = {
+  label: "Scan · Sip · Enjoy",
+  title: menuLink.label,
+  description: "Every dish, drink, and seasonal favourite — updated for your visit.",
+  empty: "Menu coming soon.",
+  emptyCategory: "No dishes in this category yet.",
 } as const;
 
 export const socialLinks = [

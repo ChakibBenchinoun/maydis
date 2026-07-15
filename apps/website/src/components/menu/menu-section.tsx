@@ -9,7 +9,7 @@ import { Container } from "@/components/ui/container";
 import { SectionDivider } from "@/components/ui/section-divider";
 import { SectionLabel } from "@/components/ui/section-label";
 import type { MenuItem } from "@/data/menu";
-import { menuLink } from "@/lib/constants";
+import { menuPageCopy } from "@/lib/constants";
 import { categoriesFromItems } from "@/lib/menu";
 
 type MenuSectionProps = {
@@ -45,13 +45,13 @@ export function MenuSection({ items }: MenuSectionProps) {
       <section className="relative py-28 md:py-32">
         <Container className="relative z-[1]">
           <div className="mb-14 text-center">
-            <SectionLabel>Scan · Sip · Enjoy</SectionLabel>
-            <h2 className="font-display text-foreground text-4xl font-bold md:text-5xl">
-              {menuLink.label}
-            </h2>
+            <SectionLabel>{menuPageCopy.label}</SectionLabel>
+            <h1 className="font-display text-foreground text-4xl font-bold md:text-5xl">
+              {menuPageCopy.title}
+            </h1>
             <SectionDivider />
             <p className="text-muted-foreground mx-auto mt-5 max-w-xs text-sm leading-relaxed">
-              Every dish, drink, and seasonal favourite — updated for your visit.
+              {menuPageCopy.description}
             </p>
           </div>
 
@@ -70,7 +70,7 @@ export function MenuSection({ items }: MenuSectionProps) {
               />
             </>
           ) : (
-            <p className="text-muted-foreground py-8 text-center text-sm">Menu coming soon.</p>
+            <p className="text-muted-foreground py-8 text-center text-sm">{menuPageCopy.empty}</p>
           )}
         </Container>
       </section>

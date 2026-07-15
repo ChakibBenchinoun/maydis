@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { CheckCircle, Home, MessageCircle, Phone, UtensilsCrossed } from "lucide-react";
 import Link from "next/link";
+import { CheckCircle, Home, MessageCircle, Phone, UtensilsCrossed } from "lucide-react";
 
 import { buttonClassName } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
@@ -16,9 +16,6 @@ export type WhatsAppStatus = {
   guestError?: string | null;
   setupHint?: string | null;
 };
-
-/** Soft floor so success doesn’t feel cramped under the page header. */
-const SUCCESS_MIN_H = "min-h-[20rem] sm:min-h-[22rem]";
 
 export function ReserveSuccess({
   whatsapp,
@@ -50,16 +47,16 @@ export function ReserveSuccess({
       : "Your request is saved. We’ll confirm by phone or WhatsApp shortly.";
 
   return (
-    <div className={cn(SUCCESS_MIN_H, "flex flex-col py-2")}>
+    <div className="flex flex-col py-2">
       <div className="flex flex-1 flex-col text-center">
         <div className="bg-accent/15 mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full">
           <CheckCircle className="text-accent h-8 w-8" />
         </div>
 
-        <h3 className="font-display text-foreground mb-2 text-2xl font-bold sm:text-3xl">
+        <h1 className="font-display text-foreground mb-2 text-3xl font-bold sm:text-4xl">
           Request received
-        </h3>
-        <p className="text-foreground mx-auto mb-3 max-w-sm text-sm font-medium leading-relaxed">
+        </h1>
+        <p className="text-foreground mx-auto mb-3 max-w-sm text-sm leading-relaxed font-medium">
           Thank you for choosing {site.name}. We cannot wait to host you in Oran.
         </p>
         <p className="text-muted-foreground mx-auto max-w-sm text-sm leading-relaxed">
@@ -94,7 +91,7 @@ export function ReserveSuccess({
             href={menuLink.href}
             className={cn(
               buttonClassName({ variant: "primary", fullWidth: true }),
-              "rounded-full normal-case tracking-normal",
+              "rounded-full tracking-normal normal-case",
             )}
           >
             <UtensilsCrossed className="h-4 w-4" />
@@ -104,7 +101,7 @@ export function ReserveSuccess({
             href="/"
             className={cn(
               buttonClassName({ variant: "outline", fullWidth: true }),
-              "rounded-full normal-case tracking-normal",
+              "rounded-full tracking-normal normal-case",
             )}
           >
             <Home className="h-4 w-4" />

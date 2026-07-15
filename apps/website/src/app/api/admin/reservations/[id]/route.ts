@@ -28,10 +28,7 @@ export async function PATCH(request: Request, { params }: Params) {
   const parsed = reservationUpdateSchema.safeParse(json);
   if (!parsed.success) {
     const first = parsed.error.issues[0];
-    return NextResponse.json(
-      { error: first?.message ?? "Invalid update" },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: first?.message ?? "Invalid update" }, { status: 400 });
   }
 
   const supabase = getServiceRoleClient();

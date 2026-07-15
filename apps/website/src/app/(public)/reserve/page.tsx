@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 
 import { ScrollLineRegion } from "@/components/effects/page-scroll-line";
-import { ReserveForm } from "@/components/reserve/reserve-form";
-import { Container } from "@/components/ui/container";
-import { SectionDivider } from "@/components/ui/section-divider";
-import { SectionLabel } from "@/components/ui/section-label";
+import { ReservePageContent } from "@/components/reserve/reserve-page-content";
 import { site } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -15,25 +12,7 @@ export const metadata: Metadata = {
 export default function ReservePage() {
   return (
     <ScrollLineRegion as="main" className="bg-background flex min-h-0 flex-1 flex-col">
-      {/*
-        Same open cream layout as /menu — no floating app card.
-        Header + form sit on the page surface.
-      */}
-      <section className="relative flex flex-1 flex-col py-28 md:py-32">
-        <Container className="relative z-[1] w-full">
-          <div className="mb-5 text-center md:mb-8">
-            <SectionLabel>Events</SectionLabel>
-            <h1 className="font-display text-foreground text-4xl font-bold md:text-5xl">
-              Reserve for an event
-            </h1>
-            <SectionDivider />
-          </div>
-
-          <div className="mx-auto w-full min-w-0 max-w-lg">
-            <ReserveForm />
-          </div>
-        </Container>
-      </section>
+      <ReservePageContent />
     </ScrollLineRegion>
   );
 }

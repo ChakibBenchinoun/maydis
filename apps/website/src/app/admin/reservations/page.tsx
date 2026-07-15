@@ -2,10 +2,7 @@ import { redirect } from "next/navigation";
 
 import { ReservationsTable } from "@/components/admin/reservations-table";
 import { requireAdmin } from "@/lib/admin/auth";
-import {
-  reservationStatusSchema,
-  type ReservationStatus,
-} from "@/lib/reservations/schema";
+import { reservationStatusSchema, type ReservationStatus } from "@/lib/reservations/schema";
 import { listReservations } from "@/lib/reservations/service";
 import { getServiceRoleClient } from "@/lib/supabase/server";
 
@@ -18,9 +15,7 @@ export default async function AdminReservationsPage({ searchParams }: Props) {
   const sp = await searchParams;
   const rawStatus = sp.status ?? "all";
   const statusParsed = reservationStatusSchema.safeParse(rawStatus);
-  const statusFilter: ReservationStatus | "all" = statusParsed.success
-    ? statusParsed.data
-    : "all";
+  const statusFilter: ReservationStatus | "all" = statusParsed.success ? statusParsed.data : "all";
 
   const supabase = getServiceRoleClient();
   if (!supabase) {

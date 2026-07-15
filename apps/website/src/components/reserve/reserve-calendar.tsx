@@ -1,10 +1,10 @@
 "use client";
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useMemo, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import { todayIsoLocal } from "@/lib/reservations/options";
 import { cn } from "@/lib/cn";
+import { todayIsoLocal } from "@/lib/reservations/options";
 
 import { controlSurfaceClass } from "./reserve-field-styles";
 
@@ -76,7 +76,7 @@ export function ReserveCalendar({
           type="button"
           onClick={prevMonth}
           disabled={!canGoPrev}
-          className="text-foreground hover:bg-black/[0.04] disabled:text-muted-foreground/40 rounded-lg p-1.5 disabled:pointer-events-none"
+          className="text-foreground disabled:text-muted-foreground/40 rounded-lg p-1.5 hover:bg-black/[0.04] disabled:pointer-events-none"
           aria-label="Previous month"
         >
           <ChevronLeft className="h-4 w-4" />
@@ -85,7 +85,7 @@ export function ReserveCalendar({
         <button
           type="button"
           onClick={nextMonth}
-          className="text-foreground hover:bg-black/[0.04] rounded-lg p-1.5"
+          className="text-foreground rounded-lg p-1.5 hover:bg-black/[0.04]"
           aria-label="Next month"
         >
           <ChevronRight className="h-4 w-4" />

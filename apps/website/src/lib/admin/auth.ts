@@ -49,9 +49,3 @@ export async function requireAdmin(): Promise<AdminUser | null> {
 
   return { id: user.id, email, role };
 }
-
-/** @deprecated Use requireAdmin — kept for login route messaging */
-export function getAdminEmailAllowlist(): string[] {
-  const owner = getOwnerBootstrapEmail();
-  return owner ? [owner] : [];
-}

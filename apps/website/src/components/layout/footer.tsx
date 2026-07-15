@@ -9,7 +9,7 @@ export function Footer() {
   return (
     <footer className="bg-foreground text-background w-full pt-10 pb-8 sm:pt-12 md:pt-14">
       <Container>
-        <div className="mb-8 flex items-start justify-between gap-8 sm:mb-10 flex-row sm:items-end">
+        <div className="mb-8 flex flex-row items-start justify-between gap-8 sm:mb-10 sm:items-end">
           <div>
             <h2 className="font-display text-primary mb-2 text-2xl font-bold tracking-[0.16em] sm:text-3xl">
               {site.nameDisplay}
@@ -23,10 +23,10 @@ export function Footer() {
           </div>
 
           <div className="flex flex-col gap-3 md:items-end">
-            <p className="text-background/40 text-[10px] text-right font-bold tracking-[0.2em] uppercase">
+            <p className="text-background/40 text-right text-[10px] font-bold tracking-[0.2em] uppercase">
               Follow us
             </p>
-            <div className="flex flex-wrap items-center gap-2 md:justify-end order-first md:order-last">
+            <div className="order-first flex flex-wrap items-center gap-2 md:order-last md:justify-end">
               {socialLinks.map((link) => (
                 <a
                   key={link.href}

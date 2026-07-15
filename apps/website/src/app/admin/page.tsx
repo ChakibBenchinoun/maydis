@@ -25,9 +25,7 @@ export default async function AdminDashboardPage() {
     <div className="mx-auto max-w-3xl space-y-8">
       <div>
         <h1 className="font-display text-foreground text-2xl font-bold md:text-3xl">Dashboard</h1>
-        <p className="text-muted-foreground mt-1 text-sm">
-          Signed in as {admin.email}
-        </p>
+        <p className="text-muted-foreground mt-1 text-sm">Signed in as {admin.email}</p>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-3">
@@ -64,7 +62,9 @@ export default async function AdminDashboardPage() {
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="border-border/50 bg-card rounded-2xl border px-4 py-4">
-      <p className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">{label}</p>
+      <p className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
+        {label}
+      </p>
       <p className="font-display text-foreground mt-1 text-3xl font-bold tabular-nums">{value}</p>
     </div>
   );

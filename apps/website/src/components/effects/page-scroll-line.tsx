@@ -92,9 +92,7 @@ export function PageScrollLine({
       const top = documentTop(region);
       const regionH = Math.ceil(region.getBoundingClientRect().height);
       // Distance from region top → footer top (or region bottom if no footer)
-      const toFooter = footer
-        ? Math.ceil(documentTop(footer) - top)
-        : regionH;
+      const toFooter = footer ? Math.ceil(documentTop(footer) - top) : regionH;
       // Never taller than the region itself — avoids painting over the footer
       const next = Math.max(Math.min(regionH, toFooter > 0 ? toFooter : regionH), 1);
 

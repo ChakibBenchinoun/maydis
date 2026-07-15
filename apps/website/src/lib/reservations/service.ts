@@ -109,21 +109,3 @@ export async function updateReservation(
 
   return { row: data as ReservationRow };
 }
-
-export async function getReservationById(
-  supabase: SupabaseClient,
-  id: string,
-): Promise<{ row: ReservationRow | null; error?: string }> {
-  const { data, error } = await supabase
-    .from("reservations")
-    .select("id, name, phone, email, date, time, guests, notes, status, created_at")
-    .eq("id", id)
-    .maybeSingle();
-
-  if (error) {
-    console.error("[reservations] get failed", error);
-    return { row: null, error: "Could not load reservation." };
-  }
-
-  return { row: (data as ReservationRow) ?? null };
-}

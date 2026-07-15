@@ -6,6 +6,7 @@ import { Autoplay, EffectCards, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import type { MenuItem } from "@/data/menu";
+import { menuPageCopy } from "@/lib/constants";
 
 import "swiper/css";
 import "swiper/css/effect-cards";
@@ -39,7 +40,7 @@ export function MenuSwipeCarousel({
   if (items.length === 0) {
     return (
       <p className="text-muted-foreground py-12 text-center text-sm">
-        No dishes in this category yet.
+        {menuPageCopy.emptyCategory}
       </p>
     );
   }

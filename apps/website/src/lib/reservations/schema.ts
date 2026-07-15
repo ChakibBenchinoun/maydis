@@ -4,19 +4,14 @@ import { normalizeWhatsAppPhone } from "@/lib/phone";
 import {
   GUESTS_MAX,
   GUESTS_MIN,
+  isValidLocalDzMobile,
   PHONE_DIGITS_MAX,
   TIME_SLOTS,
-  isValidLocalDzMobile,
   todayIsoLocal,
 } from "@/lib/reservations/options";
 
 /** Allowed reservation statuses (admin + DB). */
-export const RESERVATION_STATUSES = [
-  "pending",
-  "confirmed",
-  "cancelled",
-  "completed",
-] as const;
+export const RESERVATION_STATUSES = ["pending", "confirmed", "cancelled", "completed"] as const;
 
 export type ReservationStatus = (typeof RESERVATION_STATUSES)[number];
 
@@ -37,15 +32,12 @@ const dateSchema = z
     message: "Date cannot be in the past",
   });
 
-const emailField = z.preprocess(
-  (v) => {
-    if (v === null || v === undefined) return undefined;
-    if (typeof v !== "string") return v;
-    const t = v.trim();
-    return t.length === 0 ? undefined : t;
-  },
-  z.string().email("Invalid email").max(120).optional(),
-);
+const emailField = z.preprocess((v) => {
+  if (v === null || v === undefined) return undefined;
+  if (typeof v !== "string") return v;
+  const t = v.trim();
+  return t.length === 0 ? undefined : t;
+}, z.string().email("Invalid email").max(120).optional());
 
 const notesField = z
   .string()
@@ -67,10 +59,13 @@ const phoneField = z
   .string()
   .trim()
   .min(1, "Phone is required")
-  .refine((v) => {
-    const digits = v.replace(/\D/g, "");
-    return digits.length <= PHONE_DIGITS_MAX;
-  }, { message: "Phone must be at most 10 digits" })
+  .refine(
+    (v) => {
+      const digits = v.replace(/\D/g, "");
+      return digits.length <= PHONE_DIGITS_MAX;
+    },
+    { message: "Phone must be at most 10 digits" },
+  )
   .refine((v) => isValidLocalDzMobile(v.replace(/\D/g, "")), {
     message: "Enter a 10-digit mobile (05… / 06… / 07…)",
   })
@@ -81,10 +76,13 @@ const phoneField = z
 const guestsField = z
   .string()
   .trim()
-  .refine((v) => {
-    const n = Number(v);
-    return Number.isInteger(n) && n >= GUESTS_MIN && n <= GUESTS_MAX;
-  }, { message: `Guests must be between ${GUESTS_MIN} and ${GUESTS_MAX}` });
+  .refine(
+    (v) => {
+      const n = Number(v);
+      return Number.isInteger(n) && n >= GUESTS_MIN && n <= GUESTS_MAX;
+    },
+    { message: `Guests must be between ${GUESTS_MIN} and ${GUESTS_MAX}` },
+  );
 
 /** Form values before submit transforms (email/notes may be ""). */
 export type ReserveFormValues = {

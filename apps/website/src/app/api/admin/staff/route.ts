@@ -54,10 +54,7 @@ export async function POST(request: Request) {
   const parsed = addSchema.safeParse(body);
   if (!parsed.success) {
     const first = parsed.error.issues[0];
-    return NextResponse.json(
-      { error: first?.message ?? "Invalid input" },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: first?.message ?? "Invalid input" }, { status: 400 });
   }
 
   const supabase = getServiceRoleClient();

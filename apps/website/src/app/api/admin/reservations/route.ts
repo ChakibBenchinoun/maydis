@@ -27,9 +27,7 @@ export async function GET(request: Request) {
   }
 
   const status =
-    query.data.status === "all" || query.data.status === undefined
-      ? "all"
-      : query.data.status;
+    query.data.status === "all" || query.data.status === undefined ? "all" : query.data.status;
 
   const { rows, error } = await listReservations(supabase, {
     status,

@@ -57,7 +57,7 @@ export function buttonClassName({
     variants[variant],
     sizes[size],
     // min-w-0 prevents flex/grid parents from letting the pill grow past the card
-    fullWidth && "box-border w-full min-w-0 max-w-full",
+    fullWidth && "box-border w-full max-w-full min-w-0",
     className,
   );
 }

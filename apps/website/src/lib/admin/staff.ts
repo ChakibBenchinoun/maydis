@@ -193,10 +193,7 @@ export async function deactivateStaffMember(
     }
   }
 
-  const { error } = await supabase
-    .from("staff_members")
-    .update({ active: false })
-    .eq("id", id);
+  const { error } = await supabase.from("staff_members").update({ active: false }).eq("id", id);
 
   if (error) {
     console.error("[staff] deactivate failed", error);

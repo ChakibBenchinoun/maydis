@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, Suspense, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { site } from "@/lib/constants";
 
@@ -62,7 +62,10 @@ function LoginForm() {
 
         <form onSubmit={onSubmit} className="mt-6 space-y-4">
           <div>
-            <label htmlFor="email" className="text-muted-foreground mb-1.5 block text-xs font-semibold uppercase tracking-wider">
+            <label
+              htmlFor="email"
+              className="text-muted-foreground mb-1.5 block text-xs font-semibold tracking-wider uppercase"
+            >
               Email
             </label>
             <input
@@ -77,7 +80,10 @@ function LoginForm() {
             />
           </div>
           <div>
-            <label htmlFor="password" className="text-muted-foreground mb-1.5 block text-xs font-semibold uppercase tracking-wider">
+            <label
+              htmlFor="password"
+              className="text-muted-foreground mb-1.5 block text-xs font-semibold tracking-wider uppercase"
+            >
               Password
             </label>
             <input

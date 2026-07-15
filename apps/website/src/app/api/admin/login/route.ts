@@ -50,8 +50,7 @@ export async function POST(request: Request) {
     await supabase.auth.signOut();
     return NextResponse.json(
       {
-        error:
-          "This account is not staff. The owner can add you under Admin → Staff.",
+        error: "This account is not staff. The owner can add you under Admin → Staff.",
       },
       { status: 403 },
     );

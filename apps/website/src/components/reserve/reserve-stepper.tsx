@@ -2,8 +2,8 @@
 
 import { Check } from "lucide-react";
 
-import { RESERVE_STEPS } from "@/lib/reservations/schema";
 import { cn } from "@/lib/cn";
+import { RESERVE_STEPS } from "@/lib/reservations/schema";
 
 import { controlSurfaceClass } from "./reserve-field-styles";
 
@@ -64,7 +64,7 @@ export function ReserveStepper({
                   aria-current="step"
                   className={cn(
                     "border-primary relative z-10 flex size-8 shrink-0 items-center justify-center rounded-full border-2 bg-[#ffffff] shadow-[0_2px_8px_rgba(44,35,24,0.08)]",
-                    "ring-primary/30 ring-2 ring-offset-2 ring-offset-background",
+                    "ring-primary/30 ring-offset-background ring-2 ring-offset-2",
                     "transition-all duration-300 ease-out",
                   )}
                 >

@@ -13,13 +13,7 @@ const nav = [
   { href: "/admin/menu", label: "Menu", icon: UtensilsCrossed, exact: false, disabled: true },
 ];
 
-export function AdminShell({
-  email,
-  children,
-}: {
-  email: string;
-  children: React.ReactNode;
-}) {
+export function AdminShell({ email, children }: { email: string; children: React.ReactNode }) {
   const pathname = usePathname() || "/admin";
   const router = useRouter();
 
@@ -87,7 +81,11 @@ export function AdminShell({
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="border-border/50 flex items-center justify-between border-b px-4 py-3 md:hidden">
           <span className="text-sm font-semibold">Admin</span>
-          <button type="button" onClick={() => void signOut()} className="text-primary text-sm font-medium">
+          <button
+            type="button"
+            onClick={() => void signOut()}
+            className="text-primary text-sm font-medium"
+          >
             Sign out
           </button>
         </header>

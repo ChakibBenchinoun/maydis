@@ -1,14 +1,14 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
+import { formatPhoneDisplay, normalizeWhatsAppPhone } from "@/lib/phone";
 import {
   RESERVATION_STATUSES,
   type ReservationRow,
   type ReservationStatus,
 } from "@/lib/reservations/schema";
-import { formatPhoneDisplay, normalizeWhatsAppPhone } from "@/lib/phone";
 
 const statusLabel: Record<string, string> = {
   pending: "Pending",
@@ -54,7 +54,9 @@ export function ReservationsTable({
       return;
     }
     setRows(data.rows ?? []);
-    router.replace(next && next !== "all" ? `/admin/reservations?status=${next}` : "/admin/reservations");
+    router.replace(
+      next && next !== "all" ? `/admin/reservations?status=${next}` : "/admin/reservations",
+    );
   }
 
   async function updateStatus(id: string, status: ReservationStatus) {
@@ -81,7 +83,7 @@ export function ReservationsTable({
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-2">
-        <label className="text-muted-foreground text-xs font-semibold uppercase tracking-wider">
+        <label className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
           Status
         </label>
         <select
@@ -110,10 +112,7 @@ export function ReservationsTable({
             const e164 = normalizeWhatsAppPhone(r.phone);
             const waHref = e164 ? `https://wa.me/${e164}` : undefined;
             return (
-              <li
-                key={r.id}
-                className="border-border/50 bg-card rounded-2xl border p-4 shadow-sm"
-              >
+              <li key={r.id} className="border-border/50 bg-card rounded-2xl border p-4 shadow-sm">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="min-w-0">
                     <p className="text-foreground font-semibold">{r.name}</p>
@@ -144,9 +143,7 @@ export function ReservationsTable({
                           ? r.status
                           : "pending"
                       }
-                      onChange={(e) =>
-                        void updateStatus(r.id, e.target.value as ReservationStatus)
-                      }
+                      onChange={(e) => void updateStatus(r.id, e.target.value as ReservationStatus)}
                       className="border-border bg-secondary text-foreground rounded-lg border px-2 py-1.5 text-xs"
                     >
                       {RESERVATION_STATUSES.map((s) => (

@@ -2,8 +2,8 @@
 
 import { Minus, Plus } from "lucide-react";
 
-import { GUESTS_MAX, GUESTS_MIN } from "@/lib/reservations/options";
 import { cn } from "@/lib/cn";
+import { GUESTS_MAX, GUESTS_MIN } from "@/lib/reservations/options";
 
 import { controlSurfaceClass } from "./reserve-field-styles";
 
@@ -47,9 +47,7 @@ export function ReserveGuestStepper({
         aria-live="polite"
       >
         <span className="text-foreground text-base font-semibold tabular-nums">{n}</span>
-        <span className="text-muted-foreground ml-1 text-xs">
-          {n === 1 ? "guest" : "guests"}
-        </span>
+        <span className="text-muted-foreground ml-1 text-xs">{n === 1 ? "guest" : "guests"}</span>
       </div>
       <button
         type="button"

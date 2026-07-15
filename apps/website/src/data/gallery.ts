@@ -132,9 +132,3 @@ export const galleryItems: GalleryItem[] = [
     alt: "Maydi's seal",
   },
 ];
-
-/** @deprecated Use `galleryItems` */
-export const galleryPhotos = galleryItems.map((item) => ({
-  url: item.image,
-  alt: item.alt,
-}));

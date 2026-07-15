@@ -1,5 +1,5 @@
-import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { createServerClient } from "@supabase/ssr";
 
 /**
  * Cookie-bound Supabase client (user session) for Auth in RSC / route handlers.

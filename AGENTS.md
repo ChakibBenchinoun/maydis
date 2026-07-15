@@ -51,7 +51,7 @@ src/
     menu/page.tsx
     reserve/page.tsx
   components/           # Feature folders; kebab-case files
-    layout/             # navbar, footer, page-header, hash-scroll
+    layout/             # navbar, footer, public-shell, hash-scroll
     hero/
     menu/               # latest + full menu, grid, modal, carousels
     gallery/            # photos + videos, marquee, lightbox modal
@@ -90,7 +90,7 @@ src/
 7. **Files** — kebab-case filenames; named exports for components.
 8. **No mega-files** — if a component grows past ~200 lines or owns multiple sections, split it.
 9. **Extract only when repeated** — do not create a component for one-off static JSX. Extract at **2+** uses, for design-system primitives, or for non-trivial interactive units. Inline single-use static helpers; delete dead files.
-10. **Name by capability, not place** — shared UI is portable and props-driven (`PageScrollLine`, `ScrollLineRegion`, `PageHeader`). Do **not** invent place-tied shells (`HomeBelowHero`, `MenuPageShell`) that only wrap a shared primitive. Domain folders hold domain UI; generic chrome lives in `ui/` / `effects/` / `layout/`.
+10. **Name by capability, not place** — shared UI is portable and props-driven (`PageScrollLine`, `ScrollLineRegion`). Do **not** invent place-tied shells (`HomeBelowHero`, `MenuPageShell`) that only wrap a shared primitive. Domain folders hold domain UI; generic chrome lives in `ui/` / `effects/` / `layout/`.
 
 ## Design fidelity
 

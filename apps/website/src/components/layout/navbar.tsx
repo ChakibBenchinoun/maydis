@@ -285,7 +285,7 @@ export function Navbar() {
 
           <button
             type="button"
-            className={`focus-visible:ring-primary relative inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-md transition-colors focus-visible:ring-2 focus-visible:outline-hidden md:hidden active:scale-95 ${
+            className={`focus-visible:ring-primary relative inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-md transition-colors focus-visible:ring-2 focus-visible:outline-hidden active:scale-95 md:hidden ${
               solid
                 ? "text-foreground hover:bg-secondary/80 hover:text-primary active:bg-secondary"
                 : "text-white hover:bg-white/10 hover:text-white active:bg-white/15"

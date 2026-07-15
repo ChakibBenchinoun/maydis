@@ -10,6 +10,7 @@ import {
   SocialIcon,
 } from "@/components/ui";
 import { openingHours, reserveLink, site, socialLinks } from "@/lib/constants";
+import { images } from "@/lib/images";
 
 export function VisitSection() {
   return (
@@ -24,7 +25,7 @@ export function VisitSection() {
         </div>
 
         <div className="border-border/30 mb-8 grid w-full max-w-full gap-0 overflow-hidden rounded-3xl border shadow-xl md:grid-cols-2">
-          <div className="bg-card flex w-full min-w-0 max-w-full flex-col justify-center gap-8 overflow-hidden px-5 py-10 sm:px-8 md:px-12 md:py-12">
+          <div className="bg-card flex w-full max-w-full min-w-0 flex-col justify-center gap-8 overflow-hidden px-5 py-10 sm:px-8 md:px-12 md:py-12">
             <div className="flex min-w-0 items-start gap-4">
               <div className="bg-primary/10 mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
                 <Phone size={18} className="text-primary" />
@@ -114,7 +115,7 @@ export function VisitSection() {
             </div>
 
             {/* Stay within card: full width, tight padding, no sm:w-auto growth */}
-            <div className="w-full min-w-0 max-w-full">
+            <div className="w-full max-w-full min-w-0">
               <Link
                 href={reserveLink.href}
                 variant="primary"
@@ -129,7 +130,7 @@ export function VisitSection() {
           <div className="bg-secondary relative aspect-[4/3] min-h-[300px] min-w-0 md:aspect-auto">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/gallery-01.jpg"
+              src={images.visit}
               alt="Maydi's warm interior"
               className="h-full w-full object-cover"
             />

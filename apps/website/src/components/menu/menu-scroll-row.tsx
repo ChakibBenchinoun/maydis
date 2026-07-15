@@ -6,6 +6,7 @@ import { motion } from "motion/react";
 import { Marquee } from "@/components/effects/marquee";
 import { MenuCard } from "@/components/menu/menu-card";
 import type { MenuItem } from "@/data/menu";
+import { menuPageCopy } from "@/lib/constants";
 
 const CARD_WIDTH_CLASS = "w-[220px] lg:w-[240px]";
 const DEFAULT_SPEED = 36;
@@ -45,7 +46,7 @@ export function MenuScrollRow({
   if (items.length === 0) {
     return (
       <p className="text-muted-foreground py-12 text-center text-sm">
-        No dishes in this category yet.
+        {menuPageCopy.emptyCategory}
       </p>
     );
   }

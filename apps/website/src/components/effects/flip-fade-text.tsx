@@ -3,10 +3,7 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 
-/** Minimal class merge (no clsx dependency). */
-function cn(...parts: Array<string | undefined | false | null>) {
-  return parts.filter(Boolean).join(" ");
-}
+import { cn } from "@/lib/cn";
 
 export interface FlipFadeTextProps {
   /** Words to cycle through with flip-fade animation */

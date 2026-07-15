@@ -1,5 +1,5 @@
-import { formatPhoneDisplay } from "@/lib/phone";
 import { site } from "@/lib/constants";
+import { formatPhoneDisplay } from "@/lib/phone";
 
 export type EventBooking = {
   name: string;

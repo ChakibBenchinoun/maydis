@@ -1,5 +1,6 @@
 import { Container, Section } from "@/components/ui";
 import { SectionLabel } from "@/components/ui/section-label";
+import { images } from "@/lib/images";
 
 export function AboutSection() {
   return (
@@ -11,7 +12,7 @@ export function AboutSection() {
             <div className="bg-secondary aspect-[4/5] overflow-hidden rounded-3xl shadow-2xl">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/images/gallery-03.jpg"
+                src={images.about}
                 alt="Maydi's café — brick walls, lush plants, warm natural light"
                 className="h-full w-full object-cover"
               />
@@ -19,7 +20,7 @@ export function AboutSection() {
             <div className="border-background bg-secondary absolute -right-6 -bottom-6 h-36 w-36 overflow-hidden rounded-2xl border-4 shadow-2xl">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/images/sealing.webp"
+                src={images.aboutAccent}
                 alt="Maydi's seal"
                 className="h-full w-full object-cover"
               />

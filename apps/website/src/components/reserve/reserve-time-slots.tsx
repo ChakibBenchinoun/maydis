@@ -1,7 +1,7 @@
 "use client";
 
-import { TIME_SLOTS } from "@/lib/reservations/options";
 import { cn } from "@/lib/cn";
+import { TIME_SLOTS } from "@/lib/reservations/options";
 
 import { controlSurfaceClass } from "./reserve-field-styles";
 
@@ -14,7 +14,7 @@ export function ReserveTimeSlots({
 }) {
   return (
     <div>
-      <p className="text-muted-foreground mb-2.5 text-xs font-semibold uppercase tracking-wider">
+      <p className="text-muted-foreground mb-2.5 text-xs font-semibold tracking-wider uppercase">
         Time
       </p>
       <div className="flex flex-wrap gap-2" role="listbox" aria-label="Time slots">
