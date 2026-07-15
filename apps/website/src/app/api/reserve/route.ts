@@ -56,16 +56,29 @@ export async function POST(request: Request) {
     reservationId,
   });
 
+  // Booleans only for the public UI. Technical errors stay server-side (logs).
+  // Exposing Baileys URLs / setup docs confuses guests and looks broken.
+  const waPayload: {
+    owner: boolean;
+    guest: boolean;
+    ownerError?: string | null;
+    guestError?: string | null;
+    setupHint?: string | null;
+  } = {
+    owner: whatsapp.owner.ok,
+    guest: whatsapp.guest.ok,
+  };
+
+  if (process.env.NODE_ENV !== "production") {
+    waPayload.ownerError = whatsapp.owner.error ?? null;
+    waPayload.guestError = whatsapp.guest.error ?? null;
+    waPayload.setupHint = whatsapp.setupHint ?? null;
+  }
+
   return NextResponse.json({
     ok: true,
     stored,
     id: reservationId,
-    whatsapp: {
-      owner: whatsapp.owner.ok,
-      guest: whatsapp.guest.ok,
-      ownerError: whatsapp.owner.error ?? null,
-      guestError: whatsapp.guest.error ?? null,
-      setupHint: whatsapp.setupHint ?? null,
-    },
+    whatsapp: waPayload,
   });
 }

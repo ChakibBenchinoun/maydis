@@ -32,7 +32,7 @@ export function ReserveGuestStepper({
         disabled={n <= GUESTS_MIN}
         onClick={() => set(n - 1)}
         className={cn(
-          "border-border bg-secondary text-foreground hover:border-primary flex h-8 w-8 items-center justify-center rounded-md border transition-colors",
+          "border-border bg-card text-foreground hover:border-primary flex h-8 w-8 items-center justify-center rounded-md border transition-colors",
           "disabled:pointer-events-none disabled:opacity-40",
         )}
       >
@@ -54,7 +54,7 @@ export function ReserveGuestStepper({
         disabled={n >= GUESTS_MAX}
         onClick={() => set(n + 1)}
         className={cn(
-          "border-border bg-secondary text-foreground hover:border-primary flex h-8 w-8 items-center justify-center rounded-md border transition-colors",
+          "border-border bg-card text-foreground hover:border-primary flex h-8 w-8 items-center justify-center rounded-md border transition-colors",
           "disabled:pointer-events-none disabled:opacity-40",
         )}
       >

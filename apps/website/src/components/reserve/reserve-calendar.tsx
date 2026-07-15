@@ -68,13 +68,13 @@ export function ReserveCalendar({
     viewYear > todayParsed.y || (viewYear === todayParsed.y && viewMonth > todayParsed.m);
 
   return (
-    <div className="border-border/50 bg-secondary/40 rounded-xl border p-3">
+    <div className="border-border bg-card rounded-xl border p-3">
       <div className="mb-3 flex items-center justify-between">
         <button
           type="button"
           onClick={prevMonth}
           disabled={!canGoPrev}
-          className="text-foreground hover:bg-card disabled:text-muted-foreground/40 rounded-lg p-1.5 disabled:pointer-events-none"
+          className="text-foreground hover:bg-secondary disabled:text-muted-foreground/40 rounded-lg p-1.5 disabled:pointer-events-none"
           aria-label="Previous month"
         >
           <ChevronLeft className="h-4 w-4" />
@@ -83,7 +83,7 @@ export function ReserveCalendar({
         <button
           type="button"
           onClick={nextMonth}
-          className="text-foreground hover:bg-card rounded-lg p-1.5"
+          className="text-foreground hover:bg-secondary rounded-lg p-1.5"
           aria-label="Next month"
         >
           <ChevronRight className="h-4 w-4" />
@@ -118,7 +118,7 @@ export function ReserveCalendar({
               className={cn(
                 "aspect-square rounded-lg text-sm font-medium transition-colors",
                 disabled && "text-muted-foreground/35 cursor-not-allowed",
-                !disabled && !selected && "text-foreground hover:bg-card",
+                !disabled && !selected && "text-foreground hover:bg-secondary",
                 selected && "bg-primary text-primary-foreground shadow-sm",
                 isToday && !selected && "ring-primary/40 ring-1 ring-inset",
               )}

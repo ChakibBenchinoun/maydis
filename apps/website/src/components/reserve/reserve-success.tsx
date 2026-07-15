@@ -1,6 +1,7 @@
 "use client";
 
-import { CheckCircle, Home, UtensilsCrossed } from "lucide-react";
+import { useEffect } from "react";
+import { CheckCircle, Home, MessageCircle, Phone, UtensilsCrossed } from "lucide-react";
 import Link from "next/link";
 
 import { buttonClassName } from "@/components/ui/button";
@@ -10,13 +11,14 @@ import { menuLink, site } from "@/lib/constants";
 export type WhatsAppStatus = {
   owner: boolean;
   guest: boolean;
+  /** Server/dev diagnostics only — never render raw to guests. */
   ownerError?: string | null;
   guestError?: string | null;
   setupHint?: string | null;
 };
 
-/** Match form step body so the card does not collapse on success. */
-const SUCCESS_MIN_H = "min-h-[28rem] sm:min-h-[30rem]";
+/** Soft floor so success doesn’t feel cramped under the page header. */
+const SUCCESS_MIN_H = "min-h-[20rem] sm:min-h-[22rem]";
 
 export function ReserveSuccess({
   whatsapp,
@@ -25,12 +27,30 @@ export function ReserveSuccess({
   whatsapp: WhatsAppStatus | null;
   onAgain: () => void;
 }) {
-  const waOk = whatsapp?.owner && whatsapp?.guest;
-  const waPartial = whatsapp && (whatsapp.owner || whatsapp.guest) && !waOk;
-  const isProd = process.env.NODE_ENV === "production";
+  const waOk = Boolean(whatsapp?.owner && whatsapp?.guest);
+  const waPartial = Boolean(whatsapp && (whatsapp.owner || whatsapp.guest) && !waOk);
+
+  // Dev diagnostics: console only — never surface Baileys URLs / setup docs in the UI.
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production") return;
+    if (!whatsapp || waOk) return;
+    console.warn("[reserve] WhatsApp notify (dev)", {
+      owner: whatsapp.owner,
+      guest: whatsapp.guest,
+      ownerError: whatsapp.ownerError,
+      guestError: whatsapp.guestError,
+      setupHint: whatsapp.setupHint,
+    });
+  }, [whatsapp, waOk]);
+
+  const nextStepCopy = waOk
+    ? "We sent a WhatsApp confirmation to your number and alerted our team. We’ll follow up shortly."
+    : waPartial
+      ? "Your request is saved. We may still need to confirm by phone or WhatsApp — you’ll hear from us soon."
+      : "Your request is saved. We’ll confirm by phone or WhatsApp shortly.";
 
   return (
-    <div className={cn(SUCCESS_MIN_H, "flex flex-col px-1 py-6 sm:px-2 sm:py-8")}>
+    <div className={cn(SUCCESS_MIN_H, "flex flex-col py-2")}>
       <div className="flex flex-1 flex-col text-center">
         <div className="bg-accent/15 mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full">
           <CheckCircle className="text-accent h-8 w-8" />
@@ -43,31 +63,28 @@ export function ReserveSuccess({
           Thank you for choosing {site.name}. We cannot wait to host you in Oran.
         </p>
         <p className="text-muted-foreground mx-auto max-w-sm text-sm leading-relaxed">
-          {waOk
-            ? "WhatsApp confirmation was sent to your number, and our team got a booking alert. We'll follow up shortly."
-            : waPartial
-              ? "Your request was saved. Some WhatsApp messages could not be delivered — we'll still reach out."
-              : "Your request was saved. We'll confirm by phone or WhatsApp shortly."}{" "}
-          Call{" "}
-          <a href={site.phoneHref} className="text-primary font-semibold hover:underline">
-            {site.phone}
-          </a>{" "}
-          if urgent.
+          {nextStepCopy}
         </p>
 
-        {whatsapp && !waOk && !isProd && (
-          <div className="border-border/60 bg-secondary/80 text-muted-foreground mx-auto mt-5 max-w-sm rounded-xl border px-4 py-3 text-left text-xs leading-relaxed">
-            <p className="text-foreground mb-1.5 font-semibold">WhatsApp status (dev)</p>
-            <p>Owner alert: {whatsapp.owner ? "sent" : whatsapp.ownerError || "not sent"}</p>
-            <p>
-              Guest confirmation:{" "}
-              {whatsapp.guest ? "sent" : whatsapp.guestError || "not sent"}
-            </p>
-            {whatsapp.setupHint ? (
-              <p className="text-foreground mt-2 font-medium">{whatsapp.setupHint}</p>
-            ) : null}
-          </div>
-        )}
+        {/* Human contact — not technical status */}
+        <div className="mx-auto mt-6 flex w-full max-w-sm flex-wrap items-center justify-center gap-x-5 gap-y-2">
+          <a
+            href={site.phoneHref}
+            className="text-primary inline-flex items-center gap-1.5 text-sm font-semibold hover:underline"
+          >
+            <Phone size={14} strokeWidth={2.25} />
+            Call {site.phone}
+          </a>
+          <a
+            href={site.whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary inline-flex items-center gap-1.5 text-sm font-semibold hover:underline"
+          >
+            <MessageCircle size={14} strokeWidth={2.25} />
+            WhatsApp
+          </a>
+        </div>
 
         <div className="border-border/50 mx-auto mt-8 w-full max-w-sm space-y-3 border-t pt-8 text-left">
           <p className="text-muted-foreground text-center text-xs font-semibold tracking-wider uppercase">
@@ -77,7 +94,7 @@ export function ReserveSuccess({
             href={menuLink.href}
             className={cn(
               buttonClassName({ variant: "primary", fullWidth: true }),
-              "rounded-lg normal-case tracking-normal",
+              "rounded-full normal-case tracking-normal",
             )}
           >
             <UtensilsCrossed className="h-4 w-4" />
@@ -87,7 +104,7 @@ export function ReserveSuccess({
             href="/"
             className={cn(
               buttonClassName({ variant: "outline", fullWidth: true }),
-              "rounded-lg normal-case tracking-normal",
+              "rounded-full normal-case tracking-normal",
             )}
           >
             <Home className="h-4 w-4" />
@@ -96,7 +113,7 @@ export function ReserveSuccess({
           <button
             type="button"
             onClick={onAgain}
-            className="text-primary hover:text-primary/80 w-full pt-1 text-center text-sm font-medium underline-offset-4 hover:underline"
+            className="text-primary hover:text-primary/80 w-full cursor-pointer pt-1 text-center text-sm font-medium underline-offset-4 hover:underline"
           >
             Make another request
           </button>

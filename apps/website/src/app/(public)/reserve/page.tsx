@@ -14,29 +14,39 @@ export const metadata: Metadata = {
 
 export default function ReservePage() {
   return (
-    <ScrollLineRegion
-      as="main"
-      className="bg-background flex min-h-0 flex-1 flex-col"
-    >
-      {/* Same header rhythm as /menu — centered label, title, divider, description */}
+    <ScrollLineRegion as="main" className="bg-background flex min-h-0 flex-1 flex-col">
+      {/*
+        Same open cream layout as /menu — no floating app card.
+        Header + form sit on the page surface.
+      */}
       <section className="relative flex flex-1 flex-col py-28 md:py-32">
-        <Container className="relative z-[1] flex flex-1 flex-col">
-          <div className="mb-14 text-center">
+        <Container className="relative z-[1] w-full">
+          <div className="mb-12 text-center md:mb-14">
             <SectionLabel>Events</SectionLabel>
             <h1 className="font-display text-foreground text-4xl font-bold md:text-5xl">
               Reserve for an event
             </h1>
             <SectionDivider />
-            <p className="text-muted-foreground mx-auto mt-5 max-w-xl text-sm leading-relaxed">
-              Birthdays, gatherings, and private moments at {site.name}. Tell us your date
-              and we will confirm by phone.
+            <p className="text-muted-foreground mx-auto mt-5 max-w-md text-sm leading-relaxed">
+              Birthdays, gatherings, and private moments at {site.name}.
+            </p>
+            {/* Trust line — confirmation model up front (matches Visit / form copy) */}
+            <p className="text-foreground/80 mx-auto mt-4 max-w-md text-sm leading-relaxed">
+              We’ll confirm by{" "}
+              <span className="text-foreground font-medium">WhatsApp or phone</span>
+              {" — "}
+              not instant auto-booking. Prefer to call?{" "}
+              <a
+                href={site.phoneHref}
+                className="text-primary font-semibold hover:underline"
+              >
+                {site.phone}
+              </a>
             </p>
           </div>
 
-          <div className="mx-auto flex w-full min-w-0 max-w-lg flex-1 flex-col">
-            <div className="bg-card border-border/50 my-auto w-full rounded-2xl border p-6 shadow-sm sm:p-8">
-              <ReserveForm />
-            </div>
+          <div className="mx-auto w-full min-w-0 max-w-lg">
+            <ReserveForm />
           </div>
         </Container>
       </section>

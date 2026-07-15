@@ -54,11 +54,14 @@ const notesField = z
   .optional()
   .transform((v) => (v && v.length > 0 ? v : undefined));
 
+/** “Event for” — short free text (who / occasion). */
+export const EVENT_FOR_MAX = 80;
+
 const eventNameField = z
   .string()
   .trim()
-  .min(1, "Event name is required")
-  .max(80, "Keep the event name under 80 characters");
+  .min(1, "Tell us who or what this event is for")
+  .max(EVENT_FOR_MAX, `Keep this under ${EVENT_FOR_MAX} characters`);
 
 const phoneField = z
   .string()

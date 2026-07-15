@@ -9,6 +9,7 @@ import { fireReserveConfetti } from "@/lib/confetti";
 import { openingHours, site } from "@/lib/constants";
 import { clampPhoneDigits, formatDisplayDate } from "@/lib/reservations/options";
 import {
+  EVENT_FOR_MAX,
   RESERVE_STEPS,
   type ReserveFormValues,
   fieldErrorAfterChange,
@@ -33,15 +34,11 @@ const initialValues: ReserveFormValues = {
   notes: "",
 };
 
-const EVENT_NAME_OPTIONS = [
-  "Birthday",
-  "Party",
-  "Special event",
-  "Family gathering",
-] as const;
-
-/** Keeps the card from jumping when switching steps (calendar is tallest). */
-const STEP_BODY_MIN_H = "min-h-[28rem] sm:min-h-[30rem]";
+/**
+ * Soft floor so short steps don’t collapse under the footer on tall screens.
+ * Not a rigid “app card” height — calendar step can grow naturally.
+ */
+const STEP_BODY_MIN_H = "min-h-[20rem] sm:min-h-[22rem]";
 
 export function ReserveForm() {
   const headingId = useId();
@@ -212,7 +209,6 @@ export function ReserveForm() {
         }}
         aria-labelledby={headingId}
       >
-        {/* Fixed-height body so the card does not jump between steps */}
         <div className={`${STEP_BODY_MIN_H} flex flex-col`}>
           {/* 0 — Info */}
           {step === 0 && (
@@ -435,58 +431,41 @@ export function ReserveForm() {
             <div className="space-y-5">
               <form.Field name="eventName">
                 {(field) => {
-                  const selected = field.state.value;
-                  const isPreset = (EVENT_NAME_OPTIONS as readonly string[]).includes(
-                    selected,
-                  );
-
+                  const len = field.state.value.length;
                   return (
                     <div>
-                      <p className={labelClass} id={`${field.name}-label`}>
-                        Event name *
-                      </p>
-                      <div
-                        className="grid w-full grid-cols-2 gap-2"
-                        role="listbox"
-                        aria-labelledby={`${field.name}-label`}
-                      >
-                        {EVENT_NAME_OPTIONS.map((option) => {
-                          const active = selected === option;
-                          return (
-                            <button
-                              key={option}
-                              type="button"
-                              role="option"
-                              aria-selected={active}
-                              onClick={() =>
-                                updateField("eventName", option, field.handleChange)
-                              }
-                              className={cn(
-                                "w-full rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors",
-                                active
-                                  ? "border-primary bg-primary/10 text-foreground"
-                                  : "border-border bg-secondary text-foreground hover:border-primary/40",
-                              )}
-                            >
-                              {option}
-                            </button>
-                          );
-                        })}
+                      <div className="mb-2.5 flex items-baseline justify-between gap-3">
+                        <label className={cn(labelClass, "mb-0")} htmlFor={field.name}>
+                          Event for *
+                        </label>
+                        <span
+                          className={cn(
+                            "text-[11px] tabular-nums",
+                            len >= EVENT_FOR_MAX
+                              ? "text-destructive"
+                              : "text-muted-foreground",
+                          )}
+                        >
+                          {len}/{EVENT_FOR_MAX}
+                        </span>
                       </div>
-                      <div className="mt-2">
-                        <input
-                          id={field.name}
-                          name={field.name}
-                          value={isPreset ? "" : selected}
-                          onBlur={field.handleBlur}
-                          onChange={(e) =>
-                            updateField("eventName", e.target.value, field.handleChange)
-                          }
-                          placeholder="Or type your own event…"
-                          className={fieldClass}
-                          autoComplete="off"
-                        />
-                      </div>
+                      <input
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(e) =>
+                          updateField(
+                            "eventName",
+                            e.target.value.slice(0, EVENT_FOR_MAX),
+                            field.handleChange,
+                          )
+                        }
+                        maxLength={EVENT_FOR_MAX}
+                        placeholder="e.g. Sara’s birthday, team lunch…"
+                        className={fieldClass}
+                        autoComplete="off"
+                      />
                       {fieldErrors.eventName ? (
                         <p className={errorClass}>{fieldErrors.eventName}</p>
                       ) : null}
@@ -558,7 +537,7 @@ export function ReserveForm() {
                       {values.email ? (
                         <ReviewDlRow label="Email" value={values.email} />
                       ) : null}
-                      <ReviewDlRow label="Event" value={values.eventName} />
+                      <ReviewDlRow label="Event for" value={values.eventName} />
                       <ReviewDlRow label="Date" value={formatDisplayDate(values.date)} />
                       <ReviewDlRow label="Time" value={values.time} />
                       <ReviewDlRow
@@ -582,12 +561,12 @@ export function ReserveForm() {
           </p>
         )}
 
-        <div className="mt-auto flex gap-3 pt-6">
+        <div className="mt-auto flex gap-3 border-border/40 border-t pt-8">
           {step > 0 ? (
             <Button
               type="button"
               variant="outline"
-              className="flex-1 rounded-lg normal-case tracking-normal"
+              className="flex-1 rounded-full normal-case tracking-normal"
               onClick={goBack}
               disabled={loading}
             >
@@ -598,7 +577,7 @@ export function ReserveForm() {
             <Button
               type="button"
               variant="primary"
-              className="flex-1 rounded-lg normal-case tracking-normal"
+              className="flex-1 rounded-full normal-case tracking-normal"
               onClick={goNext}
             >
               {step === 0 ? "Start request" : "Continue"}
@@ -608,20 +587,13 @@ export function ReserveForm() {
               type="button"
               variant="primary"
               disabled={loading}
-              className="flex-1 rounded-lg normal-case tracking-normal"
+              className="flex-1 rounded-full normal-case tracking-normal"
               onClick={submitReservation}
             >
               {loading ? "Sending…" : "Request event"}
             </Button>
           )}
         </div>
-
-        <p className="text-muted-foreground text-center text-xs">
-          Prefer to call?{" "}
-          <a href={site.phoneHref} className="text-primary font-medium hover:underline">
-            {site.phone}
-          </a>
-        </p>
       </form>
     </div>
   );

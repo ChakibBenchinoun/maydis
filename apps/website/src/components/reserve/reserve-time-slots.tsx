@@ -29,7 +29,7 @@ export function ReserveTimeSlots({
                 "rounded-full px-3 py-1.5 text-xs font-semibold tabular-nums transition-colors",
                 selected
                   ? "bg-primary text-primary-foreground shadow-sm"
-                  : "bg-secondary text-foreground hover:border-primary/40 border border-transparent",
+                  : "bg-card text-foreground hover:border-primary/40 border-border border",
               )}
             >
               {t}

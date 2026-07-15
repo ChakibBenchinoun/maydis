@@ -61,7 +61,7 @@ export function ReserveStepper({
                 <span
                   aria-current="step"
                   className={cn(
-                    "border-primary bg-card relative z-10 flex size-8 shrink-0 items-center justify-center rounded-full border-2",
+                    "border-primary bg-background relative z-10 flex size-8 shrink-0 items-center justify-center rounded-full border-2",
                     "transition-all duration-300 ease-out",
                   )}
                 >
@@ -74,7 +74,7 @@ export function ReserveStepper({
               ) : (
                 <span
                   className={cn(
-                    "border-border bg-card relative z-10 flex size-8 shrink-0 items-center justify-center rounded-full border-2",
+                    "border-border bg-background relative z-10 flex size-8 shrink-0 items-center justify-center rounded-full border-2",
                     "transition-all duration-300 ease-out",
                   )}
                 >
