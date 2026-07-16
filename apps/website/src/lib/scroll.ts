@@ -99,11 +99,12 @@ function animateScrollTo(targetY: number) {
   activeScrollRaf = requestAnimationFrame(step);
 }
 
-/** Smooth-scroll to an element by id (SPA section anchors). */
-export function scrollToId(id: string) {
-  if (typeof document === "undefined") return;
-  const el = document.getElementById(id);
-  if (!el) return;
+/**
+ * Smooth-scroll so `el` sits below the sticky nav (same offset as section anchors).
+ * Prefer this over `scrollIntoView` — CSS smooth + rAF fight on iOS Safari.
+ */
+export function scrollToElement(el: HTMLElement | null | undefined) {
+  if (typeof document === "undefined" || !el) return;
 
   const y = targetScrollY(el);
   if (prefersReducedMotion()) {
@@ -113,4 +114,11 @@ export function scrollToId(id: string) {
   }
 
   animateScrollTo(y);
+}
+
+/** Smooth-scroll to an element by id (SPA section anchors). */
+export function scrollToId(id: string) {
+  if (typeof document === "undefined") return;
+  const el = document.getElementById(id);
+  scrollToElement(el);
 }

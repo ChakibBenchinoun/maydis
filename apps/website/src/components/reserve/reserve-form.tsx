@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { useForm } from "@tanstack/react-form";
 
+import { ScrollAnchor, useScrollAnchor } from "@/components/effects/scroll-anchor";
 import { Button } from "@/components/ui/button";
 import { fireReserveConfetti } from "@/lib/confetti";
 import {
@@ -44,7 +45,7 @@ type ReserveFormProps = {
 
 export function ReserveForm({ onSuccessChange }: ReserveFormProps) {
   const headingId = useId();
-  const cardTopRef = useRef<HTMLDivElement>(null);
+  const { ref: cardTopRef, scrollToTop } = useScrollAnchor();
   const [step, setStep] = useState(0);
   const [stepError, setStepError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
@@ -53,19 +54,11 @@ export function ReserveForm({ onSuccessChange }: ReserveFormProps) {
   const [sent, setSent] = useState(false);
   const [whatsapp, setWhatsapp] = useState<WhatsAppStatus | null>(null);
 
-  /** Keep the form card in view when changing steps (sticky nav offset). */
-  function scrollToCardTop() {
-    requestAnimationFrame(() => {
-      cardTopRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  }
-
-  // After success mounts, scroll to card top (ref exists again on success wrapper)
+  // After success mounts, scroll to panel top (layout has swapped)
   useEffect(() => {
     if (!sent) return;
-    const t = window.setTimeout(() => scrollToCardTop(), 50);
-    return () => window.clearTimeout(t);
-  }, [sent]);
+    scrollToTop({ delayMs: 50 });
+  }, [sent, scrollToTop]);
 
   useEffect(() => {
     onSuccessChange?.(sent);
@@ -96,6 +89,7 @@ export function ReserveForm({ onSuccessChange }: ReserveFormProps) {
         fireReserveConfetti();
       } catch (err) {
         setSubmitError(err instanceof Error ? err.message : "Request failed");
+        scrollToTop();
       } finally {
         setLoading(false);
       }
@@ -122,7 +116,8 @@ export function ReserveForm({ onSuccessChange }: ReserveFormProps) {
     setStep(1);
     setSent(false);
     onSuccessChange?.(false);
-    requestAnimationFrame(() => scrollToCardTop());
+    // Form remounts after sent=false — wait a tick for the new anchor
+    scrollToTop({ delayMs: 50 });
   }
 
   /**
@@ -160,19 +155,19 @@ export function ReserveForm({ onSuccessChange }: ReserveFormProps) {
     if (!result.ok) {
       setStepError(result.message);
       setFieldErrors(result.fieldErrors);
-      scrollToCardTop();
+      scrollToTop();
       return;
     }
     clearErrors();
     setStep((s) => Math.min(s + 1, lastStep));
-    scrollToCardTop();
+    scrollToTop();
   }
 
   function goBack() {
     if (loading) return;
     clearErrors();
     setStep((s) => Math.max(s - 1, 0));
-    scrollToCardTop();
+    scrollToTop();
   }
 
   function submitReservation() {
@@ -182,6 +177,7 @@ export function ReserveForm({ onSuccessChange }: ReserveFormProps) {
     if (!result.ok) {
       setStepError(result.message);
       setFieldErrors(result.fieldErrors);
+      scrollToTop();
       return;
     }
     clearErrors();
@@ -192,14 +188,14 @@ export function ReserveForm({ onSuccessChange }: ReserveFormProps) {
 
   if (sent) {
     return (
-      <div ref={cardTopRef} className="flex scroll-mt-20 flex-col">
+      <ScrollAnchor ref={cardTopRef} scrollMarginClassName="scroll-mt-20" className="flex flex-col">
         <ReserveSuccess whatsapp={whatsapp} onAgain={startAnotherRequest} />
-      </div>
+      </ScrollAnchor>
     );
   }
 
   return (
-    <div ref={cardTopRef} className="flex scroll-mt-28 flex-col">
+    <ScrollAnchor ref={cardTopRef} className="flex flex-col">
       {/* Progress only after leaving Info (after "Start request") */}
       {step > 0 ? <ReserveStepper currentStep={step} /> : null}
 
@@ -274,6 +270,6 @@ export function ReserveForm({ onSuccessChange }: ReserveFormProps) {
           )}
         </div>
       </form>
-    </div>
+    </ScrollAnchor>
   );
 }
