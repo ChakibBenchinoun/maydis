@@ -188,7 +188,7 @@ export function ReserveForm({ onSuccessChange }: ReserveFormProps) {
 
   if (sent) {
     return (
-      <ScrollAnchor ref={cardTopRef} scrollMarginClassName="scroll-mt-20" className="flex flex-col">
+      <ScrollAnchor ref={cardTopRef} className="flex flex-col">
         <ReserveSuccess whatsapp={whatsapp} onAgain={startAnotherRequest} />
       </ScrollAnchor>
     );

@@ -9,7 +9,7 @@ import {
 } from "react";
 
 import { cn } from "@/lib/cn";
-import { scrollToElement } from "@/lib/scroll";
+import { scrollToPageTop } from "@/lib/scroll";
 
 export type ScrollToTopOptions = {
   /**
@@ -20,7 +20,7 @@ export type ScrollToTopOptions = {
 };
 
 /**
- * Imperative scroll-to-anchor for multi-step forms, wizards, and page sections.
+ * Scroll to the very top of the page (document y = 0, above the sticky header).
  *
  * @example
  * const { ref, scrollToTop } = useScrollAnchor();
@@ -35,7 +35,7 @@ export function useScrollAnchor() {
   const ref = useRef<HTMLDivElement>(null);
 
   const scrollToTop = useCallback((options?: ScrollToTopOptions) => {
-    const run = () => scrollToElement(ref.current);
+    const run = () => scrollToPageTop();
     const delayMs = options?.delayMs ?? 0;
 
     if (delayMs > 0) {
@@ -54,26 +54,15 @@ export function useScrollAnchor() {
 export type ScrollAnchorProps = Omit<ComponentPropsWithoutRef<"div">, "ref"> & {
   ref?: Ref<HTMLDivElement>;
   children?: ReactNode;
-  /**
-   * Sticky-nav clearance via scroll-margin-top.
-   * Default `scroll-mt-28` (~7rem) matches reserve form; override per page.
-   */
-  scrollMarginClassName?: string;
 };
 
 /**
- * Markup wrapper for {@link useScrollAnchor}'s ref.
- * Puts the scroll target at the top of a step / panel with nav-aware margin.
+ * Optional markup wrapper for multi-step panels.
+ * `scrollToTop` always goes to page top — not this element's offset.
  */
-export function ScrollAnchor({
-  ref,
-  className,
-  scrollMarginClassName = "scroll-mt-28",
-  children,
-  ...props
-}: ScrollAnchorProps) {
+export function ScrollAnchor({ ref, className, children, ...props }: ScrollAnchorProps) {
   return (
-    <div ref={ref} className={cn(scrollMarginClassName, className)} {...props}>
+    <div ref={ref} className={cn(className)} {...props}>
       {children}
     </div>
   );

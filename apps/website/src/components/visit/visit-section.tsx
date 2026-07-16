@@ -10,7 +10,6 @@ import {
   SocialIcon,
 } from "@/components/ui";
 import { openingHours, reserveLink, site, socialLinks } from "@/lib/constants";
-import { images } from "@/lib/images";
 
 export function VisitSection() {
   return (
@@ -24,7 +23,7 @@ export function VisitSection() {
           <SectionDivider />
         </div>
 
-        <div className="border-border/30 mb-8 grid w-full max-w-full gap-0 overflow-hidden rounded-3xl border shadow-xl md:grid-cols-2">
+        <div className="border-border/30 mx-auto grid w-full max-w-5xl gap-0 overflow-hidden rounded-3xl border shadow-xl md:grid-cols-2">
           <div className="bg-card flex w-full max-w-full min-w-0 flex-col justify-center gap-8 overflow-hidden px-5 py-10 sm:px-8 md:px-12 md:py-12">
             <div className="flex min-w-0 items-start gap-4">
               <div className="bg-primary/10 mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
@@ -127,29 +126,16 @@ export function VisitSection() {
             </div>
           </div>
 
-          <div className="bg-secondary relative aspect-[4/3] min-h-[300px] min-w-0 md:aspect-auto">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={images.visit}
-              alt="Maydi's warm interior"
-              className="h-full w-full object-cover"
+          <div className="bg-secondary relative aspect-[4/3] min-h-[280px] min-w-0 md:aspect-auto md:min-h-0">
+            <iframe
+              src={site.mapEmbedUrl}
+              className="absolute inset-0 h-full w-full border-0"
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Maydi's location in Oran, Algeria"
             />
-            {/* Soft wash toward the content edge (left on desktop) */}
-            <div className="absolute inset-0 bg-linear-to-l from-black/5 to-black/30 md:bg-linear-to-r" />
           </div>
-        </div>
-
-        <div className="border-border/30 mb-8 aspect-video overflow-hidden rounded-3xl border shadow-lg md:aspect-[16/6]">
-          <iframe
-            src={site.mapEmbedUrl}
-            width="100%"
-            height="100%"
-            style={{ border: 0 }}
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            title="Maydi's location in Oran, Algeria"
-          />
         </div>
       </Container>
     </Section>

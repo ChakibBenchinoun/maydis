@@ -99,14 +99,10 @@ function animateScrollTo(targetY: number) {
   activeScrollRaf = requestAnimationFrame(step);
 }
 
-/**
- * Smooth-scroll so `el` sits below the sticky nav (same offset as section anchors).
- * Prefer this over `scrollIntoView` — CSS smooth + rAF fight on iOS Safari.
- */
-export function scrollToElement(el: HTMLElement | null | undefined) {
-  if (typeof document === "undefined" || !el) return;
+/** Programmatic scroll to a Y position (rAF + reduced-motion aware). */
+function scrollToY(y: number) {
+  if (typeof document === "undefined") return;
 
-  const y = targetScrollY(el);
   if (prefersReducedMotion()) {
     cancelProgrammaticScroll();
     scrollInstant(y);
@@ -114,6 +110,23 @@ export function scrollToElement(el: HTMLElement | null | undefined) {
   }
 
   animateScrollTo(y);
+}
+
+/**
+ * Smooth-scroll so `el` sits below the sticky nav (same offset as section anchors).
+ * Prefer this over `scrollIntoView` — CSS smooth + rAF fight on iOS Safari.
+ */
+export function scrollToElement(el: HTMLElement | null | undefined) {
+  if (typeof document === "undefined" || !el) return;
+  scrollToY(targetScrollY(el));
+}
+
+/**
+ * Scroll to the absolute top of the document (above the sticky header / y = 0).
+ * Use for multi-step form Back / Continue / success — not for section anchors.
+ */
+export function scrollToPageTop() {
+  scrollToY(0);
 }
 
 /** Smooth-scroll to an element by id (SPA section anchors). */
