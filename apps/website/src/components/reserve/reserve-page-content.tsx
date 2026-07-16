@@ -10,7 +10,7 @@ import { cn } from "@/lib/cn";
 
 /**
  * Reserve page body — hides “Events / Reserve for an event” header on success
- * so the confirmation report is the full focus.
+ * so the confirmation report is the full focus, vertically centered in the viewport.
  */
 export function ReservePageContent() {
   const [success, setSuccess] = useState(false);
@@ -20,9 +20,20 @@ export function ReservePageContent() {
 
   return (
     <section
-      className={cn("relative flex flex-1 flex-col", success ? "py-20 md:py-24" : "py-28 md:py-32")}
+      className={cn(
+        "relative flex flex-col",
+        // Success: fill viewport, pad for fixed nav, center the report (no tall py → no extra scroll)
+        success
+          ? "min-h-dvh justify-center pt-[4.5rem] pb-8"
+          : "flex-1 py-28 md:py-32",
+      )}
     >
-      <Container className="relative z-[1] w-full">
+      <Container
+        className={cn(
+          "relative z-[1] w-full",
+          success && "flex flex-1 flex-col items-center justify-center",
+        )}
+      >
         {!success ? (
           <div className="mb-5 text-center md:mb-8">
             <SectionLabel>Events</SectionLabel>

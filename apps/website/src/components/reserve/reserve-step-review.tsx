@@ -1,13 +1,17 @@
+import { cn } from "@/lib/cn";
 import { formatDisplayDate } from "@/lib/reservations/options";
 import type { ReserveFormValues } from "@/lib/reservations/schema";
 
+import { controlSurfaceClass } from "./reserve-field-styles";
 import type { ReserveFormApi } from "./reserve-form-types";
 
 function ReviewDlRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="px-0 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
-      <dt className="text-foreground text-sm font-medium">{label}</dt>
-      <dd className="text-muted-foreground mt-1 text-sm wrap-break-word sm:col-span-2 sm:mt-0">
+    <div className="px-4 py-3.5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-5">
+      <dt className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
+        {label}
+      </dt>
+      <dd className="text-foreground mt-1 text-sm font-medium wrap-break-word sm:col-span-2 sm:mt-0">
         {value}
       </dd>
     </div>
@@ -23,8 +27,8 @@ export function ReserveStepReview({ form }: { form: ReserveFormApi }) {
           <p className="text-muted-foreground mt-1.5 text-xs leading-relaxed">
             Check everything looks right before sending.
           </p>
-          <div className="border-border/60 mt-5 border-t">
-            <dl className="divide-border/60 divide-y">
+          <div className={cn(controlSurfaceClass, "mt-5 overflow-hidden rounded-xl")}>
+            <dl className="divide-border/50 divide-y">
               <ReviewDlRow label="Full name" value={values.name} />
               <ReviewDlRow label="Phone" value={values.phone} />
               {values.email ? <ReviewDlRow label="Email" value={values.email} /> : null}

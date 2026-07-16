@@ -47,74 +47,72 @@ export function ReserveSuccess({
       : "Your request is saved. We’ll confirm by phone or WhatsApp shortly.";
 
   return (
-    <div className="flex flex-col py-2">
-      <div className="flex flex-1 flex-col text-center">
-        <div className="bg-accent/15 mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full">
-          <CheckCircle className="text-accent h-8 w-8" />
-        </div>
+    <div className="flex flex-col items-center text-center">
+      <div className="bg-accent/15 flex h-14 w-14 items-center justify-center rounded-full">
+        <CheckCircle className="text-accent h-7 w-7" />
+      </div>
 
-        <h1 className="font-display text-foreground mb-2 text-3xl font-bold sm:text-4xl">
-          Request received
-        </h1>
-        <p className="text-foreground mx-auto mb-3 max-w-sm text-sm leading-relaxed font-medium">
-          Thank you for choosing {site.name}. We cannot wait to host you in Oran.
+      <h1 className="font-display text-foreground mt-4 text-3xl font-bold sm:text-4xl">
+        Request received
+      </h1>
+      <p className="text-foreground mx-auto mt-3 max-w-sm text-sm leading-relaxed font-medium">
+        Thank you for choosing {site.name}. We cannot wait to host you in Oran.
+      </p>
+      <p className="text-muted-foreground mx-auto mt-2 max-w-sm text-sm leading-relaxed">
+        {nextStepCopy}
+      </p>
+
+      {/* Human contact — not technical status */}
+      <div className="mx-auto mt-6 flex w-full max-w-sm flex-wrap items-center justify-center gap-x-5 gap-y-2">
+        <a
+          href={site.phoneHref}
+          className="text-primary inline-flex items-center gap-1.5 text-sm font-semibold hover:underline"
+        >
+          <Phone size={14} strokeWidth={2.25} />
+          Call {site.phone}
+        </a>
+        <a
+          href={site.whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary inline-flex items-center gap-1.5 text-sm font-semibold hover:underline"
+        >
+          <MessageCircle size={14} strokeWidth={2.25} />
+          WhatsApp
+        </a>
+      </div>
+
+      <div className="border-border/50 mx-auto mt-7 w-full max-w-sm space-y-3 border-t pt-7 text-left">
+        <p className="text-muted-foreground text-center text-xs font-semibold tracking-wider uppercase">
+          While you wait
         </p>
-        <p className="text-muted-foreground mx-auto max-w-sm text-sm leading-relaxed">
-          {nextStepCopy}
-        </p>
-
-        {/* Human contact — not technical status */}
-        <div className="mx-auto mt-6 flex w-full max-w-sm flex-wrap items-center justify-center gap-x-5 gap-y-2">
-          <a
-            href={site.phoneHref}
-            className="text-primary inline-flex items-center gap-1.5 text-sm font-semibold hover:underline"
-          >
-            <Phone size={14} strokeWidth={2.25} />
-            Call {site.phone}
-          </a>
-          <a
-            href={site.whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary inline-flex items-center gap-1.5 text-sm font-semibold hover:underline"
-          >
-            <MessageCircle size={14} strokeWidth={2.25} />
-            WhatsApp
-          </a>
-        </div>
-
-        <div className="border-border/50 mx-auto mt-8 w-full max-w-sm space-y-3 border-t pt-8 text-left">
-          <p className="text-muted-foreground text-center text-xs font-semibold tracking-wider uppercase">
-            While you wait
-          </p>
-          <Link
-            href={menuLink.href}
-            className={cn(
-              buttonClassName({ variant: "primary", fullWidth: true }),
-              "rounded-full tracking-normal normal-case",
-            )}
-          >
-            <UtensilsCrossed className="h-4 w-4" />
-            Explore the menu
-          </Link>
-          <Link
-            href="/"
-            className={cn(
-              buttonClassName({ variant: "outline", fullWidth: true }),
-              "rounded-full tracking-normal normal-case",
-            )}
-          >
-            <Home className="h-4 w-4" />
-            Back to home
-          </Link>
-          <button
-            type="button"
-            onClick={onAgain}
-            className="text-primary hover:text-primary/80 w-full cursor-pointer pt-1 text-center text-sm font-medium underline-offset-4 hover:underline"
-          >
-            Make another request
-          </button>
-        </div>
+        <Link
+          href={menuLink.href}
+          className={cn(
+            buttonClassName({ variant: "primary", fullWidth: true }),
+            "rounded-full tracking-normal normal-case",
+          )}
+        >
+          <UtensilsCrossed className="h-4 w-4" />
+          Explore the menu
+        </Link>
+        <Link
+          href="/"
+          className={cn(
+            buttonClassName({ variant: "outline", fullWidth: true }),
+            "rounded-full tracking-normal normal-case",
+          )}
+        >
+          <Home className="h-4 w-4" />
+          Back to home
+        </Link>
+        <button
+          type="button"
+          onClick={onAgain}
+          className="text-primary hover:text-primary/80 w-full cursor-pointer pt-0.5 text-center text-sm font-medium underline-offset-4 hover:underline"
+        >
+          Make another request
+        </button>
       </div>
     </div>
   );
