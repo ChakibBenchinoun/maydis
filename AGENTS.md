@@ -12,8 +12,8 @@ Conventions for coding agents working in this monorepo.
 - Forms: **TanStack Form** + **Zod** (`lib/**/schema.ts`) for public + admin CRUDs
 - Server data (admin lists later): prefer **TanStack Query** when touching admin fetch/mutations
 - UI primitives: existing `components/ui/*`; adopt **shadcn/ui** when it fits (calendar, dialog, etc.) — do not replace brand sections wholesale. Project MCP: `.cursor/mcp.json` (`shadcn@latest mcp`); global Cursor config may also list shadcn.
-- WhatsApp: free Baileys bot (`apps/whatsapp-bot`) — local `pnpm whatsapp:bot` on `:3100`; production on Railway + Vercel `WHATSAPP_BOT_*`
-- Admin: `/admin` — bootstrap `OWNER_EMAIL`, staff in UI (`staff_members`); see `docs/ADMIN.md`
+- WhatsApp: free Baileys bot (`apps/whatsapp-bot`) — local `pnpm whatsapp:bot` on `:3100`; production on Railway + Vercel `WHATSAPP_BOT_*`. Owner alerts deep-link to production admin only (`site.productionOrigin` / `ADMIN_RESERVATIONS_URL`) — never `VERCEL_URL`.
+- Admin: `/admin` — bootstrap `OWNER_EMAIL`, staff in UI (`staff_members`); see `docs/ADMIN.md`. Next focus: reservations + TanStack Query lists; menu/gallery CRUD later.
 
 
 ## Commands
@@ -60,18 +60,19 @@ src/
     visit/
     qr/
     reserve/
-    effects/            # portable motion: marquee, flip-fade-text, page-scroll-line
-    ui/                 # button, link, image, typography, section, container, …
+    effects/            # portable motion: marquee, flip-fade-text, page-scroll-line, scroll-anchor
+    ui/                 # button, link, image, typography, section, container, lightbox, …
     …
   data/                 # Static content / typed records (no React)
     menu.ts
     gallery.ts
     reviews.ts
   lib/                  # Shared non-UI helpers
-    constants.ts        # site, nav, social, hours, section copy
+    constants.ts        # site (incl. productionOrigin), nav, social, hours, section copy
     menu.ts             # getMenuItems, pickLatestMenuItems, categories
     fonts.ts
-    scroll.ts           # rAF section scroll (instant frames; don’t fight CSS smooth)
+    scroll.ts           # rAF: scrollToId (nav offset) + scrollToPageTop (forms)
+    whatsapp/           # messages (warm copy + production admin link) + send
   styles/               # Design system CSS
 ```
 

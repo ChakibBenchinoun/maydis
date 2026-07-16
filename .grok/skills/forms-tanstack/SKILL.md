@@ -17,19 +17,26 @@ description: Build or refactor forms with TanStack Form + Zod, multi-step wizard
 2. Use `@tanstack/react-form` for values and submit — not ad-hoc `useState` bags for full CRUDs.
 3. API route: `schema.safeParse(body)` before DB/WhatsApp/side effects.
 4. Error UX: show after Continue/submit only; clear when value becomes valid; clamp hard limits on input.
-5. Multi-step: step list + `validateReserveStep`-style helpers; progress component separate; scroll card top on step change.
-6. Prefer existing `components/ui` + Maydi tokens; add shadcn only when a primitive clearly fits.
-7. Keep pages thin; form lives under `components/<domain>/`.
+5. Multi-step: step list + `validateReserveStep`-style helpers; progress component separate.
+6. Step transitions (Back / Continue / Start / success / step errors): `useScrollAnchor` + `scrollToPageTop()` — **page top** (`y = 0`), not card/nav-offset scroll.
+7. Bright controls: reuse `reserve-field-styles` (`controlSurfaceClass`, `fieldClass`) for inputs and review cards.
+8. Success screens: hide page header; center content; mobile fixed panel + overflow lock if a full-viewport confirm is required.
+9. Prefer existing `components/ui` + Maydi tokens; add shadcn only when a primitive clearly fits.
+10. Keep pages thin; form lives under `components/<domain>/`.
 
 ## Reference
 
-- Public reserve: `components/reserve/reserve-form.tsx`, `lib/reservations/*`
+- Public reserve: `components/reserve/*`, `lib/reservations/*`
+- Scroll: `components/effects/scroll-anchor.tsx`, `lib/scroll.ts` (`scrollToPageTop`, `scrollToId`)
 - Always-on: `.grok/rules/forms.md`
-- Stack notes: root `AGENTS.md`
+- Stack notes: root `Agents.md` / `AGENTS.md`
 
 ## Checklist
 
 - [ ] Shared Zod schema used on client and server
 - [ ] No instant errors on first keystroke
 - [ ] Buttons for multi-step are `type="button"` except intentional submit handling
+- [ ] Step change scrolls to page top (shared `ScrollAnchor` / `scrollToPageTop`)
+- [ ] Inputs stay 16px+ on mobile (no iOS focus zoom)
 - [ ] Reduced-motion considered for confetti/progress animation
+- [ ] Guest success UI has no technical WhatsApp/setup errors

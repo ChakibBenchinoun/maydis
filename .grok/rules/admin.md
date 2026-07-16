@@ -25,6 +25,20 @@ Staff admin lives under `/admin` in `apps/website` (same Next app).
 - UI: `components/admin/*`.
 - Public chrome (`Navbar`/`Footer`) must **not** wrap admin — use `(public)` layout vs admin layout.
 
+## Deep links (WhatsApp / external)
+
+1. Owner booking alerts link to **all reservations**: `https://maydis-website.vercel.app/admin/reservations` (`ADMIN_RESERVATIONS_URL` in `lib/whatsapp/messages.ts`).
+2. Never build that URL from `VERCEL_URL` or a preview host (`maydis-website-xxxxx-….vercel.app`).
+3. Prefer `site.productionOrigin` in `lib/constants.ts` for any new production-only absolute links.
+4. Set Vercel Production `NEXT_PUBLIC_SITE_URL` to the same production alias (QR and public absolute URLs).
+
+## Product backlog (when extending admin)
+
+- Prefer **TanStack Query** for list/filter/mutate (reservations, staff, future menu/gallery CRUD).
+- Keep English UI; reuse Maydi tokens + existing admin shell patterns.
+- Migrations still require explicit user approval (`database.md`).
+
 ## Docs
 
 - `docs/ADMIN.md` — setup checklist for owner + staff.
+- `docs/WHATSAPP.md` — bot + env for booking notify.

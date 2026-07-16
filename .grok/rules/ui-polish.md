@@ -19,8 +19,9 @@ When refining design / motion in `apps/website` (nav, hero, sections):
    - Scroll chevron / “Explore the latest” → `#latest` (home latest menu section). Optional Ken Burns only when reduced-motion is off.
    - CTAs via `Button` / `Link` (mobile-compact sizes).
 4b. **Visit**
-   - Content column first, image second (`md:grid-cols-2`).
-   - Phone / Address / Hours as matching icon rows; Call + WhatsApp under phone (`site.phoneHref`, `site.whatsappHref`). No giant phone headline; map embed can stay below the card.
+   - Content column first, map second (`md:grid-cols-2`) — map embed **in the card**, not a second full-width block below.
+   - Card content width matches Avis Clients: `max-w-5xl mx-auto` inside `Container`.
+   - Phone / Address / Hours as matching icon rows; Call + WhatsApp under phone (`site.phoneHref`, `site.whatsappHref`). No giant phone headline.
 5. **Home “latest menu” vs full menu**
    - Home: `LatestMenuSection` + `pickLatestMenuItems()` — no category tabs; showcase only.
    - Below `lg`: `MenuSwipeCarousel` · `lg+`: `MenuScrollRow` (uses shared `effects/marquee`, interactive).
@@ -34,6 +35,16 @@ When refining design / motion in `apps/website` (nav, hero, sections):
    - Shared animation under `components/effects/`.
 5c. **Marquee primitive** (`components/effects/marquee.tsx` + `use-marquee.ts`)
    - GPU `translate3d`; in-view autoplay; optional interactive pan.
+5d. **QR (Share Our Menu)**
+   - Generated with high error correction (`H`) so a centre logo can cover modules.
+   - Logo: `images.logo` on a white circular pad, centred over the code.
+   - Display URL under the code: strip `https://` / `http://` for a friendly label; QR payload stays a full absolute URL.
+5e. **Lightboxes** (`components/ui/lightbox.tsx`)
+   - Portal to `document.body`, `z-[100]` above sticky nav (`z-50`); full-viewport dim.
+   - Media: `object-cover object-center` in the frame.
+5f. **Scroll primitives**
+   - Section anchors / nav: `scrollToId` / `scrollToElement` (nav-offset) in `lib/scroll.ts`.
+   - Multi-step form step changes: `scrollToPageTop` + `useScrollAnchor` (`effects/scroll-anchor.tsx`) — absolute page top.
 
 6. Motion ease of record: `[0.22, 1, 0.36, 1]` (`motion/react`).
 7. After polish: `pnpm typecheck` (and visual check on mobile + desktop).

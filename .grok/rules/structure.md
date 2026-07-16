@@ -12,6 +12,7 @@ When editing `apps/website`:
 8. Full-page mobile overlays: render as a **sibling** of the sticky header bar (not inside a `backdrop-blur` / `backdrop-filter` parent), or fixed positioning will break and the panel can look transparent. Use an opaque `backgroundColor: var(--background)`.
 9. Motion: reuse ease `[0.22, 1, 0.36, 1]`; respect `prefers-reduced-motion` for Ken Burns / loops.
 10. Nav hierarchy: section anchors as text links (`homeNavLinks` / `mainNavLinks`); **Menu** + **Reserve** as pill CTAs (Reserve primary by default; active page demotes the other). Site strings/nav in `lib/constants.ts`. Section jumps via `lib/scroll.ts` (`scrollToId`) — never rely on CSS smooth alone for SPA nav.
+11. Production absolute links (WhatsApp admin, etc.): use `site.productionOrigin` (`https://maydis-website.vercel.app`) — **never** `process.env.VERCEL_URL` (per-deploy / preview hosts).
 
 ## Extract only when repeated (or non-trivial)
 
@@ -62,8 +63,8 @@ Reusable UI must be **generic, configurable, and portable**:
 | `qr/` | QR section |
 | `reserve/` | Multi-step reservation form (stepper, calendar, time slots, success) |
 | `admin/` | Staff shell, reservations table, staff panel |
-| `effects/` | Portable motion/scroll primitives: `marquee`, `use-marquee`, `flip-fade-text`, `page-scroll-line` |
-| `ui/` | Design system: `button`, `link`, `image`, `typography`, `container`, section label/divider |
+| `effects/` | Portable motion/scroll primitives: `marquee`, `use-marquee`, `flip-fade-text`, `page-scroll-line`, `scroll-anchor` |
+| `ui/` | Design system: `button`, `link`, `image`, `typography`, `container`, `lightbox`, section label/divider |
 
 Import as `@/components/<domain>/<file>` (no flat root component files for features).
 
