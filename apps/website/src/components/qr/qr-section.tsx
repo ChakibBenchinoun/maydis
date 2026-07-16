@@ -15,6 +15,11 @@ function menuUrl() {
   return base ? `${base}${menuLink.href}` : menuLink.href;
 }
 
+/** Display-only: strip scheme so the label stays friendly (e.g. maydis.dz/menu). */
+function friendlyUrlLabel(url: string) {
+  return url.replace(/^https?:\/\//i, "");
+}
+
 export function QrSection() {
   const [qr, setQr] = useState<{ url: string; dataUrl: string | null }>({
     url: menuLink.href,
@@ -76,7 +81,9 @@ export function QrSection() {
             ) : (
               <div className="bg-secondary h-52 w-52 animate-pulse rounded-xl" />
             )}
-            <p className="text-muted-foreground max-w-xs text-xs break-all">{qr.url}</p>
+            <p className="text-muted-foreground max-w-xs text-xs break-all">
+              {friendlyUrlLabel(qr.url)}
+            </p>
             <Link href={menuLink.href} variant="primary">
               Open menu
             </Link>
