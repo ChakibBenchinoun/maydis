@@ -8,6 +8,12 @@ export const site = {
   phoneHref: "tel:+213541453073",
   /** Digits-only E.164 for wa.me links */
   whatsappHref: "https://wa.me/213541453073",
+  /**
+   * Stable production origin for absolute links (admin, WhatsApp).
+   * Never use `VERCEL_URL` — it is a per-deploy host
+   * (e.g. maydis-website-xxxxx-….vercel.app), not this alias.
+   */
+  productionOrigin: "https://maydis-website.vercel.app",
   addressLine1: "Hai Khemisiti, Cité 2000 Logements Belle Vue",
   addressLine2: "Oran 31000, Algeria",
   mapsUrl:

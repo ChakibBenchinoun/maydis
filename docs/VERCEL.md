@@ -20,7 +20,7 @@ git push
 
 | Name | Example |
 |------|---------|
-| `NEXT_PUBLIC_SITE_URL` | `https://your-project.vercel.app` (update after first deploy if needed) |
+| `NEXT_PUBLIC_SITE_URL` | `https://maydis-website.vercel.app` (production alias — **not** a `*-….vercel.app` deploy hash URL) |
 | `NEXT_PUBLIC_SUPABASE_URL` | `https://xxxx.supabase.co` |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | from Supabase API settings |
 | `SUPABASE_SERVICE_ROLE_KEY` | from Supabase API settings (secret) |

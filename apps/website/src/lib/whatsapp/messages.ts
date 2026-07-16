@@ -16,14 +16,14 @@ export type EventBooking = {
 };
 
 /**
- * Production site for admin deep-links in WhatsApp.
- * Always absolute so owner messages never point at localhost / preview URLs.
+ * Full admin reservations URL for owner WhatsApp alerts.
+ * Always the production alias — never `process.env.VERCEL_URL` (branch/preview hosts).
  */
-const ADMIN_APP_ORIGIN = "https://maydis-website.vercel.app";
+export const ADMIN_RESERVATIONS_URL =
+  "https://maydis-website.vercel.app/admin/reservations" as const;
 
-/** Admin list of all event requests (not a single booking id). */
 export function adminReservationsUrl(): string {
-  return `${ADMIN_APP_ORIGIN}/admin/reservations`;
+  return ADMIN_RESERVATIONS_URL;
 }
 
 function prettyDate(iso: string): string {
@@ -38,7 +38,6 @@ function guestCountLabel(guests: string): string {
 
 /** Message to the café owner when a new event is requested. */
 export function ownerBookingMessage(b: EventBooking): string {
-  const reservationsLink = adminReservationsUrl();
   const lines = [
     `🌿 New event request — ${site.name}`,
     ``,
@@ -53,7 +52,8 @@ export function ownerBookingMessage(b: EventBooking): string {
     b.notes ? `📝 Notes: ${b.notes}` : null,
     ``,
     `👉 View all reservations:`,
-    reservationsLink,
+    // Hardcoded production alias only — never VERCEL_URL (preview/deploy hosts).
+    ADMIN_RESERVATIONS_URL,
     ``,
     `Reply to the guest on WhatsApp when you’re ready to confirm. 💛`,
   ];

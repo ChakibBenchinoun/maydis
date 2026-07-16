@@ -98,7 +98,7 @@ In Vercel → Project → Settings → Environment Variables (**Production**):
 
 | Name | Example |
 |------|---------|
-| `NEXT_PUBLIC_SITE_URL` | `https://maydis.vercel.app` |
+| `NEXT_PUBLIC_SITE_URL` | `https://maydis-website.vercel.app` (stable alias; never a preview/deploy hash host) |
 | `NEXT_PUBLIC_SUPABASE_URL` | `https://….supabase.co` |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | … |
 | `SUPABASE_SERVICE_ROLE_KEY` | … |
