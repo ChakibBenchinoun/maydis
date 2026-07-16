@@ -13,6 +13,7 @@ export { SectionLabel } from "./section-label";
 export { Section, sectionHeaderClass, sectionPaddingClass, type SectionTone } from "./section";
 export { SocialIcon } from "./social-icon";
 export { Heading, Paragraph, type HeadingSize, type ParagraphSize } from "./typography";
+export { Lightbox } from "./lightbox";
 export {
   VideoPlayer,
   VideoPlayerContent,

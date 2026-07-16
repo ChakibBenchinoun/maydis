@@ -35,7 +35,7 @@ export function VideoPlayerContent({ className, ...props }: VideoPlayerContentPr
   return (
     <video
       slot="media"
-      className={cn("m-0 h-full w-full object-cover", className)}
+      className={cn("m-0 h-full w-full object-cover object-center", className)}
       playsInline
       {...props}
     />
