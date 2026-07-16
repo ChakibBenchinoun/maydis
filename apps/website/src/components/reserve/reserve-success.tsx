@@ -48,22 +48,22 @@ export function ReserveSuccess({
 
   return (
     <div className="flex flex-col items-center text-center">
-      <div className="bg-accent/15 flex h-14 w-14 items-center justify-center rounded-full">
-        <CheckCircle className="text-accent h-7 w-7" />
+      <div className="bg-accent/15 flex h-11 w-11 items-center justify-center rounded-full sm:h-14 sm:w-14">
+        <CheckCircle className="text-accent h-6 w-6 sm:h-7 sm:w-7" />
       </div>
 
-      <h1 className="font-display text-foreground mt-4 text-3xl font-bold sm:text-4xl">
+      <h1 className="font-display text-foreground mt-3 text-2xl font-bold sm:mt-4 sm:text-4xl">
         Request received
       </h1>
-      <p className="text-foreground mx-auto mt-3 max-w-sm text-sm leading-relaxed font-medium">
+      <p className="text-foreground mx-auto mt-2 max-w-sm text-sm leading-snug font-medium sm:mt-3 sm:leading-relaxed">
         Thank you for choosing {site.name}. We cannot wait to host you in Oran.
       </p>
-      <p className="text-muted-foreground mx-auto mt-2 max-w-sm text-sm leading-relaxed">
+      <p className="text-muted-foreground mx-auto mt-1.5 max-w-sm text-sm leading-snug sm:mt-2 sm:leading-relaxed">
         {nextStepCopy}
       </p>
 
       {/* Human contact — not technical status */}
-      <div className="mx-auto mt-6 flex w-full max-w-sm flex-wrap items-center justify-center gap-x-5 gap-y-2">
+      <div className="mx-auto mt-4 flex w-full max-w-sm flex-wrap items-center justify-center gap-x-5 gap-y-1.5 sm:mt-6 sm:gap-y-2">
         <a
           href={site.phoneHref}
           className="text-primary inline-flex items-center gap-1.5 text-sm font-semibold hover:underline"
@@ -82,15 +82,15 @@ export function ReserveSuccess({
         </a>
       </div>
 
-      <div className="border-border/50 mx-auto mt-7 w-full max-w-sm space-y-3 border-t pt-7 text-left">
+      <div className="border-border/50 mx-auto mt-5 w-full max-w-sm space-y-2.5 border-t pt-5 text-left sm:mt-7 sm:space-y-3 sm:pt-7">
         <p className="text-muted-foreground text-center text-xs font-semibold tracking-wider uppercase">
           While you wait
         </p>
         <Link
           href={menuLink.href}
           className={cn(
-            buttonClassName({ variant: "primary", fullWidth: true }),
-            "rounded-full tracking-normal normal-case",
+            buttonClassName({ variant: "primary", fullWidth: true, size: "sm" }),
+            "rounded-full tracking-normal normal-case sm:min-h-11 sm:px-9 sm:py-3.5 sm:text-[11px]",
           )}
         >
           <UtensilsCrossed className="h-4 w-4" />
@@ -99,8 +99,8 @@ export function ReserveSuccess({
         <Link
           href="/"
           className={cn(
-            buttonClassName({ variant: "outline", fullWidth: true }),
-            "rounded-full tracking-normal normal-case",
+            buttonClassName({ variant: "outline", fullWidth: true, size: "sm" }),
+            "rounded-full tracking-normal normal-case sm:min-h-11 sm:px-9 sm:py-3.5 sm:text-[11px]",
           )}
         >
           <Home className="h-4 w-4" />

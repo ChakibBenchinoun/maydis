@@ -15,20 +15,15 @@ export type EventBooking = {
   reservationId?: string | null;
 };
 
-/** Public site origin for absolute admin links in WhatsApp. */
-function siteOrigin(): string {
-  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
-  if (fromEnv) return fromEnv;
-  const vercel = process.env.VERCEL_URL?.replace(/\/$/, "");
-  if (vercel) return vercel.startsWith("http") ? vercel : `https://${vercel}`;
-  return "";
-}
+/**
+ * Production site for admin deep-links in WhatsApp.
+ * Always absolute so owner messages never point at localhost / preview URLs.
+ */
+const ADMIN_APP_ORIGIN = "https://maydis-website.vercel.app";
 
 /** Admin list of all event requests (not a single booking id). */
 export function adminReservationsUrl(): string {
-  const path = "/admin/reservations";
-  const origin = siteOrigin();
-  return origin ? `${origin}${path}` : path;
+  return `${ADMIN_APP_ORIGIN}/admin/reservations`;
 }
 
 function prettyDate(iso: string): string {
