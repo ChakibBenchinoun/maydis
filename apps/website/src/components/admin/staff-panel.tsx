@@ -2,7 +2,10 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import type { StaffMember, StaffRole } from "@/lib/admin/staff";
 
 export function StaffPanel({
@@ -41,13 +44,17 @@ export function StaffPanel({
       };
       if (!res.ok) throw new Error(data.error || "Could not add staff");
       if (data.row) setRows((prev) => [...prev, data.row!]);
-      setNote(data.note ?? "Staff added.");
+      const successNote = data.note ?? "Staff added.";
+      setNote(successNote);
+      toast.success(successNote);
       setEmail("");
       setPassword("");
       setRole("staff");
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed");
+      const message = err instanceof Error ? err.message : "Failed";
+      setError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -60,10 +67,13 @@ export function StaffPanel({
     const res = await fetch(`/api/admin/staff/${id}`, { method: "DELETE" });
     const data = (await res.json()) as { error?: string };
     if (!res.ok) {
-      setError(data.error || "Could not remove");
+      const message = data.error || "Could not remove";
+      setError(message);
+      toast.error(message);
       return;
     }
     setRows((prev) => prev.map((r) => (r.id === id ? { ...r, active: false } : r)));
+    toast.success("Staff access removed");
     router.refresh();
   }
 
@@ -79,66 +89,69 @@ export function StaffPanel({
       )}
 
       {isOwner && (
-        <form
-          onSubmit={onAdd}
-          className="border-border/50 bg-card space-y-4 rounded-2xl border p-5 shadow-sm"
-        >
-          <h2 className="font-display text-lg font-bold">Add staff</h2>
-          <p className="text-muted-foreground text-sm">
-            Creates a login and grants admin access. Share the email and temporary password with
-            them securely.
-          </p>
-          <div className="grid gap-3 sm:grid-cols-2">
-            <div className="sm:col-span-2">
-              <label className="text-muted-foreground mb-1.5 block text-xs font-semibold tracking-wider uppercase">
-                Email
-              </label>
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="border-border bg-secondary focus:border-primary w-full rounded-lg border px-3.5 py-2.5 text-sm focus:outline-hidden"
-                placeholder="colleague@example.com"
-              />
-            </div>
-            <div>
-              <label className="text-muted-foreground mb-1.5 block text-xs font-semibold tracking-wider uppercase">
-                Temporary password
-              </label>
-              <input
-                type="text"
-                required
-                minLength={8}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="border-border bg-secondary focus:border-primary w-full rounded-lg border px-3.5 py-2.5 text-sm focus:outline-hidden"
-                placeholder="Min. 8 characters"
-                autoComplete="new-password"
-              />
-            </div>
-            <div>
-              <label className="text-muted-foreground mb-1.5 block text-xs font-semibold tracking-wider uppercase">
-                Role
-              </label>
-              <select
-                value={role}
-                onChange={(e) => setRole(e.target.value as StaffRole)}
-                className="border-border bg-secondary w-full rounded-lg border px-3.5 py-2.5 text-sm"
+        <Card className="gap-4 py-5">
+          <form onSubmit={onAdd} className="space-y-4">
+            <CardHeader className="px-5 pb-0">
+              <CardTitle className="font-display text-lg font-bold">Add staff</CardTitle>
+              <CardDescription>
+                Creates a login and grants admin access. Share the email and temporary password with
+                them securely.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4 px-5">
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div className="sm:col-span-2">
+                  <label className="text-muted-foreground mb-1.5 block text-xs font-semibold tracking-wider uppercase">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="border-border bg-secondary focus:border-primary w-full rounded-lg border px-3.5 py-2.5 text-sm focus:outline-hidden"
+                    placeholder="colleague@example.com"
+                  />
+                </div>
+                <div>
+                  <label className="text-muted-foreground mb-1.5 block text-xs font-semibold tracking-wider uppercase">
+                    Temporary password
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    minLength={8}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="border-border bg-secondary focus:border-primary w-full rounded-lg border px-3.5 py-2.5 text-sm focus:outline-hidden"
+                    placeholder="Min. 8 characters"
+                    autoComplete="new-password"
+                  />
+                </div>
+                <div>
+                  <label className="text-muted-foreground mb-1.5 block text-xs font-semibold tracking-wider uppercase">
+                    Role
+                  </label>
+                  <select
+                    value={role}
+                    onChange={(e) => setRole(e.target.value as StaffRole)}
+                    className="border-border bg-secondary w-full rounded-lg border px-3.5 py-2.5 text-sm"
+                  >
+                    <option value="staff">Staff</option>
+                    <option value="owner">Owner</option>
+                  </select>
+                </div>
+              </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg px-4 py-2.5 text-sm font-semibold disabled:opacity-60"
               >
-                <option value="staff">Staff</option>
-                <option value="owner">Owner</option>
-              </select>
-            </div>
-          </div>
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg px-4 py-2.5 text-sm font-semibold disabled:opacity-60"
-          >
-            {loading ? "Adding…" : "Add staff member"}
-          </button>
-        </form>
+                {loading ? "Adding…" : "Add staff member"}
+              </button>
+            </CardContent>
+          </form>
+        </Card>
       )}
 
       {error && (
@@ -163,7 +176,9 @@ export function StaffPanel({
                     <span className="text-muted-foreground ml-2 text-xs font-normal">(you)</span>
                   ) : null}
                 </p>
-                <p className="text-muted-foreground text-xs capitalize">{r.role}</p>
+                <Badge variant="secondary" className="mt-1 capitalize">
+                  {r.role}
+                </Badge>
               </div>
               {isOwner && r.email !== me.email && (
                 <button

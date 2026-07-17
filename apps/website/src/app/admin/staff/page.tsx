@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
+import { AdminPageHeader } from "@/components/admin/admin-page-header";
 import { StaffPanel } from "@/components/admin/staff-panel";
 import { requireAdmin } from "@/lib/admin/auth";
 import { listStaff } from "@/lib/admin/staff";
@@ -12,9 +13,9 @@ export default async function AdminStaffPage() {
   const supabase = getServiceRoleClient();
   if (!supabase) {
     return (
-      <div className="mx-auto max-w-xl">
-        <h1 className="font-display text-2xl font-bold">Staff</h1>
-        <p className="text-muted-foreground mt-2 text-sm">
+      <div className="space-y-4">
+        <AdminPageHeader title="Staff" />
+        <p className="text-muted-foreground text-sm">
           Service role key is required to manage staff.
         </p>
       </div>
@@ -24,13 +25,11 @@ export default async function AdminStaffPage() {
   const { rows, error } = await listStaff(supabase);
 
   return (
-    <div className="mx-auto max-w-xl space-y-6">
-      <div>
-        <h1 className="font-display text-foreground text-2xl font-bold md:text-3xl">Staff</h1>
-        <p className="text-muted-foreground mt-1 text-sm">
-          The owner invites colleagues here. They sign in with email and the password you set.
-        </p>
-      </div>
+    <div className="space-y-6">
+      <AdminPageHeader
+        title="Staff"
+        description="The owner invites colleagues here. They sign in with email and the password you set."
+      />
 
       {error ? (
         <p className="bg-destructive/10 text-destructive rounded-lg px-3 py-2 text-sm">{error}</p>

@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
+import { AdminPageHeader } from "@/components/admin/admin-page-header";
 import { QrAdminPanel } from "@/components/admin/qr-admin-panel";
 import { requireAdmin } from "@/lib/admin/auth";
 import { listQrTargets } from "@/lib/qr/service";
@@ -12,9 +13,9 @@ export default async function AdminQrPage() {
   const supabase = getServiceRoleClient();
   if (!supabase) {
     return (
-      <div className="mx-auto max-w-3xl">
-        <h1 className="font-display text-2xl font-bold">QR codes</h1>
-        <p className="text-muted-foreground mt-2 text-sm">
+      <div className="space-y-4">
+        <AdminPageHeader title="QR codes" />
+        <p className="text-muted-foreground text-sm">
           Service role key is required to manage QR targets.
         </p>
       </div>
@@ -24,13 +25,11 @@ export default async function AdminQrPage() {
   const { rows, error } = await listQrTargets(supabase, { includeInactive: true });
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
-      <div>
-        <h1 className="font-display text-foreground text-2xl font-bold md:text-3xl">QR codes</h1>
-        <p className="text-muted-foreground mt-1 text-sm">
-          Share section destinations. Logo is fixed; only the QR dark color is editable.
-        </p>
-      </div>
+    <div className="space-y-6">
+      <AdminPageHeader
+        title="QR codes"
+        description="Share section destinations. Logo is fixed; only the QR dark color is editable."
+      />
 
       {error ? (
         <p className="bg-destructive/10 text-destructive rounded-lg px-3 py-2 text-sm">{error}</p>

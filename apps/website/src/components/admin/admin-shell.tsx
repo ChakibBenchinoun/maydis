@@ -19,7 +19,6 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarInset,
   SidebarMenu,
@@ -29,7 +28,9 @@ import {
   SidebarRail,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/sonner";
 import { site } from "@/lib/constants";
+import { images } from "@/lib/images";
 
 const nav: Array<{
   href: string;
@@ -65,25 +66,19 @@ export function AdminShell({ email, children }: { email: string; children: React
   return (
     <SidebarProvider>
       <Sidebar collapsible="icon" variant="sidebar">
-        <SidebarHeader className="border-sidebar-border border-b">
-          <div className="flex items-center gap-2 px-1 py-1.5 group-data-[collapsible=icon]:justify-center">
-            <div className="bg-sidebar-primary text-sidebar-primary-foreground flex size-8 shrink-0 items-center justify-center rounded-lg text-xs font-bold">
-              M
-            </div>
-            <div className="min-w-0 flex-1 group-data-[collapsible=icon]:hidden">
-              <p className="text-sidebar-foreground/60 text-[10px] font-semibold tracking-[0.2em] uppercase">
-                Staff
-              </p>
-              <p className="font-display text-sidebar-foreground truncate text-base leading-tight font-bold">
-                {site.name}
-              </p>
-            </div>
+        {/* Match top nav height (h-14) so header bars align across the layout */}
+        <SidebarHeader className="border-sidebar-border h-14 justify-center border-b px-3">
+          <div className="flex h-full items-center gap-2.5 group-data-[collapsible=icon]:justify-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={images.logo} alt="" className="size-8 shrink-0 rounded-md object-contain" />
+            <p className="font-display text-sidebar-foreground truncate text-base leading-none font-bold group-data-[collapsible=icon]:hidden">
+              {site.name}
+            </p>
           </div>
         </SidebarHeader>
 
         <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupLabel>Manage</SidebarGroupLabel>
+          <SidebarGroup className="pt-2">
             <SidebarGroupContent>
               <SidebarMenu>
                 {nav.map(({ href, label, icon: Icon, exact }) => {
@@ -152,7 +147,10 @@ export function AdminShell({ email, children }: { email: string; children: React
             Sign out
           </button>
         </header>
-        <main className="flex-1 p-4 md:p-8">{children}</main>
+        <main className="flex-1 p-4 md:p-8">
+          <div className="mx-auto w-full max-w-5xl">{children}</div>
+        </main>
+        <Toaster />
       </SidebarInset>
     </SidebarProvider>
   );

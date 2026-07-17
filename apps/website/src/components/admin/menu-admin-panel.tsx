@@ -3,8 +3,11 @@
 import { FormEvent, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Pencil, Plus, Trash2, X } from "lucide-react";
+import { toast } from "sonner";
 
 import { AdminMediaAttachment } from "@/components/admin/admin-media-attachment";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { MenuItemRow } from "@/lib/menu/schema";
 
 const FIELD =
@@ -146,6 +149,7 @@ export function MenuAdminPanel({ initialRows }: { initialRows: MenuItemRow[] }) 
         const data = (await res.json()) as { error?: string; row?: MenuItemRow };
         if (!res.ok) throw new Error(data.error || "Could not create");
         if (data.row) setRows((prev) => [...prev, data.row!].sort(sortRows));
+        toast.success("Dish created");
       } else if (editingId != null) {
         const res = await fetch(`/api/admin/menu/${editingId}`, {
           method: "PATCH",
@@ -159,11 +163,14 @@ export function MenuAdminPanel({ initialRows }: { initialRows: MenuItemRow[] }) 
             prev.map((r) => (r.id === data.row!.id ? data.row! : r)).sort(sortRows),
           );
         }
+        toast.success("Dish saved");
       }
       closeForm();
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Save failed");
+      const message = err instanceof Error ? err.message : "Save failed";
+      setError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -177,11 +184,14 @@ export function MenuAdminPanel({ initialRows }: { initialRows: MenuItemRow[] }) 
     const res = await fetch(`/api/admin/menu/${id}`, { method: "DELETE" });
     const data = (await res.json()) as { error?: string };
     if (!res.ok) {
-      setError(data.error || "Could not delete");
+      const message = data.error || "Could not delete";
+      setError(message);
+      toast.error(message);
       return;
     }
     setRows((prev) => prev.filter((r) => r.id !== id));
     if (editingId === id) closeForm();
+    toast.success("Dish deleted");
     router.refresh();
   }
 
@@ -194,11 +204,14 @@ export function MenuAdminPanel({ initialRows }: { initialRows: MenuItemRow[] }) 
     });
     const data = (await res.json()) as { error?: string; row?: MenuItemRow };
     if (!res.ok) {
-      setError(data.error || "Could not update");
+      const message = data.error || "Could not update";
+      setError(message);
+      toast.error(message);
       return;
     }
     if (data.row) {
       setRows((prev) => prev.map((r) => (r.id === data.row!.id ? data.row! : r)));
+      toast.success(data.row.available ? "Shown on menu" : "Hidden from menu");
     }
     router.refresh();
   }
@@ -237,205 +250,214 @@ export function MenuAdminPanel({ initialRows }: { initialRows: MenuItemRow[] }) 
       ) : null}
 
       {showForm ? (
-        <form
-          onSubmit={(e) => void onSubmit(e)}
-          className="border-border/50 bg-card space-y-4 rounded-2xl border p-5 shadow-sm"
-        >
-          <div className="flex items-center justify-between gap-2">
-            <h2 className="font-display text-lg font-bold">
-              {creating ? "New dish" : `Edit #${editingId}`}
-            </h2>
-            <button
-              type="button"
-              onClick={closeForm}
-              className="text-muted-foreground hover:text-foreground cursor-pointer rounded-lg p-1.5"
-              aria-label="Close form"
-            >
-              <X className="h-5 w-5" />
-            </button>
-          </div>
+        <Card className="gap-4 py-5">
+          <form onSubmit={(e) => void onSubmit(e)} className="space-y-4">
+            <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0 px-5 pb-0">
+              <CardTitle className="font-display text-lg font-bold">
+                {creating ? "New dish" : `Edit #${editingId}`}
+              </CardTitle>
+              <button
+                type="button"
+                onClick={closeForm}
+                className="text-muted-foreground hover:text-foreground cursor-pointer rounded-lg p-1.5"
+                aria-label="Close form"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </CardHeader>
+            <CardContent className="space-y-4 px-5">
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div className="sm:col-span-2">
+                  <label className={LABEL}>Name *</label>
+                  <input
+                    required
+                    className={FIELD}
+                    value={form.name}
+                    onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                  />
+                </div>
+                <div>
+                  <label className={LABEL}>Price *</label>
+                  <input
+                    required
+                    className={FIELD}
+                    placeholder="950 DA"
+                    value={form.price}
+                    onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))}
+                  />
+                </div>
+                <div>
+                  <label className={LABEL}>Category *</label>
+                  <input
+                    required
+                    className={FIELD}
+                    list="menu-categories"
+                    value={form.category}
+                    onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
+                  />
+                  <datalist id="menu-categories">
+                    {categories.map((c) => (
+                      <option key={c} value={c} />
+                    ))}
+                    <option value="Brunch" />
+                    <option value="Toasts & Croissants" />
+                    <option value="Salads & Bowls" />
+                    <option value="Desserts & Cakes" />
+                    <option value="Beverages" />
+                  </datalist>
+                </div>
+                <div className="sm:col-span-2">
+                  <label className={LABEL}>Short description</label>
+                  <input
+                    className={FIELD}
+                    value={form.description}
+                    onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className={LABEL}>Details (modal)</label>
+                  <textarea
+                    rows={3}
+                    className={FIELD}
+                    value={form.details}
+                    onChange={(e) => setForm((f) => ({ ...f, details: e.target.value }))}
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className={LABEL}>Image</label>
+                  <AdminMediaAttachment
+                    url={form.image_url}
+                    kind="image"
+                    uploading={uploading}
+                    emptyLabel="Dish photo"
+                    emptyHint="Click to upload JPEG, PNG, WebP, or GIF"
+                    onFile={(file) => void onUpload(file)}
+                    onClear={() => setForm((f) => ({ ...f, image_url: "" }))}
+                  />
+                  <input
+                    className={`${FIELD} mt-2`}
+                    placeholder="Or paste URL /images/…"
+                    value={form.image_url}
+                    onChange={(e) => setForm((f) => ({ ...f, image_url: e.target.value }))}
+                  />
+                </div>
+                <div>
+                  <label className={LABEL}>Tags (comma-separated)</label>
+                  <input
+                    className={FIELD}
+                    placeholder="Bestseller, Vegetarian"
+                    value={form.tags}
+                    onChange={(e) => setForm((f) => ({ ...f, tags: e.target.value }))}
+                  />
+                </div>
+                <div>
+                  <label className={LABEL}>Sort order</label>
+                  <input
+                    type="number"
+                    min={0}
+                    className={FIELD}
+                    value={form.sort_order}
+                    onChange={(e) => setForm((f) => ({ ...f, sort_order: e.target.value }))}
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className="flex cursor-pointer items-center gap-2 text-sm">
+                    <input
+                      type="checkbox"
+                      checked={form.available}
+                      onChange={(e) => setForm((f) => ({ ...f, available: e.target.checked }))}
+                      className="accent-primary size-4"
+                    />
+                    Available on public menu
+                  </label>
+                </div>
+              </div>
 
-          <div className="grid gap-3 sm:grid-cols-2">
-            <div className="sm:col-span-2">
-              <label className={LABEL}>Name *</label>
-              <input
-                required
-                className={FIELD}
-                value={form.name}
-                onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-              />
-            </div>
-            <div>
-              <label className={LABEL}>Price *</label>
-              <input
-                required
-                className={FIELD}
-                placeholder="950 DA"
-                value={form.price}
-                onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))}
-              />
-            </div>
-            <div>
-              <label className={LABEL}>Category *</label>
-              <input
-                required
-                className={FIELD}
-                list="menu-categories"
-                value={form.category}
-                onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
-              />
-              <datalist id="menu-categories">
-                {categories.map((c) => (
-                  <option key={c} value={c} />
-                ))}
-                <option value="Brunch" />
-                <option value="Toasts & Croissants" />
-                <option value="Salads & Bowls" />
-                <option value="Desserts & Cakes" />
-                <option value="Beverages" />
-              </datalist>
-            </div>
-            <div className="sm:col-span-2">
-              <label className={LABEL}>Short description</label>
-              <input
-                className={FIELD}
-                value={form.description}
-                onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
-              />
-            </div>
-            <div className="sm:col-span-2">
-              <label className={LABEL}>Details (modal)</label>
-              <textarea
-                rows={3}
-                className={FIELD}
-                value={form.details}
-                onChange={(e) => setForm((f) => ({ ...f, details: e.target.value }))}
-              />
-            </div>
-            <div className="sm:col-span-2">
-              <label className={LABEL}>Image</label>
-              <AdminMediaAttachment
-                url={form.image_url}
-                kind="image"
-                uploading={uploading}
-                emptyLabel="Dish photo"
-                emptyHint="Click to upload JPEG, PNG, WebP, or GIF"
-                onFile={(file) => void onUpload(file)}
-                onClear={() => setForm((f) => ({ ...f, image_url: "" }))}
-              />
-              <input
-                className={`${FIELD} mt-2`}
-                placeholder="Or paste URL /images/…"
-                value={form.image_url}
-                onChange={(e) => setForm((f) => ({ ...f, image_url: e.target.value }))}
-              />
-            </div>
-            <div>
-              <label className={LABEL}>Tags (comma-separated)</label>
-              <input
-                className={FIELD}
-                placeholder="Bestseller, Vegetarian"
-                value={form.tags}
-                onChange={(e) => setForm((f) => ({ ...f, tags: e.target.value }))}
-              />
-            </div>
-            <div>
-              <label className={LABEL}>Sort order</label>
-              <input
-                type="number"
-                min={0}
-                className={FIELD}
-                value={form.sort_order}
-                onChange={(e) => setForm((f) => ({ ...f, sort_order: e.target.value }))}
-              />
-            </div>
-            <div className="sm:col-span-2">
-              <label className="flex cursor-pointer items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={form.available}
-                  onChange={(e) => setForm((f) => ({ ...f, available: e.target.checked }))}
-                  className="accent-primary size-4"
-                />
-                Available on public menu
-              </label>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap gap-2 pt-1">
-            <button
-              type="submit"
-              disabled={loading}
-              className="bg-primary text-primary-foreground cursor-pointer rounded-full px-5 py-2 text-sm font-semibold disabled:opacity-50"
-            >
-              {loading ? "Saving…" : creating ? "Create dish" : "Save changes"}
-            </button>
-            <button
-              type="button"
-              onClick={closeForm}
-              className="border-border cursor-pointer rounded-full border px-5 py-2 text-sm font-medium"
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
+              <div className="flex flex-wrap gap-2 pt-1">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="bg-primary text-primary-foreground cursor-pointer rounded-full px-5 py-2 text-sm font-semibold disabled:opacity-50"
+                >
+                  {loading ? "Saving…" : creating ? "Create dish" : "Save changes"}
+                </button>
+                <button
+                  type="button"
+                  onClick={closeForm}
+                  className="border-border cursor-pointer rounded-full border px-5 py-2 text-sm font-medium"
+                >
+                  Cancel
+                </button>
+              </div>
+            </CardContent>
+          </form>
+        </Card>
       ) : null}
 
       <ul className="space-y-3">
         {visible.map((row) => (
-          <li
-            key={row.id}
-            className="border-border/50 bg-card flex gap-3 rounded-2xl border p-3 shadow-sm sm:p-4"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={row.image_url || "/images/gallery-01.jpg"}
-              alt=""
-              className="bg-secondary h-16 w-16 shrink-0 rounded-xl object-cover sm:h-20 sm:w-20"
-            />
-            <div className="min-w-0 flex-1">
-              <div className="flex flex-wrap items-start justify-between gap-2">
-                <div className="min-w-0">
-                  <p className="text-foreground truncate font-semibold">{row.name}</p>
-                  <p className="text-muted-foreground text-xs">
-                    {row.category} · {row.price}
-                    {!row.available ? (
-                      <span className="text-destructive ml-2 font-semibold">Hidden</span>
-                    ) : null}
-                  </p>
-                </div>
-                <div className="flex shrink-0 gap-1">
-                  <button
-                    type="button"
-                    onClick={() => openEdit(row)}
-                    className="text-muted-foreground hover:bg-secondary hover:text-foreground cursor-pointer rounded-lg p-2"
-                    title="Edit"
-                  >
-                    <Pencil className="h-4 w-4" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => void onDelete(row.id)}
-                    className="text-muted-foreground hover:bg-destructive/10 hover:text-destructive cursor-pointer rounded-lg p-2"
-                    title="Delete"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
-              {row.description ? (
-                <p className="text-muted-foreground mt-1 line-clamp-2 text-xs">{row.description}</p>
-              ) : null}
-              <label className="mt-2 flex cursor-pointer items-center gap-2 text-xs">
-                <input
-                  type="checkbox"
-                  checked={Boolean(row.available)}
-                  onChange={() => void toggleAvailable(row)}
-                  className="accent-primary size-3.5"
+          <li key={row.id}>
+            <Card className="flex flex-row gap-3 py-3 sm:py-4">
+              <CardContent className="flex flex-1 gap-3 px-3 sm:px-4">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={row.image_url || "/images/gallery-01.jpg"}
+                  alt=""
+                  className="bg-secondary h-16 w-16 shrink-0 rounded-xl object-cover sm:h-20 sm:w-20"
                 />
-                Available
-              </label>
-            </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="text-foreground truncate font-semibold">{row.name}</p>
+                      <p className="text-muted-foreground text-xs">
+                        {row.category} · {row.price}
+                      </p>
+                      <div className="mt-1.5 flex flex-wrap gap-1.5">
+                        {row.available ? (
+                          <Badge className="bg-accent/15 text-accent border-transparent">
+                            Available
+                          </Badge>
+                        ) : (
+                          <Badge variant="destructive">Hidden</Badge>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex shrink-0 gap-1">
+                      <button
+                        type="button"
+                        onClick={() => openEdit(row)}
+                        className="text-muted-foreground hover:bg-secondary hover:text-foreground cursor-pointer rounded-lg p-2"
+                        title="Edit"
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => void onDelete(row.id)}
+                        className="text-muted-foreground hover:bg-destructive/10 hover:text-destructive cursor-pointer rounded-lg p-2"
+                        title="Delete"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                  {row.description ? (
+                    <p className="text-muted-foreground mt-1 line-clamp-2 text-xs">
+                      {row.description}
+                    </p>
+                  ) : null}
+                  <label className="mt-2 flex cursor-pointer items-center gap-2 text-xs">
+                    <input
+                      type="checkbox"
+                      checked={Boolean(row.available)}
+                      onChange={() => void toggleAvailable(row)}
+                      className="accent-primary size-3.5"
+                    />
+                    Available
+                  </label>
+                </div>
+              </CardContent>
+            </Card>
           </li>
         ))}
         {visible.length === 0 ? (

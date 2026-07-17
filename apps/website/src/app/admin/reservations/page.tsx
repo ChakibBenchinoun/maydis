@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
+import { AdminPageHeader } from "@/components/admin/admin-page-header";
 import { ReservationsTable } from "@/components/admin/reservations-table";
 import { requireAdmin } from "@/lib/admin/auth";
 import { reservationStatusSchema, type ReservationStatus } from "@/lib/reservations/schema";
@@ -20,9 +21,9 @@ export default async function AdminReservationsPage({ searchParams }: Props) {
   const supabase = getServiceRoleClient();
   if (!supabase) {
     return (
-      <div className="mx-auto max-w-3xl">
-        <h1 className="font-display text-2xl font-bold">Reservations</h1>
-        <p className="text-muted-foreground mt-2 text-sm">
+      <div className="space-y-4">
+        <AdminPageHeader title="Reservations" />
+        <p className="text-muted-foreground text-sm">
           Set <code className="text-foreground">SUPABASE_SERVICE_ROLE_KEY</code> to manage bookings.
         </p>
       </div>
@@ -35,15 +36,11 @@ export default async function AdminReservationsPage({ searchParams }: Props) {
   });
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
-      <div>
-        <h1 className="font-display text-foreground text-2xl font-bold md:text-3xl">
-          Reservations
-        </h1>
-        <p className="text-muted-foreground mt-1 text-sm">
-          Review requests and update status. Guests are notified via WhatsApp when they book.
-        </p>
-      </div>
+    <div className="space-y-6">
+      <AdminPageHeader
+        title="Reservations"
+        description="Review requests and update status. Guests are notified via WhatsApp when they book."
+      />
 
       {error ? (
         <p className="bg-destructive/10 text-destructive rounded-lg px-3 py-2 text-sm">{error}</p>

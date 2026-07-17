@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
+import { AdminPageHeader } from "@/components/admin/admin-page-header";
 import { MenuAdminPanel } from "@/components/admin/menu-admin-panel";
 import { requireAdmin } from "@/lib/admin/auth";
 import { listMenuItemsAdmin } from "@/lib/menu/service";
@@ -12,9 +13,9 @@ export default async function AdminMenuPage() {
   const supabase = getServiceRoleClient();
   if (!supabase) {
     return (
-      <div className="mx-auto max-w-3xl">
-        <h1 className="font-display text-2xl font-bold">Menu</h1>
-        <p className="text-muted-foreground mt-2 text-sm">
+      <div className="space-y-4">
+        <AdminPageHeader title="Menu" />
+        <p className="text-muted-foreground text-sm">
           Service role key is required to manage menu items.
         </p>
       </div>
@@ -24,13 +25,11 @@ export default async function AdminMenuPage() {
   const { rows, error } = await listMenuItemsAdmin(supabase, { includeUnavailable: true });
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
-      <div>
-        <h1 className="font-display text-foreground text-2xl font-bold md:text-3xl">Menu</h1>
-        <p className="text-muted-foreground mt-1 text-sm">
-          Add, edit, or hide dishes. Changes appear on the public menu within about a minute.
-        </p>
-      </div>
+    <div className="space-y-6">
+      <AdminPageHeader
+        title="Menu"
+        description="Add, edit, or hide dishes. Changes appear on the public menu within about a minute."
+      />
 
       {error ? (
         <p className="bg-destructive/10 text-destructive rounded-lg px-3 py-2 text-sm">{error}</p>

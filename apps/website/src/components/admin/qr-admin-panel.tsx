@@ -3,7 +3,9 @@
 import { FormEvent, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Pencil, Plus, Trash2, X } from "lucide-react";
+import { toast } from "sonner";
 
+import { Badge } from "@/components/ui/badge";
 import { MAX_ACTIVE_QR_TARGETS, QR_ACTIVE_LIMIT_MESSAGE, type QrTargetRow } from "@/lib/qr/schema";
 
 const FIELD =
@@ -98,6 +100,7 @@ export function QrAdminPanel({ initialRows }: { initialRows: QrTargetRow[] }) {
         const data = (await res.json()) as { error?: string; row?: QrTargetRow };
         if (!res.ok) throw new Error(data.error || "Could not create");
         if (data.row) setRows((prev) => [...prev, data.row!].sort(sortRows));
+        toast.success("QR target created");
       } else if (editingId) {
         const res = await fetch(`/api/admin/qr/${editingId}`, {
           method: "PATCH",
@@ -111,11 +114,14 @@ export function QrAdminPanel({ initialRows }: { initialRows: QrTargetRow[] }) {
             prev.map((r) => (r.id === data.row!.id ? data.row! : r)).sort(sortRows),
           );
         }
+        toast.success("QR target saved");
       }
       closeForm();
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Save failed");
+      const message = err instanceof Error ? err.message : "Save failed";
+      setError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -127,11 +133,14 @@ export function QrAdminPanel({ initialRows }: { initialRows: QrTargetRow[] }) {
     const res = await fetch(`/api/admin/qr/${id}`, { method: "DELETE" });
     const data = (await res.json()) as { error?: string };
     if (!res.ok) {
-      setError(data.error || "Could not delete");
+      const message = data.error || "Could not delete";
+      setError(message);
+      toast.error(message);
       return;
     }
     setRows((prev) => prev.filter((r) => r.id !== id));
     if (editingId === id) closeForm();
+    toast.success("QR target deleted");
     router.refresh();
   }
 
@@ -140,6 +149,7 @@ export function QrAdminPanel({ initialRows }: { initialRows: QrTargetRow[] }) {
     const next = !row.active;
     if (next && activeCount >= MAX_ACTIVE_QR_TARGETS) {
       setError(QR_ACTIVE_LIMIT_MESSAGE);
+      toast.error(QR_ACTIVE_LIMIT_MESSAGE);
       return;
     }
     const res = await fetch(`/api/admin/qr/${row.id}`, {
@@ -149,11 +159,14 @@ export function QrAdminPanel({ initialRows }: { initialRows: QrTargetRow[] }) {
     });
     const data = (await res.json()) as { error?: string; row?: QrTargetRow };
     if (!res.ok) {
-      setError(data.error || "Could not update");
+      const message = data.error || "Could not update";
+      setError(message);
+      toast.error(message);
       return;
     }
     if (data.row) {
       setRows((prev) => prev.map((r) => (r.id === data.row!.id ? data.row! : r)));
+      toast.success(data.row.active ? "QR activated" : "QR deactivated");
     }
     router.refresh();
   }
@@ -306,9 +319,15 @@ export function QrAdminPanel({ initialRows }: { initialRows: QrTargetRow[] }) {
                 <div className="min-w-0">
                   <p className="text-foreground font-semibold">{row.label}</p>
                   <p className="text-muted-foreground truncate text-xs">{row.target_url}</p>
-                  {!row.active ? (
-                    <p className="text-destructive mt-0.5 text-xs font-semibold">Inactive</p>
-                  ) : null}
+                  {row.active ? (
+                    <Badge className="bg-accent/15 text-accent mt-1 border-transparent">
+                      Active
+                    </Badge>
+                  ) : (
+                    <Badge variant="destructive" className="mt-1">
+                      Inactive
+                    </Badge>
+                  )}
                 </div>
                 <div className="flex shrink-0 gap-1">
                   <button

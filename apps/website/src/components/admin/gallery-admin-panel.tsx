@@ -3,8 +3,10 @@
 import { FormEvent, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Pencil, Plus, Trash2, X } from "lucide-react";
+import { toast } from "sonner";
 
 import { AdminMediaAttachment } from "@/components/admin/admin-media-attachment";
+import { Badge } from "@/components/ui/badge";
 import type { GalleryItemRow, GalleryItemType } from "@/lib/gallery/schema";
 
 const FIELD =
@@ -137,6 +139,7 @@ export function GalleryAdminPanel({ initialRows }: { initialRows: GalleryItemRow
         const data = (await res.json()) as { error?: string; row?: GalleryItemRow };
         if (!res.ok) throw new Error(data.error || "Could not create");
         if (data.row) setRows((prev) => [...prev, data.row!].sort(sortRows));
+        toast.success("Gallery item created");
       } else if (editingId) {
         const res = await fetch(`/api/admin/gallery/${editingId}`, {
           method: "PATCH",
@@ -150,11 +153,14 @@ export function GalleryAdminPanel({ initialRows }: { initialRows: GalleryItemRow
             prev.map((r) => (r.id === data.row!.id ? data.row! : r)).sort(sortRows),
           );
         }
+        toast.success("Gallery item saved");
       }
       closeForm();
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Save failed");
+      const message = err instanceof Error ? err.message : "Save failed";
+      setError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -166,11 +172,14 @@ export function GalleryAdminPanel({ initialRows }: { initialRows: GalleryItemRow
     const res = await fetch(`/api/admin/gallery/${id}`, { method: "DELETE" });
     const data = (await res.json()) as { error?: string };
     if (!res.ok) {
-      setError(data.error || "Could not delete");
+      const message = data.error || "Could not delete";
+      setError(message);
+      toast.error(message);
       return;
     }
     setRows((prev) => prev.filter((r) => r.id !== id));
     if (editingId === id) closeForm();
+    toast.success("Gallery item deleted");
     router.refresh();
   }
 
@@ -183,11 +192,14 @@ export function GalleryAdminPanel({ initialRows }: { initialRows: GalleryItemRow
     });
     const data = (await res.json()) as { error?: string; row?: GalleryItemRow };
     if (!res.ok) {
-      setError(data.error || "Could not update");
+      const message = data.error || "Could not update";
+      setError(message);
+      toast.error(message);
       return;
     }
     if (data.row) {
       setRows((prev) => prev.map((r) => (r.id === data.row!.id ? data.row! : r)));
+      toast.success(data.row.published ? "Published" : "Unpublished");
     }
     router.refresh();
   }
@@ -381,9 +393,15 @@ export function GalleryAdminPanel({ initialRows }: { initialRows: GalleryItemRow
                   <p className="text-foreground truncate font-semibold">{row.title || row.alt}</p>
                   <p className="text-muted-foreground text-xs">
                     {row.type}
-                    {!row.published ? (
-                      <span className="text-destructive ml-2 font-semibold">Unpublished</span>
-                    ) : null}
+                    {row.published ? (
+                      <Badge className="bg-accent/15 text-accent ml-2 border-transparent">
+                        Live
+                      </Badge>
+                    ) : (
+                      <Badge variant="destructive" className="ml-2">
+                        Unpublished
+                      </Badge>
+                    )}
                   </p>
                 </div>
                 <div className="flex shrink-0 gap-1">
