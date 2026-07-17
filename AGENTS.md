@@ -13,7 +13,7 @@ Conventions for coding agents working in this monorepo.
 - Server data (admin lists later): prefer **TanStack Query** when touching admin fetch/mutations
 - UI primitives: existing `components/ui/*`; adopt **shadcn/ui** when it fits (calendar, dialog, etc.) — do not replace brand sections wholesale. Project MCP: `.cursor/mcp.json` (`shadcn@latest mcp`); global Cursor config may also list shadcn.
 - WhatsApp: free Baileys bot (`apps/whatsapp-bot`) — local `pnpm whatsapp:bot` on `:3100`; production on Railway + Vercel `WHATSAPP_BOT_*`. Owner alerts deep-link to production admin only (`site.productionOrigin` / `ADMIN_RESERVATIONS_URL`) — never `VERCEL_URL`.
-- Admin: `/admin` — bootstrap `OWNER_EMAIL`, staff in UI (`staff_members`); see `docs/ADMIN.md`. Next focus: reservations + TanStack Query lists; menu/gallery CRUD later.
+- Admin: `/admin` — bootstrap `OWNER_EMAIL`, staff in UI (`staff_members`); see `docs/ADMIN.md`. **Content foundation ready:** menu/gallery/qr/reservations services + public loaders; run migration `005_content_cms.sql`. Admin CRUD UIs next (TanStack Query). QR: max 5 active; logo fixed; color only.
 
 
 ## Commands

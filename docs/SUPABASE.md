@@ -112,13 +112,30 @@ Same env vars; root directory **`apps/website`**.
 
 | Feature | Uses |
 |---------|------|
-| `/api/reserve` | RPC `create_reservation(payload jsonb)` |
+| `/api/reserve` | RPC `create_reservation(payload jsonb)` — includes `event_name` after **005** |
 | Menu UI | RPC `get_menu_items()` → fallback static `src/data/menu.ts` |
+| Gallery UI | RPC `get_gallery_items()` → fallback `src/data/gallery.ts` |
+| QR section | RPC `get_qr_targets()` → fallback static targets in `lib/qr.ts` |
+| Media uploads | Storage bucket **`media`** (public read; service_role write) |
+
+### Migration 005 (content CMS)
+
+After 001–004, run **`supabase/migrations/005_content_cms.sql`** once:
+
+- `reservations.event_name`
+- tables `gallery_items`, `qr_targets` + public RPCs + seed
+- Storage bucket `media`
+
+**QR product rules (enforced in app code):**
+
+- Max **5 active** QR targets (`MAX_ACTIVE_QR_TARGETS` in `lib/qr/schema.ts`)
+- Over the limit → message: contact a developer (not a staff self-serve raise)
+- Centre **logo is brand-fixed** (`images.logo`); staff may only change **dark color** per target
 
 ---
 
 ## Future schema changes
 
-Add `002_….sql`, `003_….sql`, … — do not rewrite `001_init.sql` after production use.
+Add `006_….sql`, … — do not rewrite `001_init.sql` after production use.
 
 **Agents:** do not create or edit files under `supabase/migrations/` without the human’s explicit approval. Propose SQL in chat first (see `.grok/rules/database.md`).

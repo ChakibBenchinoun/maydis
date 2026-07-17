@@ -221,15 +221,36 @@ export function fieldErrorAfterChange(
   return result.error.issues[0]?.message ?? "Invalid";
 }
 
-/** Admin: update status and/or internal notes. */
+/** Admin: patch reservation fields (at least one required). */
 export const reservationUpdateSchema = z
   .object({
     status: reservationStatusSchema.optional(),
     notes: z.string().trim().max(1000).nullable().optional(),
+    name: z.string().trim().min(1).max(80).optional(),
+    phone: z.string().trim().min(1).max(20).optional(),
+    email: z.string().trim().email().max(120).nullable().optional(),
+    date: z
+      .string()
+      .trim()
+      .regex(/^\d{4}-\d{2}-\d{2}$/)
+      .optional(),
+    time: z.string().trim().min(1).max(10).optional(),
+    guests: z.string().trim().min(1).max(4).optional(),
+    event_name: z.string().trim().max(EVENT_FOR_MAX).nullable().optional(),
   })
-  .refine((v) => v.status !== undefined || v.notes !== undefined, {
-    message: "Provide status and/or notes",
-  });
+  .refine(
+    (v) =>
+      v.status !== undefined ||
+      v.notes !== undefined ||
+      v.name !== undefined ||
+      v.phone !== undefined ||
+      v.email !== undefined ||
+      v.date !== undefined ||
+      v.time !== undefined ||
+      v.guests !== undefined ||
+      v.event_name !== undefined,
+    { message: "Provide at least one field to update" },
+  );
 
 export type ReservationUpdate = z.infer<typeof reservationUpdateSchema>;
 
@@ -242,6 +263,7 @@ export type ReservationRow = {
   time: string;
   guests: string;
   notes: string | null;
+  event_name: string | null;
   status: string;
   created_at: string;
 };

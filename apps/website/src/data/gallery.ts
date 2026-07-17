@@ -1,20 +1,10 @@
-export type GalleryItemType = "photo" | "video";
-
-export type GalleryItem = {
-  id: string;
-  type: GalleryItemType;
-  /** Image URL (photo) or poster (video). */
-  image: string;
-  alt: string;
-  /** Optional real video file when available. */
-  videoSrc?: string;
-  title?: string;
-  episode?: string;
-};
+export type { GalleryItem, GalleryItemType } from "@/lib/gallery/schema";
+import type { GalleryItem } from "@/lib/gallery/schema";
 
 /**
- * Photos + videos interleaved so marquee rows don’t stack videos together.
- * Order: photo · video · photos · video · … (both marquee halves get mix).
+ * Static fallback when Supabase is empty / offline.
+ * Prefer DB via `getGalleryItems()`; keep in sync with seed in `005_content_cms.sql`.
+ * Field `description` replaced legacy `episode`.
  */
 export const galleryItems: GalleryItem[] = [
   {
@@ -29,7 +19,7 @@ export const galleryItems: GalleryItem[] = [
     image: "/images/gallery-05.jpg",
     videoSrc: "/videos/maydis-01.mp4",
     alt: "A morning at Maydi's",
-    episode: "Episode 01",
+    description: "Soft light, coffee, and the start of the day.",
     title: "A Morning at Maydi's",
   },
   {
@@ -50,7 +40,7 @@ export const galleryItems: GalleryItem[] = [
     image: "/images/gallery-06.jpg",
     videoSrc: "/videos/maydis-02.mp4",
     alt: "The space we love",
-    episode: "Episode 02",
+    description: "Corners of the café we never tire of.",
     title: "The Space We Love",
   },
   {
@@ -71,7 +61,7 @@ export const galleryItems: GalleryItem[] = [
     image: "/images/video-poster-extra.jpg",
     videoSrc: "/videos/maydis-03.mp4",
     alt: "Moments at Maydi's",
-    episode: "Episode 03",
+    description: "Guests, plates, and little pauses.",
     title: "Café Moments",
   },
   {
@@ -92,7 +82,7 @@ export const galleryItems: GalleryItem[] = [
     image: "/images/gallery-04.jpg",
     videoSrc: "/videos/maydis-04.mp4",
     alt: "Life at Maydi's",
-    episode: "Episode 04",
+    description: "Everyday rhythm in Oran.",
     title: "Life at Maydi's",
   },
   {

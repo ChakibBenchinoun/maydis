@@ -32,9 +32,23 @@ Staff admin lives under `/admin` in `apps/website` (same Next app).
 3. Prefer `site.productionOrigin` in `lib/constants.ts` for any new production-only absolute links.
 4. Set Vercel Production `NEXT_PUBLIC_SITE_URL` to the same production alias (QR and public absolute URLs).
 
+## Content foundation (ready for CRUD UIs)
+
+Public loaders + admin service helpers exist; **admin pages not built yet**.
+
+| Domain | Public loader | Admin services | Notes |
+|--------|---------------|----------------|-------|
+| Menu | `lib/menu.ts` `getMenuItems` | `lib/menu/service.ts` + `schema.ts` | Storage for images |
+| Gallery | `lib/gallery.ts` `getGalleryItems` | `lib/gallery/service.ts` | Field **description** (not episode) |
+| QR | `lib/qr.ts` `getQrTargets` | `lib/qr/service.ts` | Max **5 active**; logo fixed; **color only** |
+| Reservations | create via RPC | `lib/reservations/service.ts` (list/update/delete) | `event_name` column |
+| Media | — | `lib/media/storage.ts` | Bucket `media` |
+
+QR activate over limit returns `QR_ACTIVE_LIMIT_MESSAGE` (“Contact a developer to add more”).
+
 ## Product backlog (when extending admin)
 
-- Prefer **TanStack Query** for list/filter/mutate (reservations, staff, future menu/gallery CRUD).
+- Prefer **TanStack Query** for list/filter/mutate (reservations, staff, menu/gallery/qr CRUD).
 - Keep English UI; reuse Maydi tokens + existing admin shell patterns.
 - Migrations still require explicit user approval (`database.md`).
 

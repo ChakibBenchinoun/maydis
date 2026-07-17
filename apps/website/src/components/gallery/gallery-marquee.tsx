@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { Play } from "lucide-react";
 
 import { Marquee } from "@/components/effects/marquee";
-import type { GalleryItem } from "@/data/gallery";
+import type { GalleryItem } from "@/lib/gallery/schema";
 import { cn } from "@/lib/cn";
 
 type GalleryMarqueeProps = {
@@ -76,9 +76,9 @@ function GalleryTile({
               <Play size={18} className="text-primary ml-0.5" fill="currentColor" />
             </div>
           </div>
-          {item.episode ? (
+          {item.title || item.description ? (
             <p className="absolute right-2 bottom-2 left-2 truncate text-left text-[9px] font-bold tracking-wider text-white uppercase opacity-90 sm:text-[10px]">
-              {item.episode}
+              {item.title ?? item.description}
             </p>
           ) : null}
         </>

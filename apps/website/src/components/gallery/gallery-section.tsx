@@ -15,15 +15,20 @@ import {
   sectionHeaderClass,
   SectionLabel,
 } from "@/components/ui";
-import { galleryItems, type GalleryItem } from "@/data/gallery";
+import type { GalleryItem } from "@/lib/gallery/schema";
 import { socialLinks } from "@/lib/constants";
 
 const instagram = socialLinks[0];
 
+type GallerySectionProps = {
+  items: GalleryItem[];
+};
+
 /**
  * Home gallery — photos + moments videos in dual marquees; click opens lightbox.
+ * Items come from the server (`getGalleryItems`) with static fallback.
  */
-export function GallerySection() {
+export function GallerySection({ items }: GallerySectionProps) {
   const [selected, setSelected] = useState<GalleryItem | null>(null);
 
   return (
@@ -41,7 +46,7 @@ export function GallerySection() {
         </Container>
 
         <div className="w-full overflow-hidden">
-          <GalleryMarquee items={galleryItems} onSelect={setSelected} />
+          <GalleryMarquee items={items} onSelect={setSelected} />
         </div>
 
         <Container>

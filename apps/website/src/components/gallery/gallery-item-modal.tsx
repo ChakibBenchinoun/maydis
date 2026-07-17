@@ -13,7 +13,7 @@ import {
   VideoPlayerTimeDisplay,
   VideoPlayerTimeRange,
 } from "@/components/ui/video-player";
-import type { GalleryItem } from "@/data/gallery";
+import type { GalleryItem } from "@/lib/gallery/schema";
 
 type GalleryItemModalProps = {
   item: GalleryItem | null;
@@ -88,15 +88,12 @@ export function GalleryItemModal({ item, onClose }: GalleryItemModalProps) {
           </button>
 
           <div className="p-6 sm:p-7">
-            {item.episode ? (
-              <p className="text-muted-foreground mb-1 text-[10px] font-bold tracking-[0.2em] uppercase">
-                {item.episode}
-              </p>
-            ) : null}
             <h3 className="font-display text-foreground mb-2 text-2xl leading-snug font-bold">
               {item.title ?? item.alt}
             </h3>
-            <p className="text-muted-foreground mb-6 text-sm leading-relaxed">{item.alt}</p>
+            <p className="text-muted-foreground mb-6 text-sm leading-relaxed">
+              {item.description || item.alt}
+            </p>
             <div className="flex justify-end">
               <Button size="sm" onClick={onClose}>
                 Close

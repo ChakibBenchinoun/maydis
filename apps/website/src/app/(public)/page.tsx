@@ -6,13 +6,19 @@ import { LatestMenuSection } from "@/components/menu/latest-menu-section";
 import { QrSection } from "@/components/qr/qr-section";
 import { ReviewsSection } from "@/components/reviews/reviews-section";
 import { VisitSection } from "@/components/visit/visit-section";
+import { getGalleryItems } from "@/lib/gallery";
 import { getMenuItems, pickLatestMenuItems } from "@/lib/menu";
+import { getQrTargets } from "@/lib/qr";
 
-/** Refresh menu from Supabase without a full redeploy */
+/** Refresh CMS content from Supabase without a full redeploy */
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const { items } = await getMenuItems();
+  const [{ items }, { items: gallery }, { targets }] = await Promise.all([
+    getMenuItems(),
+    getGalleryItems(),
+    getQrTargets(),
+  ]);
   const latest = pickLatestMenuItems(items);
 
   return (
@@ -20,11 +26,11 @@ export default async function HomePage() {
       <Hero />
       <ScrollLineRegion>
         <LatestMenuSection items={latest} />
-        <GallerySection />
+        <GallerySection items={gallery} />
         <AboutSection />
         <ReviewsSection />
         <VisitSection />
-        <QrSection />
+        <QrSection targets={targets} />
       </ScrollLineRegion>
     </main>
   );
