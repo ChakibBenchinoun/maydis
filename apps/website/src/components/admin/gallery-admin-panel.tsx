@@ -2,14 +2,14 @@
 
 import { FormEvent, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Pencil, Plus, Trash2, Upload, X } from "lucide-react";
+import { Pencil, Plus, Trash2, X } from "lucide-react";
 
+import { AdminMediaAttachment } from "@/components/admin/admin-media-attachment";
 import type { GalleryItemRow, GalleryItemType } from "@/lib/gallery/schema";
 
 const FIELD =
   "border-border bg-secondary focus:border-primary w-full rounded-lg border px-3.5 py-2.5 text-sm focus:outline-hidden";
-const LABEL =
-  "text-muted-foreground mb-1.5 block text-xs font-semibold tracking-wider uppercase";
+const LABEL = "text-muted-foreground mb-1.5 block text-xs font-semibold tracking-wider uppercase";
 
 type FormState = {
   type: GalleryItemType;
@@ -292,48 +292,43 @@ export function GalleryAdminPanel({ initialRows }: { initialRows: GalleryItemRow
             </div>
             <div className="sm:col-span-2">
               <label className={LABEL}>Image / poster *</label>
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                <input
-                  required
-                  className={FIELD}
-                  value={form.image_url}
-                  onChange={(e) => setForm((f) => ({ ...f, image_url: e.target.value }))}
-                />
-                <label className="border-border bg-secondary hover:border-primary inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-lg border px-3 py-2.5 text-sm font-medium whitespace-nowrap">
-                  <Upload className="h-4 w-4" />
-                  {uploading ? "…" : "Upload"}
-                  <input
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp,image/gif"
-                    className="sr-only"
-                    disabled={uploading}
-                    onChange={(e) => void onUpload(e.target.files?.[0] ?? null, "image")}
-                  />
-                </label>
-              </div>
+              <AdminMediaAttachment
+                url={form.image_url}
+                kind="image"
+                uploading={uploading}
+                emptyLabel="Photo or poster"
+                emptyHint="Click to upload image"
+                onFile={(file) => void onUpload(file, "image")}
+                onClear={() => setForm((f) => ({ ...f, image_url: "" }))}
+              />
+              <input
+                required
+                className={`${FIELD} mt-2`}
+                placeholder="Or paste image URL"
+                value={form.image_url}
+                onChange={(e) => setForm((f) => ({ ...f, image_url: e.target.value }))}
+              />
             </div>
             {form.type === "video" ? (
               <div className="sm:col-span-2">
-                <label className={LABEL}>Video file URL *</label>
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                  <input
-                    required
-                    className={FIELD}
-                    value={form.video_url}
-                    onChange={(e) => setForm((f) => ({ ...f, video_url: e.target.value }))}
-                  />
-                  <label className="border-border bg-secondary hover:border-primary inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-lg border px-3 py-2.5 text-sm font-medium whitespace-nowrap">
-                    <Upload className="h-4 w-4" />
-                    Video
-                    <input
-                      type="file"
-                      accept="video/mp4,video/webm,video/quicktime"
-                      className="sr-only"
-                      disabled={uploading}
-                      onChange={(e) => void onUpload(e.target.files?.[0] ?? null, "video")}
-                    />
-                  </label>
-                </div>
+                <label className={LABEL}>Video file *</label>
+                <AdminMediaAttachment
+                  url={form.video_url}
+                  kind="video"
+                  uploading={uploading}
+                  accept="video/mp4,video/webm,video/quicktime"
+                  emptyLabel="Video file"
+                  emptyHint="MP4, WebM, or MOV"
+                  onFile={(file) => void onUpload(file, "video")}
+                  onClear={() => setForm((f) => ({ ...f, video_url: "" }))}
+                />
+                <input
+                  required
+                  className={`${FIELD} mt-2`}
+                  placeholder="Or paste video URL"
+                  value={form.video_url}
+                  onChange={(e) => setForm((f) => ({ ...f, video_url: e.target.value }))}
+                />
               </div>
             ) : null}
             <div className="sm:col-span-2">
@@ -383,9 +378,7 @@ export function GalleryAdminPanel({ initialRows }: { initialRows: GalleryItemRow
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div className="min-w-0">
-                  <p className="text-foreground truncate font-semibold">
-                    {row.title || row.alt}
-                  </p>
+                  <p className="text-foreground truncate font-semibold">{row.title || row.alt}</p>
                   <p className="text-muted-foreground text-xs">
                     {row.type}
                     {!row.published ? (
@@ -428,7 +421,9 @@ export function GalleryAdminPanel({ initialRows }: { initialRows: GalleryItemRow
           </li>
         ))}
         {visible.length === 0 ? (
-          <li className="text-muted-foreground py-8 text-center text-sm">No items in this filter.</li>
+          <li className="text-muted-foreground py-8 text-center text-sm">
+            No items in this filter.
+          </li>
         ) : null}
       </ul>
     </div>

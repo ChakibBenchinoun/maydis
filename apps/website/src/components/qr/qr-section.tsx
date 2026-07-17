@@ -6,8 +6,8 @@ import QRCode from "qrcode";
 import { Container, Link, Section, SectionDivider, SectionLabel } from "@/components/ui";
 import { cn } from "@/lib/cn";
 import { images } from "@/lib/images";
-import type { QrTarget } from "@/lib/qr/schema";
 import { resolveQrTargetUrl } from "@/lib/qr";
+import type { QrTarget } from "@/lib/qr/schema";
 
 /** Display-only: strip scheme so the label stays friendly. */
 function friendlyUrlLabel(url: string) {
@@ -29,10 +29,7 @@ type QrSectionProps = {
 export function QrSection({ targets }: QrSectionProps) {
   const list = targets.length > 0 ? targets : [];
   const [activeId, setActiveId] = useState(list[0]?.id ?? "");
-  const active = useMemo(
-    () => list.find((t) => t.id === activeId) ?? list[0],
-    [list, activeId],
-  );
+  const active = useMemo(() => list.find((t) => t.id === activeId) ?? list[0], [list, activeId]);
 
   const [qr, setQr] = useState<{ url: string; dataUrl: string | null }>({
     url: "",
@@ -131,11 +128,7 @@ export function QrSection({ targets }: QrSectionProps) {
                   <div className="rounded-full bg-white p-1.5 shadow-sm ring-1 ring-black/5">
                     {/* Brand logo fixed — not editable in admin */}
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={images.logo}
-                      alt=""
-                      className="h-12 w-12 rounded-full object-cover"
-                    />
+                    <img src={images.logo} alt="" className="h-12 w-12 rounded-full object-cover" />
                   </div>
                 </div>
               </div>

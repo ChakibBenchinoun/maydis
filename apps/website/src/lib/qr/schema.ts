@@ -6,8 +6,7 @@ import { z } from "zod";
  */
 export const MAX_ACTIVE_QR_TARGETS = 5;
 
-export const QR_ACTIVE_LIMIT_MESSAGE =
-  `At most ${MAX_ACTIVE_QR_TARGETS} active QR codes are allowed. Contact a developer to add more.`;
+export const QR_ACTIVE_LIMIT_MESSAGE = `At most ${MAX_ACTIVE_QR_TARGETS} active QR codes are allowed. Contact a developer to add more.`;
 
 const hexColor = z
   .string()

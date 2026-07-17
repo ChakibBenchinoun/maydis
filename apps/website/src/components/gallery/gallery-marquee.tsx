@@ -4,8 +4,8 @@ import { useMemo } from "react";
 import { Play } from "lucide-react";
 
 import { Marquee } from "@/components/effects/marquee";
-import type { GalleryItem } from "@/lib/gallery/schema";
 import { cn } from "@/lib/cn";
+import type { GalleryItem } from "@/lib/gallery/schema";
 
 type GalleryMarqueeProps = {
   items: readonly GalleryItem[];

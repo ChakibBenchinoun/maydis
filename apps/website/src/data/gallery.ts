@@ -1,5 +1,6 @@
-export type { GalleryItem, GalleryItemType } from "@/lib/gallery/schema";
 import type { GalleryItem } from "@/lib/gallery/schema";
+
+export type { GalleryItem, GalleryItemType } from "@/lib/gallery/schema";
 
 /**
  * Static fallback when Supabase is empty / offline.

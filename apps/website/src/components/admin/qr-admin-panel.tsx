@@ -4,16 +4,11 @@ import { FormEvent, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Pencil, Plus, Trash2, X } from "lucide-react";
 
-import {
-  MAX_ACTIVE_QR_TARGETS,
-  QR_ACTIVE_LIMIT_MESSAGE,
-  type QrTargetRow,
-} from "@/lib/qr/schema";
+import { MAX_ACTIVE_QR_TARGETS, QR_ACTIVE_LIMIT_MESSAGE, type QrTargetRow } from "@/lib/qr/schema";
 
 const FIELD =
   "border-border bg-secondary focus:border-primary w-full rounded-lg border px-3.5 py-2.5 text-sm focus:outline-hidden";
-const LABEL =
-  "text-muted-foreground mb-1.5 block text-xs font-semibold tracking-wider uppercase";
+const LABEL = "text-muted-foreground mb-1.5 block text-xs font-semibold tracking-wider uppercase";
 
 type FormState = {
   label: string;
@@ -251,11 +246,7 @@ export function QrAdminPanel({ initialRows }: { initialRows: QrTargetRow[] }) {
                 <input
                   type="color"
                   className="border-border h-10 w-12 cursor-pointer rounded-lg border bg-transparent p-1"
-                  value={
-                    /^#[0-9A-Fa-f]{6}$/.test(form.dark_color)
-                      ? form.dark_color
-                      : "#2C2318"
-                  }
+                  value={/^#[0-9A-Fa-f]{6}$/.test(form.dark_color) ? form.dark_color : "#2C2318"}
                   onChange={(e) => setForm((f) => ({ ...f, dark_color: e.target.value }))}
                   aria-label="Pick color"
                 />

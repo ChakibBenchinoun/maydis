@@ -15,8 +15,8 @@ import {
   sectionHeaderClass,
   SectionLabel,
 } from "@/components/ui";
-import type { GalleryItem } from "@/lib/gallery/schema";
 import { socialLinks } from "@/lib/constants";
+import type { GalleryItem } from "@/lib/gallery/schema";
 
 const instagram = socialLinks[0];
 

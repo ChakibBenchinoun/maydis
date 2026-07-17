@@ -9,7 +9,10 @@ export async function listGalleryItems(
   supabase: SupabaseClient,
   options: { includeUnpublished?: boolean } = {},
 ): Promise<{ rows: GalleryItemRow[]; error?: string }> {
-  let query = supabase.from("gallery_items").select(SELECT).order("sort_order", { ascending: true });
+  let query = supabase
+    .from("gallery_items")
+    .select(SELECT)
+    .order("sort_order", { ascending: true });
 
   if (!options.includeUnpublished) {
     query = query.eq("published", true);
@@ -32,7 +35,7 @@ export async function createGalleryItem(
     .insert({
       type: input.type,
       image_url: input.image_url,
-      video_url: input.type === "video" ? input.video_url ?? null : null,
+      video_url: input.type === "video" ? (input.video_url ?? null) : null,
       alt: input.alt,
       title: input.title ?? null,
       description: input.description ?? null,

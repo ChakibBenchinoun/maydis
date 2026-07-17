@@ -40,7 +40,7 @@ export function ReservePageContent() {
         // Success: lock to visual viewport (fixed) so mobile chrome / min-h-screen
         // never add a second scrollable band under the sticky nav.
         success
-          ? "fixed inset-0 z-[1] justify-center overflow-hidden bg-background pt-14 pb-3 sm:pb-6"
+          ? "bg-background fixed inset-0 z-[1] justify-center overflow-hidden pt-14 pb-3 sm:pb-6"
           : "flex-1 py-28 md:py-32",
       )}
     >

@@ -2,14 +2,14 @@
 
 import { FormEvent, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Pencil, Plus, Trash2, Upload, X } from "lucide-react";
+import { Pencil, Plus, Trash2, X } from "lucide-react";
 
+import { AdminMediaAttachment } from "@/components/admin/admin-media-attachment";
 import type { MenuItemRow } from "@/lib/menu/schema";
 
 const FIELD =
   "border-border bg-secondary focus:border-primary w-full rounded-lg border px-3.5 py-2.5 text-sm focus:outline-hidden";
-const LABEL =
-  "text-muted-foreground mb-1.5 block text-xs font-semibold tracking-wider uppercase";
+const LABEL = "text-muted-foreground mb-1.5 block text-xs font-semibold tracking-wider uppercase";
 
 type FormState = {
   name: string;
@@ -155,7 +155,9 @@ export function MenuAdminPanel({ initialRows }: { initialRows: MenuItemRow[] }) 
         const data = (await res.json()) as { error?: string; row?: MenuItemRow };
         if (!res.ok) throw new Error(data.error || "Could not update");
         if (data.row) {
-          setRows((prev) => prev.map((r) => (r.id === data.row!.id ? data.row! : r)).sort(sortRows));
+          setRows((prev) =>
+            prev.map((r) => (r.id === data.row!.id ? data.row! : r)).sort(sortRows),
+          );
         }
       }
       closeForm();
@@ -312,33 +314,21 @@ export function MenuAdminPanel({ initialRows }: { initialRows: MenuItemRow[] }) 
             </div>
             <div className="sm:col-span-2">
               <label className={LABEL}>Image</label>
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                <input
-                  className={FIELD}
-                  placeholder="/images/… or uploaded URL"
-                  value={form.image_url}
-                  onChange={(e) => setForm((f) => ({ ...f, image_url: e.target.value }))}
-                />
-                <label className="border-border bg-secondary hover:border-primary inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-lg border px-3 py-2.5 text-sm font-medium whitespace-nowrap">
-                  <Upload className="h-4 w-4" />
-                  {uploading ? "Uploading…" : "Upload"}
-                  <input
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp,image/gif"
-                    className="sr-only"
-                    disabled={uploading}
-                    onChange={(e) => void onUpload(e.target.files?.[0] ?? null)}
-                  />
-                </label>
-              </div>
-              {form.image_url ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={form.image_url}
-                  alt=""
-                  className="border-border/50 mt-2 h-24 w-24 rounded-lg border object-cover"
-                />
-              ) : null}
+              <AdminMediaAttachment
+                url={form.image_url}
+                kind="image"
+                uploading={uploading}
+                emptyLabel="Dish photo"
+                emptyHint="Click to upload JPEG, PNG, WebP, or GIF"
+                onFile={(file) => void onUpload(file)}
+                onClear={() => setForm((f) => ({ ...f, image_url: "" }))}
+              />
+              <input
+                className={`${FIELD} mt-2`}
+                placeholder="Or paste URL /images/…"
+                value={form.image_url}
+                onChange={(e) => setForm((f) => ({ ...f, image_url: e.target.value }))}
+              />
             </div>
             <div>
               <label className={LABEL}>Tags (comma-separated)</label>
@@ -449,7 +439,9 @@ export function MenuAdminPanel({ initialRows }: { initialRows: MenuItemRow[] }) 
           </li>
         ))}
         {visible.length === 0 ? (
-          <li className="text-muted-foreground py-8 text-center text-sm">No dishes in this filter.</li>
+          <li className="text-muted-foreground py-8 text-center text-sm">
+            No dishes in this filter.
+          </li>
         ) : null}
       </ul>
     </div>

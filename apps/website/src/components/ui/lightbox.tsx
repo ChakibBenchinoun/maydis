@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
-import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "motion/react";
+import { createPortal } from "react-dom";
 
 import { cn } from "@/lib/cn";
 
@@ -22,13 +22,7 @@ type LightboxProps = {
  * Full-viewport modal shell — portaled to `document.body` so the dimmed
  * overlay covers everything including the fixed navbar (z-50).
  */
-export function Lightbox({
-  open,
-  onClose,
-  label,
-  panelClassName,
-  children,
-}: LightboxProps) {
+export function Lightbox({ open, onClose, label, panelClassName, children }: LightboxProps) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -71,10 +65,7 @@ export function Lightbox({
           aria-label={label}
         >
           {/* Full-screen wash — covers nav, footer, and page content */}
-          <div
-            className="absolute inset-0 bg-[#1a1410]/72 backdrop-blur-[3px]"
-            aria-hidden
-          />
+          <div className="absolute inset-0 bg-[#1a1410]/72 backdrop-blur-[3px]" aria-hidden />
 
           <motion.div
             initial={{ opacity: 0, y: 16, scale: 0.97 }}

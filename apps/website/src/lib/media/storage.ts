@@ -68,9 +68,7 @@ export async function uploadMedia(
   const max = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
   if (size > max) {
     return {
-      error: isVideo
-        ? "Video must be under 100 MB."
-        : "Image must be under 10 MB.",
+      error: isVideo ? "Video must be under 100 MB." : "Image must be under 10 MB.",
     };
   }
 

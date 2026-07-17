@@ -115,9 +115,7 @@ async function listReservationsLegacy(
     rows: (data ?? []).map((r) =>
       normalizeRow({
         ...r,
-        event_name: extractEventNameFromNotes(
-          (r as { notes?: string | null }).notes ?? null,
-        ),
+        event_name: extractEventNameFromNotes((r as { notes?: string | null }).notes ?? null),
       }),
     ),
   };
