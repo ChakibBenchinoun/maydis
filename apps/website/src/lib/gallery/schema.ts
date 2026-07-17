@@ -26,8 +26,16 @@ export const galleryItemSchema = z
 
 export type GalleryItemInput = z.infer<typeof galleryItemSchema>;
 
-export type GalleryItemRow = GalleryItemInput & {
+export type GalleryItemRow = {
   id: string;
+  type: GalleryItemType;
+  image_url: string;
+  video_url?: string | null;
+  alt: string;
+  title?: string | null;
+  description?: string | null;
+  sort_order?: number;
+  published?: boolean;
   created_at?: string;
 };
 

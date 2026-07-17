@@ -51,8 +51,27 @@ export default async function AdminDashboardPage() {
             {" — "}
             owner can add colleagues (they do not go in env)
           </li>
-          <li className="text-muted-foreground/70">Menu admin — coming soon</li>
-          <li className="text-muted-foreground/70">Gallery admin — coming soon</li>
+          <li>
+            <Link href="/admin/menu" className="text-primary font-semibold hover:underline">
+              Menu
+            </Link>
+            {" — "}
+            dishes, prices, images, hide from public site
+          </li>
+          <li>
+            <Link href="/admin/gallery" className="text-primary font-semibold hover:underline">
+              Gallery
+            </Link>
+            {" — "}
+            photos & videos, description, publish
+          </li>
+          <li>
+            <Link href="/admin/qr" className="text-primary font-semibold hover:underline">
+              QR codes
+            </Link>
+            {" — "}
+            up to 5 active targets, color only (logo fixed)
+          </li>
         </ul>
       </div>
     </div>

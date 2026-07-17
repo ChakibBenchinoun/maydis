@@ -2,15 +2,31 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { CalendarDays, LayoutDashboard, LogOut, Users, UtensilsCrossed } from "lucide-react";
+import {
+  CalendarDays,
+  Images,
+  LayoutDashboard,
+  LogOut,
+  QrCode,
+  Users,
+  UtensilsCrossed,
+} from "lucide-react";
 
 import { site } from "@/lib/constants";
 
-const nav = [
+const nav: Array<{
+  href: string;
+  label: string;
+  icon: typeof LayoutDashboard;
+  exact: boolean;
+  disabled?: boolean;
+}> = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { href: "/admin/reservations", label: "Reservations", icon: CalendarDays, exact: false },
+  { href: "/admin/menu", label: "Menu", icon: UtensilsCrossed, exact: false },
+  { href: "/admin/gallery", label: "Gallery", icon: Images, exact: false },
+  { href: "/admin/qr", label: "QR codes", icon: QrCode, exact: false },
   { href: "/admin/staff", label: "Staff", icon: Users, exact: false },
-  { href: "/admin/menu", label: "Menu", icon: UtensilsCrossed, exact: false, disabled: true },
 ];
 
 export function AdminShell({ email, children }: { email: string; children: React.ReactNode }) {
