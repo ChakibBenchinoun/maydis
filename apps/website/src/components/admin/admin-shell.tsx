@@ -64,7 +64,7 @@ export function AdminShell({ email, children }: { email: string; children: React
     nav.find(({ href, exact }) => isActive(pathname, href, exact))?.label ?? "Admin";
 
   return (
-    <SidebarProvider>
+    <SidebarProvider className="admin-surface bg-background min-h-svh">
       <Sidebar collapsible="icon" variant="sidebar">
         {/* Match top nav height (h-14) so header bars align across the layout */}
         <SidebarHeader className="border-sidebar-border h-14 justify-center border-b px-3">
@@ -132,11 +132,7 @@ export function AdminShell({ email, children }: { email: string; children: React
         <header className="border-border/50 bg-background sticky top-0 z-20 flex h-14 shrink-0 items-center gap-2 border-b px-4">
           <SidebarTrigger className="text-foreground -ml-1" />
           <Separator orientation="vertical" className="mr-1 h-4" />
-          <div className="flex min-w-0 flex-1 items-center gap-2">
-            <span className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
-              Admin
-            </span>
-            <span className="text-muted-foreground/40">/</span>
+          <div className="flex min-w-0 flex-1 items-center">
             <span className="text-foreground truncate text-sm font-semibold">{activeLabel}</span>
           </div>
           <button

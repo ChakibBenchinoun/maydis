@@ -41,6 +41,40 @@
   --sidebar-ring: #c8933a;
 }
 
+/**
+ * Admin workspace: cool white surfaces for long sessions.
+ * Public site keeps cream tokens above; scope only under `.admin-surface`.
+ */
+.admin-surface {
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #1a1a1a;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --border: rgba(24, 24, 27, 0.1);
+  --input: transparent;
+  --input-background: #f4f4f5;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1a1a1a;
+  --sidebar-primary: #c8933a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f4f4f5;
+  --sidebar-accent-foreground: #1a1a1a;
+  --sidebar-border: rgba(24, 24, 27, 0.1);
+  --sidebar-ring: #c8933a;
+  /* Keep brand gold + green accents */
+  --primary: #c8933a;
+  --primary-foreground: #ffffff;
+  --accent: #6b9b67;
+  --accent-foreground: #ffffff;
+  --ring: #c8933a;
+}
+
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);

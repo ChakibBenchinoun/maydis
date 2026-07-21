@@ -46,7 +46,7 @@ function LoginForm() {
   }
 
   return (
-    <div className="bg-background flex min-h-screen items-center justify-center px-4">
+    <div className="admin-surface bg-background flex min-h-screen items-center justify-center px-4">
       <div className="border-border/50 bg-card w-full max-w-sm rounded-2xl border p-6 shadow-sm sm:p-8">
         <p className="text-muted-foreground text-[10px] font-semibold tracking-[0.2em] uppercase">
           Staff access
@@ -119,7 +119,7 @@ export default function AdminLoginPage() {
   return (
     <Suspense
       fallback={
-        <div className="bg-background flex min-h-screen items-center justify-center text-sm">
+        <div className="admin-surface bg-background flex min-h-screen items-center justify-center text-sm">
           Loading…
         </div>
       }
