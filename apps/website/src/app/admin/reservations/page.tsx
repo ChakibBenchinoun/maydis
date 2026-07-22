@@ -3,7 +3,8 @@ import { redirect } from "next/navigation";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
 import { ReservationsTable } from "@/components/admin/reservations-table";
 import { requireAdmin } from "@/lib/admin/auth";
-import { reservationStatusSchema, type ReservationStatus } from "@/lib/reservations/schema";
+import type { ReservationStatusFilter } from "@/lib/reservations/client";
+import { reservationStatusSchema } from "@/lib/reservations/schema";
 import { listReservations } from "@/lib/reservations/service";
 import { getServiceRoleClient } from "@/lib/supabase/server";
 
@@ -16,7 +17,7 @@ export default async function AdminReservationsPage({ searchParams }: Props) {
   const sp = await searchParams;
   const rawStatus = sp.status ?? "all";
   const statusParsed = reservationStatusSchema.safeParse(rawStatus);
-  const statusFilter: ReservationStatus | "all" = statusParsed.success ? statusParsed.data : "all";
+  const statusFilter: ReservationStatusFilter = statusParsed.success ? statusParsed.data : "all";
 
   const supabase = getServiceRoleClient();
   if (!supabase) {
@@ -39,7 +40,7 @@ export default async function AdminReservationsPage({ searchParams }: Props) {
     <div className="space-y-6">
       <AdminPageHeader
         title="Reservations"
-        description="Review requests and update status. Guests are notified via WhatsApp when they book."
+        description="Browse bookings. Open a row for contact details, notes, and status updates."
       />
 
       {error ? (

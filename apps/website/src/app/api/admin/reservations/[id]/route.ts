@@ -2,10 +2,35 @@ import { NextResponse } from "next/server";
 
 import { requireAdmin } from "@/lib/admin/auth";
 import { reservationUpdateSchema } from "@/lib/reservations/schema";
-import { updateReservation } from "@/lib/reservations/service";
+import { getReservation, updateReservation } from "@/lib/reservations/service";
 import { getServiceRoleClient } from "@/lib/supabase/server";
 
 type Params = { params: Promise<{ id: string }> };
+
+export async function GET(_request: Request, { params }: Params) {
+  const admin = await requireAdmin();
+  if (!admin) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { id } = await params;
+  if (!id) {
+    return NextResponse.json({ error: "Missing id" }, { status: 400 });
+  }
+
+  const supabase = getServiceRoleClient();
+  if (!supabase) {
+    return NextResponse.json({ error: "Database unavailable" }, { status: 503 });
+  }
+
+  const { row, error } = await getReservation(supabase, id);
+  if (error || !row) {
+    const notFound = error === "Reservation not found.";
+    return NextResponse.json({ error: error ?? "Not found" }, { status: notFound ? 404 : 500 });
+  }
+
+  return NextResponse.json({ ok: true, row });
+}
 
 export async function PATCH(request: Request, { params }: Params) {
   const admin = await requireAdmin();

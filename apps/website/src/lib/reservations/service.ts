@@ -143,6 +143,58 @@ function normalizeRow(row: Record<string, unknown>): ReservationRow {
   };
 }
 
+export async function getReservation(
+  supabase: SupabaseClient,
+  id: string,
+): Promise<{ row: ReservationRow | null; error?: string }> {
+  const { data, error } = await supabase
+    .from("reservations")
+    .select(ROW_SELECT)
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) {
+    if (error.message?.includes("event_name")) {
+      return getReservationLegacy(supabase, id);
+    }
+    console.error("[reservations] get failed", error);
+    return { row: null, error: "Could not load reservation." };
+  }
+
+  if (!data) {
+    return { row: null, error: "Reservation not found." };
+  }
+
+  return { row: normalizeRow(data as Record<string, unknown>) };
+}
+
+async function getReservationLegacy(
+  supabase: SupabaseClient,
+  id: string,
+): Promise<{ row: ReservationRow | null; error?: string }> {
+  const { data, error } = await supabase
+    .from("reservations")
+    .select("id, name, phone, email, date, time, guests, notes, status, created_at")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) {
+    console.error("[reservations] get legacy failed", error);
+    return { row: null, error: "Could not load reservation." };
+  }
+
+  if (!data) {
+    return { row: null, error: "Reservation not found." };
+  }
+
+  return {
+    row: normalizeRow({
+      ...data,
+      event_name: extractEventNameFromNotes((data as { notes?: string | null }).notes ?? null),
+    }),
+  };
+}
+
 export async function updateReservation(
   supabase: SupabaseClient,
   id: string,

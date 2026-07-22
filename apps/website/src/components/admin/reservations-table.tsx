@@ -1,85 +1,142 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
+import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table";
+import { ChevronRight, Loader2 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { formatPhoneDisplay, normalizeWhatsAppPhone } from "@/lib/phone";
 import {
-  RESERVATION_STATUSES,
-  type ReservationRow,
-  type ReservationStatus,
-} from "@/lib/reservations/schema";
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  fetchAdminReservations,
+  reservationsQueryKey,
+  type ReservationStatusFilter,
+} from "@/lib/reservations/client";
+import { formatDisplayDate } from "@/lib/reservations/options";
+import { RESERVATION_STATUSES, type ReservationRow } from "@/lib/reservations/schema";
+import { reservationStatusBadgeClass, reservationStatusLabel } from "@/lib/reservations/status";
+import { cn } from "@/lib/utils";
 
-const statusLabel: Record<string, string> = {
-  pending: "Pending",
-  confirmed: "Confirmed",
-  cancelled: "Cancelled",
-  completed: "Completed",
+type ColumnMeta = {
+  className?: string;
 };
-
-function statusBadgeClass(status: string) {
-  switch (status) {
-    case "confirmed":
-      return "bg-accent/15 text-accent border-transparent";
-    case "cancelled":
-      return "bg-destructive/10 text-destructive border-transparent";
-    case "completed":
-      return "bg-secondary text-muted-foreground border-transparent";
-    default:
-      return "bg-primary/15 text-primary border-transparent";
-  }
-}
 
 export function ReservationsTable({
   initialRows,
   initialStatus,
 }: {
   initialRows: ReservationRow[];
-  initialStatus: string;
+  initialStatus: ReservationStatusFilter;
 }) {
   const router = useRouter();
-  const [rows, setRows] = useState(initialRows);
-  const [filter, setFilter] = useState(initialStatus);
-  const [busyId, setBusyId] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<ReservationStatusFilter>(initialStatus);
+  const [seededAt] = useState(() => Date.now());
 
-  async function changeFilter(next: string) {
-    setFilter(next);
-    const qs = next && next !== "all" ? `?status=${encodeURIComponent(next)}` : "";
-    const res = await fetch(`/api/admin/reservations${qs}`);
-    const data = (await res.json()) as { rows?: ReservationRow[]; error?: string };
-    if (!res.ok) {
-      toast.error(data.error || "Failed to load reservations");
-      return;
-    }
-    setRows(data.rows ?? []);
+  const {
+    data: rows = [],
+    isLoading,
+    isFetching,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: reservationsQueryKey(statusFilter),
+    queryFn: () => fetchAdminReservations(statusFilter),
+    initialData: statusFilter === initialStatus ? initialRows : undefined,
+    initialDataUpdatedAt: statusFilter === initialStatus ? seededAt : undefined,
+  });
+
+  const columns = useMemo<ColumnDef<ReservationRow>[]>(
+    () => [
+      {
+        id: "when",
+        header: "When",
+        meta: { className: "w-[28%]" } satisfies ColumnMeta,
+        cell: ({ row }) => {
+          const r = row.original;
+          return (
+            <div className="space-y-0.5">
+              <p className="text-foreground font-medium whitespace-nowrap">
+                {formatDisplayDate(r.date)}
+              </p>
+              <p className="text-muted-foreground text-xs whitespace-nowrap tabular-nums">
+                {r.time}
+              </p>
+            </div>
+          );
+        },
+      },
+      {
+        id: "guest",
+        header: "Guest",
+        meta: { className: "w-[32%]" } satisfies ColumnMeta,
+        cell: ({ row }) => (
+          <p className="text-foreground truncate font-medium" title={row.original.name}>
+            {row.original.name}
+          </p>
+        ),
+      },
+      {
+        id: "guests",
+        header: "Party",
+        meta: { className: "w-[12%]" } satisfies ColumnMeta,
+        cell: ({ row }) => (
+          <span className="text-foreground tabular-nums">{row.original.guests}</span>
+        ),
+      },
+      {
+        id: "status",
+        header: "Status",
+        meta: { className: "w-[18%]" } satisfies ColumnMeta,
+        cell: ({ row }) => {
+          const status = row.original.status;
+          return (
+            <Badge className={reservationStatusBadgeClass(status)}>
+              {reservationStatusLabel[status] ?? status}
+            </Badge>
+          );
+        },
+      },
+      {
+        id: "open",
+        header: "",
+        meta: { className: "w-[10%]" } satisfies ColumnMeta,
+        cell: () => (
+          <span className="text-muted-foreground inline-flex items-center gap-0.5 text-xs font-medium">
+            Open
+            <ChevronRight className="size-3.5" aria-hidden />
+          </span>
+        ),
+      },
+    ],
+    [],
+  );
+
+  const table = useReactTable({
+    data: rows,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getRowId: (row) => row.id,
+  });
+
+  function changeFilter(next: string) {
+    const value = (next || "all") as ReservationStatusFilter;
+    setStatusFilter(value);
     router.replace(
-      next && next !== "all" ? `/admin/reservations?status=${next}` : "/admin/reservations",
+      value !== "all"
+        ? `/admin/reservations?status=${encodeURIComponent(value)}`
+        : "/admin/reservations",
     );
-  }
-
-  async function updateStatus(id: string, status: ReservationStatus) {
-    setBusyId(id);
-    try {
-      const res = await fetch(`/api/admin/reservations/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status }),
-      });
-      const data = (await res.json()) as { row?: ReservationRow; error?: string };
-      if (!res.ok) throw new Error(data.error || "Update failed");
-      if (data.row) {
-        setRows((prev) => prev.map((r) => (r.id === id ? data.row! : r)));
-        toast.success(`Marked ${statusLabel[status] ?? status}`);
-      }
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Update failed");
-    } finally {
-      setBusyId(null);
-    }
   }
 
   return (
@@ -93,104 +150,98 @@ export function ReservationsTable({
         </Label>
         <select
           id="reservation-status-filter"
-          value={filter}
-          onChange={(e) => void changeFilter(e.target.value)}
+          value={statusFilter}
+          onChange={(e) => changeFilter(e.target.value)}
           className="border-border bg-secondary text-foreground focus:border-primary rounded-lg border px-3 py-2 text-sm focus:outline-hidden"
         >
           <option value="all">All</option>
           {RESERVATION_STATUSES.map((s) => (
             <option key={s} value={s}>
-              {statusLabel[s] ?? s}
+              {reservationStatusLabel[s] ?? s}
             </option>
           ))}
         </select>
         <Badge variant="secondary" className="tabular-nums">
           {rows.length} shown
         </Badge>
+        {isFetching && !isLoading ? (
+          <Loader2
+            className="text-muted-foreground size-3.5 animate-spin"
+            aria-label="Refreshing"
+          />
+        ) : null}
       </div>
 
-      {rows.length === 0 ? (
+      {isError ? (
+        <p className="bg-destructive/10 text-destructive rounded-lg px-3 py-2 text-sm">
+          {error instanceof Error ? error.message : "Could not load reservations."}
+        </p>
+      ) : null}
+
+      {isLoading && rows.length === 0 ? (
+        <Card className="py-10">
+          <CardContent className="text-muted-foreground flex items-center justify-center gap-2 text-sm">
+            <Loader2 className="size-4 animate-spin" />
+            Loading reservations…
+          </CardContent>
+        </Card>
+      ) : rows.length === 0 ? (
         <Card className="py-10">
           <CardContent className="text-muted-foreground text-center text-sm">
             No reservations found for this filter.
           </CardContent>
         </Card>
       ) : (
-        <ul className="space-y-3">
-          {rows.map((r) => {
-            const e164 = normalizeWhatsAppPhone(r.phone);
-            const waHref = e164 ? `https://wa.me/${e164}` : undefined;
-            const eventLabel = r.event_name?.trim() || null;
-            return (
-              <li key={r.id}>
-                <Card className="gap-3 py-4">
-                  <CardHeader className="px-4 pb-0 sm:px-5">
-                    <div className="flex flex-wrap items-start justify-between gap-3">
-                      <div className="min-w-0">
-                        <CardTitle className="text-base font-semibold">{r.name}</CardTitle>
-                        <CardDescription className="mt-1">
-                          {r.date} · {r.time} · {r.guests} guests
-                        </CardDescription>
-                      </div>
-                      <Badge className={statusBadgeClass(r.status)}>
-                        {statusLabel[r.status] ?? r.status}
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-3 px-4 sm:px-5">
-                    {eventLabel ? (
-                      <p className="text-foreground text-sm">
-                        <span className="text-muted-foreground">Event: </span>
-                        {eventLabel}
-                      </p>
-                    ) : null}
-                    <p className="text-muted-foreground text-sm">
-                      {e164 ? formatPhoneDisplay(e164) : r.phone}
-                      {r.email ? ` · ${r.email}` : ""}
-                    </p>
-                    {r.notes ? (
-                      <p className="text-foreground/80 text-sm leading-relaxed">{r.notes}</p>
-                    ) : null}
-                    <div className="flex flex-wrap items-center gap-2 pt-1">
-                      <select
-                        disabled={busyId === r.id}
-                        value={
-                          RESERVATION_STATUSES.includes(r.status as ReservationStatus)
-                            ? r.status
-                            : "pending"
-                        }
-                        onChange={(e) =>
-                          void updateStatus(r.id, e.target.value as ReservationStatus)
-                        }
-                        className="border-border bg-secondary text-foreground rounded-lg border px-2 py-1.5 text-xs disabled:opacity-60"
-                        aria-label={`Update status for ${r.name}`}
+        <div
+          className={cn(
+            "border-border/60 bg-card overflow-hidden rounded-xl border shadow-sm",
+            isFetching && !isLoading && "opacity-80",
+          )}
+        >
+          <Table className="table-fixed">
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id} className="bg-muted/40 hover:bg-muted/40">
+                  {headerGroup.headers.map((header) => {
+                    const meta = header.column.columnDef.meta as ColumnMeta | undefined;
+                    return (
+                      <TableHead
+                        key={header.id}
+                        className={cn(
+                          "text-muted-foreground h-11 px-3 text-xs font-semibold tracking-wide uppercase",
+                          meta?.className,
+                        )}
                       >
-                        {RESERVATION_STATUSES.map((s) => (
-                          <option key={s} value={s}>
-                            Set {statusLabel[s]}
-                          </option>
-                        ))}
-                      </select>
-                      {waHref ? (
-                        <a
-                          href={waHref}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary text-xs font-semibold hover:underline"
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(header.column.columnDef.header, header.getContext())}
+                      </TableHead>
+                    );
+                  })}
+                </TableRow>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows.map((row) => (
+                <TableRow key={row.id} className="hover:bg-muted/40 cursor-pointer">
+                  {row.getVisibleCells().map((cell) => {
+                    const meta = cell.column.columnDef.meta as ColumnMeta | undefined;
+                    return (
+                      <TableCell key={cell.id} className={cn("relative p-0", meta?.className)}>
+                        <Link
+                          href={`/admin/reservations/${row.original.id}`}
+                          className="text-foreground focus-visible:ring-ring block px-3 py-3 focus-visible:ring-2 focus-visible:outline-hidden focus-visible:ring-inset"
                         >
-                          WhatsApp guest
-                        </a>
-                      ) : null}
-                      <span className="text-muted-foreground ml-auto text-[11px]">
-                        Ref {r.id.slice(0, 8)} · {new Date(r.created_at).toLocaleString()}
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
-              </li>
-            );
-          })}
-        </ul>
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </Link>
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       )}
     </div>
   );
